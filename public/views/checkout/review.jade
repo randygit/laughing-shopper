@@ -1,0 +1,152 @@
+section(data-ng-controller='ReviewController')
+  .container.products
+    .row
+      .col-sm-12
+        ul#myTab.nav.nav-tabs
+          li
+            a( ng-click="toTransaction()") 1. Your Transaction
+          li
+            a( ng-click="toShipTo()") 2. Shipping Info
+          li
+            a( ng-click="toBilling()") 3. Billing Information
+          li.active
+            a() 4. Review & Complete Purchase
+
+        h3
+          span.introcolor Review & Complete Purchase
+
+        .col-sm-6
+          .well.well-lg
+            div.form-group
+              div.row
+                h4
+                  span Sold To: {{global.user.name}}
+                h4
+                  span Ship To:
+              div.row
+                  label.control-label.col-sm-2(for='name') Name
+                  div.col-sm-10
+                    input.form-control(type="text", name="shipto.fullname", id="shipto.fullname",  required, ng-model="shipto.fullname", autofocus, placeholder="Enter Full name", disabled)
+
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address1') Address
+                  div.col-sm-10
+                    input.form-control(type="text", name="address1", id="address1",  required, ng-model="shipto.address1", autofocus, placeholder="Enter Address", disabled)
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address2') Address2
+                  div.col-sm-10
+                    input.form-control(type="text", name="address2", id="address2",  ng-model="shipto.address2", autofocus, placeholder="Enter Address", disabled)
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address3') Address3
+                  div.col-sm-10
+                    input.form-control(type="text", name="address3", id="address3",  ng-model="shipto.address3", autofocus, placeholder="Enter Address", disabled)
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='city') City
+                  div.col-sm-10
+                    input.form-control(type="text", name="city", id="city",  ng-model="shipto.city", autofocus, required, placeholder="Enter City")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.city.$dirty && form.city.$error.required") Please enter your city
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='state') State
+                  div.col-sm-10
+                    input.form-control(type="text", name="state", id="state",  ng-model="shipto.state", autofocus, required, placeholder="Enter State or Province", disabled)
+              div.row
+                div.form-group
+                  label.col-sm-2.control-label(for="country") Country
+                  div.col-sm-8
+                    //select(style="width:100%;", name="country", id="country", ui-select2='ui-select2', ng-model="order.shipto.country", data-placeholder="Choose country",disabled)
+                    //  option
+                    //    option(ng-repeat="country in countryData", value="{{country.code}}") {{country.name}}
+                    input.form-control(type="text", name="country", id="country",  ng-model="country", autofocus, required, placeholder="Enter Country", disabled)
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='zipcode') Zipcode
+                  div.col-sm-4
+                    input.form-control(type="text", maxlength = '10', name="zipcode", id="zipcode", ng-model="shipto.zipcode", only-Digits, autofocus, placeholder="Enter zipcode", disabled)
+        .col-sm-6
+          .well.well-lg
+            div.form-group
+              div.row
+                h4
+                  span Ship Via    : Air Mail
+                h4
+                  span Payment Mode: {{paymentMode(proforma.paymentMode)}}
+
+              div(collapse='showCC(proforma.paymentMode)')
+                div.row
+
+                  label.control-label.col-sm-4(for='cardtype') Card Type
+                  div.col-sm-8
+                    select( style="width:100%;",name="pay.cardtype", id="pay.cardtype", ui-select2='ui-select2', ng-model="ccdetails.cardtype", data-placeholder="Enter card type", disabled)
+                     option
+                        option(ng-repeat="card in cardData", value="{{card.code}}") {{card.name}}
+                div.row
+                  div.form-group
+                    label.control-label.col-sm-4(for='cardnum') Card Number
+                    div.col-sm-8
+                      input.form-control(type="text",maxlength="20", name="cardnum", id="cardnum",  required,  creditcard-Validate, ng-model="ccdetails.cardnum", autofocus, placeholder="Enter credit/debit card number", disabled)
+        // ITEMS START HERE
+        br
+        br
+        table.table.table-striped.tcartthead
+          thead
+            tr
+              th #
+              th Product Name
+              th Generic Name
+              th Packaging
+              th.align_right Unit Price
+              th.align_right Quantity
+              th.align_right Amount
+              th
+          tbody
+            tr(ng-repeat='item in items | orderBy:columnSort.sortColumn:columnSort.reverse')
+              td.align_right {{$index+1}}
+              td {{item.manufacturersName}}
+              td {{item.genericName}}
+              td {{item.packaging}}
+              td.align_right {{item.unitPrice | currency}}
+              //td.align_right {{item.qty}}
+              td.align_right {{item.qty | customCurrency:"":".":",":0}}
+              td.align_right {{subTotal(item.qty, item.unitPrice) | currency}}
+          tfoot
+            tr
+              td
+              td
+              td
+              td Subtotal:
+              td
+              //td.align_right {{totalQty(items)}}
+              td.align_right {{totalQty(items) | customCurrency:"":".":",":0}}
+              td.align_right {{totalAmount(items) | currency}}
+            tr
+              td
+              td
+              td
+              td Shipping:
+              td
+              td
+              td.align_right {{proforma.shippingCharges | currency}}
+            tr
+              td
+              td
+              td
+              td Total:
+              td
+              td
+              td.align_right {{grandTotal(totalAmount(items), proforma.shippingCharges) | currency}}
+        br
+
+        .row(align='center')
+          a.btn.btn-primary(ng-click="completePurchase()") Complete the Purchase
+        hr
+        br
+        a.btn.btn-warning(href='#!/shop')  Back to shopping  

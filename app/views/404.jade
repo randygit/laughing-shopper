@@ -1,0 +1,14 @@
+extends layouts/default
+
+block content
+
+  script(type="text/javascript").
+    window.user = !{JSON.stringify(user)};
+
+  br
+  br
+  #error-message-box
+    #error-stack-trace
+      pre
+        code!= error
+

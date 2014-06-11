@@ -1,0 +1,9 @@
+changed package.json
+- passport-http was include in dev-dependencies??
+- added start: node server.js
+- added main: server.js
+
+modified env/all.js take out || 3000??
+
+zip -r tm.zip * -x@exclude.lst
+

@@ -1,0 +1,34 @@
+<!-- newuser.ejs -->
+<html>
+<head>
+    <title>Your account has been suspended.</title>
+</head>
+    <p>
+        Hi <%= name %>,
+        <br />
+        <br />
+
+        TropicalMeds has temporarily suspended your account for exceeding the maximum number of unsucessful login attempts.
+        <br />
+        <br />
+        The suspension will be lifted after 5 minutes and you can resume accessing TropicalMeds.
+        <br />
+        <br />
+        If you did not attempt to login, please report the incident and change your password to a strong one.
+        <br />
+        <br />
+        Check out <a href="<%= supportURL %>">our support pages</a> for more information.
+        <br />
+        <br />
+        Thank you,
+        <br />
+        <br />
+        <a href="<%= supportURL %>">The TropicalMeds Support Team</a>
+        <br />
+        <br />
+        If you received this message in error and did not signup for a TropicalMeds account, click <a href="<%= notMyAccountURL %>">not my account.</a>
+
+    </p>
+<body>
+</body>
+</html>

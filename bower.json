@@ -1,0 +1,46 @@
+{
+  "name": "patak-mean",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": "~1.10.2",
+    "bootstrap": "~3.0.0",
+    "angular": "~1.2.5",
+    "angular-resource": "~1.2.5",
+    "angular-cookies": "~1.2.5",
+    "angular-route": "~1.2.5",
+    "angular-bootstrap": "~0.6.0",
+    "angular-ui-utils": "0.0.4",
+    "zxcvbn": "git://github.com/brycebaril/node-zxcvbn.git",
+    "json3": "~3.2.4",
+    "angular-ui-select2": "~0.0.4",
+    "angular-ui-date": "~0.0.3",
+    "angular-file-upload": "~0.2.7",
+    "ngUpload": "~0.5.4",
+    "angular-ui-router": "~0.2.7"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "css": "docs/assets/css/bootstrap*.css",
+      "js": "docs/assets/js/bootstrap.js",
+      "img": "docs/assets/img/glyphicons-halflings*.png"
+    },
+    "angular-ui-utils": {
+      "modules": "modules/route/route.js"
+    }
+  },
+  "authors": [
+    "randygit <randy@adamas.com.ph>"
+  ],
+  "description": "patak patak",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "jquery": "~2.0.3"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "tropicalmeds",
+  "description": "TropicalMeds using MEAN",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Randy Gonzales",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/randygit/mean.git"
+  },
+  "main": "server.js",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "scripts": {
+    "postinstall": "node node_modules/grunt-cli/bin/grunt build",
+    "start": "node node_modules/grunt-cli/bin/grunt",
+    "test": "node node_modules/grunt-cli/bin/grunt test"
+  },
+  "dependencies": {
+    "express": "latest",
+    "jade": "latest",
+    "mongoose": "latest",
+    "connect-mongo": "latest",
+    "connect-flash": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "underscore": "latest",
+    "async": "latest",
+    "view-helpers": "latest",
+    "forever": "latest",
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "nodemailer": "~0.5.3",
+    "node-uuid": "~1.4.1",
+    "email-templates": "~0.1.0",
+    "ejs": "~0.8.4",
+    "bower": "~1.2.7",
+    "cors": "~2.1.0"
+  },
+  "devDependencies": {
+    "supertest": "latest",
+    "should": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-concurrent": "latest",
+    "grunt-mocha-test": "latest",
+    "assemble-less": "~0.5.3",
+    "grunt": "~0.4.1",
+    "grunt-contrib-less": "~0.8.1",
+    "passport-http": "~0.2.2"
+  },
+  "subdomain": "randygit-patak"
+}

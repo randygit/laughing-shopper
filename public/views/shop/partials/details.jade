@@ -1,0 +1,38 @@
+section(data-ng-controller='ProductDetailController',  data-ng-init="init('#{id}')")
+  .container.pdetails
+    div.row
+      div.col-sm-12
+        .register
+          h3
+            span.introcolor Product Details
+          hr
+
+          .itemdetails
+            p Product Name: {{manufacturersName}}
+            p Generic Name: {{genericName}}
+
+          table.table.table-striped.tcart
+            thead
+              tr
+                th Packaging
+                th.align_right Unit Price
+                th
+            tbody
+              tr(ng-repeat='product in products | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
+
+                td(style="width:5em") {{ product.packaging }}
+                td.align_right(style="width:3em") {{ product.unitPrice | currency }}
+                td(style="width:1em")
+                  //button.btn.btn-xs.btn-warning
+                  //button.btn.btn-xs.btn-tropical
+                  //  a.glyphicon.glyphicon-shopping-cart(ng-click="addToCart(product)", ng-disabled="form.$invalid",)
+                  //   | Buy
+
+                  .actionwrap
+                    .buyaction
+                      a.glyphicon.glyphicon-shopping-cart(ng-click="addToCart(product)", ng-disabled="form.$invalid",) Buy
+          hr
+          p
+          .col-sm-12(align='center')
+            a(href='#!/shop')
+              button.btn.btn-default(type='submit') Back

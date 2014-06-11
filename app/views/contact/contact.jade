@@ -1,0 +1,60 @@
+extends ../layouts/default
+
+block head
+  title Login
+block neck 
+
+
+block content
+  div(data-ng-controller="ContactFormController")
+    div.row 
+
+      div.col-sm-12
+        div.messages
+          .alert.alert-blank
+            strong #{message}
+        div.account-content
+          div.container
+            div.row
+            div.col-sm-6
+              .rblock
+                .rbox
+                  .rboxborder
+                    h3
+                      span.introcolor Contact TropicalMeds 
+
+                    form.form-horizon(name="form", novalidate)
+                      input(type='hidden', name = '_csrf', value = token) 
+            
+
+                      //br
+                      div.row
+                        div.form-group
+                          label.control-label.col-sm-2(for='email') Fullname
+                          div.col-sm-10
+                            input.form-control(type="text", name="username", ng-model="contact.username", id="username", placeholder="Enter full name", required, autofocus)
+                            span.help-block(ng-cloak="ng-cloak", ng-show="form.username.$dirty && form.username.$error.required") Please enter a username
+                            span.help-block(ng-cloak="ng-cloak", ng-show="form.username.$dirty && form.username.$error.invalidChars") Full name may not contain any non-url-safe characters
+
+                      //br
+                      div.row
+                        div.form-group 
+                          label.control-label.col-sm-2(for="password") Email
+                          div.col-sm-10
+                            input.form-control(type="email", ng-model="contact.email", name="email", id="email", required, placeholder="Enter email")
+                            span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.email") Email is invalid 
+                            span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.required") Please enter email
+                      div.row
+                        div.form-group 
+                          label.control-label.col-sm-2(for="password") Message
+                          div.col-sm-10
+                            textarea.form-control(type="text", name="msg", ng-model="contact.msg", rows="5", id="msg",required, placeholder="Enter Message")
+                            span.help-block(ng-cloak="ng-cloak", ng-show="form.msg.$dirty && form.msg.$error.required") Please enter message
+                      p
+                      div.row
+                        div.form-group
+                          .col-md-offset-2.col-md-10
+                            if error
+                              div.alert #{error}
+                            input.btn.btn-tropical(type="submit", value="Send Message", ng-disabled="form.$invalid", data-ng-click="addContact()")
+

@@ -1,0 +1,53 @@
+!!! 5
+html(ng-app="myApp")
+  head
+    block head
+    include ../includes/head
+
+    block neck
+  body
+    div.container
+      nav.navbar.navbar-default(role='navigation')
+        // brand and toggle get grouped for better mobile display
+        .nav-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/')
+            img.navbar-logo(src='/img/logo-symbol-32x32.png')
+            span.navbar-brand-label Patak
+        // collect nav links, forms and other contents for toggling
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') Home
+            li
+              a(href='/about') About
+            li
+              a(href='/signup') Sign up
+            li
+              a(href='/contact') Contact
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/login')
+                span.glyphicon.glyphicon-user
+                |  Sign In
+
+    div.page
+      div.container
+        block content
+
+    div.footer
+
+      div.container
+        hr
+        span.copyright.pull-right
+          &#169;2013 Tamizza, Inc.
+        ul.links.nav.navbar-nav
+          li: a(href='/') Home
+          li: a(href='/contact/') Contact
+        div.clearfix
+
+    include ../includes/foot

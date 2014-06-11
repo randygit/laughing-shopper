@@ -1,0 +1,33 @@
+bower check-new     Checking for new versions of the project dependencies..
+patak-mean#1.0.0 /home/randy/LearnAngular/patak/patak-mean
+├── angular#1.2.6-build.1998+sha.5c97731
+├─┬ angular-bootstrap#0.6.0 (latest is 0.7.0)
+│ └── angular#1.2.6-build.1998+sha.5c97731
+├─┬ angular-cookies#1.2.6-build.1998+sha.5c97731
+│ └── angular#1.2.6-build.1998+sha.5c97731
+├─┬ angular-file-upload#0.2.7
+│ ├── angular#1.2.6-build.1998+sha.5c97731
+│ ├── es5-shim#2.1.0
+│ └── jquery#2.0.3
+├─┬ angular-resource#1.2.6-build.1998+sha.5c97731
+│ └── angular#1.2.6-build.1998+sha.5c97731
+├─┬ angular-route#1.2.6-build.1998+sha.5c97731
+│ └── angular#1.2.6-build.1998+sha.5c97731
+├─┬ angular-ui-date#0.0.3
+│ ├── angular#1.2.6-build.1998+sha.5c97731
+│ └─┬ jquery-ui#1.10.3
+│   └── jquery#2.0.3
+├─┬ angular-ui-select2#0.0.5
+│ ├── angular#1.2.6-build.1998+sha.5c97731
+│ ├── jquery#2.0.3
+│ └─┬ select2#3.4.5
+│   └── jquery#2.0.3
+├─┬ angular-ui-utils#0.0.4
+│ └── angular#1.2.6-build.1998+sha.5c97731
+├─┬ bootstrap#3.0.3
+│ └── jquery#2.0.3
+├── jquery#2.0.3 incompatible with ~1.10.2 (1.10.2 available, latest is 2.0.3)
+├── json3#3.2.6
+├─┬ ngUpload#0.5.4
+│ └── angular#1.2.6-build.1998+sha.5c97731
+└── zxcvbn#c3a22d62b5

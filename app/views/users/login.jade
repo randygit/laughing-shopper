@@ -1,0 +1,56 @@
+extends ../layouts/default
+
+block head
+  title Login
+block neck
+
+
+block content
+  div.row
+
+    div.col-sm-12
+      div.messages
+        .alert.alert-blank
+          strong #{message}
+      div.account-content
+        div.container
+          div.row
+            div.col-sm-6
+            .rblock
+              .rbox
+                .rboxborder
+                  h3
+                    span.introcolor Login
+
+                  form.form-horizon(name="form", method="post", action="/users/session", novalidate)
+                    input(type='hidden', name = '_csrf', value = token)
+
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='email') Email
+                        div.col-sm-10
+                          input.form-control(type="email", name="email", id="email", required, ng-model="email", placeholder="Enter email")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.email") Email is invalid
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.required") Please enter email
+
+                    p
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for="password") Password
+                        div.col-sm-10
+                          input.form-control(type="password", name="password", id="password", ng-model="password", required, placeholder="Enter password")
+                          span.help-block(ng-cloak="ng-cloak",ng-show="form.email.$dirty && form.email.$error.password") Email is invalid
+                          span.help-block(ng-cloak="ng-cloak",ng-show="form.email.$dirty && form.email.$error.required") Please enter password
+
+
+
+                    p
+                    div.row
+                      div.form-group
+                        .col-md-offset-2.col-md-10
+                          if error
+                            div.alert #{error}
+                          input.btn.btn-tropical(type="submit", value="Sign In", ng-disabled="form.$invalid")
+                          a.btn.btn-default(href='/forgot') Forget your password?

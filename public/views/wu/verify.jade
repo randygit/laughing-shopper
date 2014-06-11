@@ -1,0 +1,36 @@
+
+section(data-ng-controller='VerifyWuController')
+  .container.products
+    .row
+        h3
+          span.introcolor Verify Western Union MTCN
+
+        table.table.table-striped.tcartthead
+          thead
+            tr
+              th.align_right #
+              th Date Booked
+              th Email
+              th.align_right Total
+              th.align_right Shipping
+              th.align_right Grand Total
+              th MTCN
+              th Date Added
+              th. Options
+          tbody
+            tr(ng-repeat='order in orders | orderBy:columnSort.sortColumn:columnSort.reverse')
+              td.align_right {{$index+1}}
+              td {{order.orderDate | date:'MMM-dd-yyyy'}}
+              td {{order.customerEmail}}
+              td.align_right {{order.totalAmount | currency}}
+              td.align_right {{order.shippingCharges | currency}}
+              td.align_right {{order.grandTotal | currency}}
+              td {{order.paymentRef.info}}
+              td {{order.paymentRef.date | date:'MMM-dd-yyyy'}}
+              td
+                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                  | View Details
+        br
+        hr
+        br
+        //a.btn.btn-warning(href='#!/shop') Proceed to shopping         

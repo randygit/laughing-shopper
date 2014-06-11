@@ -1,0 +1,107 @@
+section(ng-controller="ShipToController", ng-init="getDefault()")
+  .container.products
+    .row
+      .col-sm-12
+        ul#myTab.nav.nav-tabs
+          li
+            a( ng-click="toTransaction()") 1. Your Transaction
+          li.active
+            a() 2. Shipping Information
+          li
+            a() 3. Billing Information
+          li
+            a( ) 4. Review & Complete Purchase
+
+        h3
+          span.introcolor Ship To
+        p  
+
+        form.form-horizontal(name="form", method="post",  novalidate)
+          input(type='hidden', name = '_csrf', value = token)
+          div.row
+            #shipping
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='name') Name
+                  div.col-sm-10
+                    //<pre>Selected: {{shipto.fullname|json}}</pre>
+                    //input.form-control(type="text", name="shipto.fullname", id="shipto.fullname",  required, ng-model="shipto.fullname", autofocus, placeholder="Enter Full name", ng-init="shipto.fullname = {{shipto.fullname}}")
+                    input.form-control(type="text", name="shipto.fullname", id="shipto.fullname",  required, ng-model="shipto.fullname", autofocus, placeholder="Enter Full name")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.fullname.$dirty && form.fullname.$error.required") Please enter your full name
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.fullname.$dirty && form.fullname.$error.invalidChars") User name may not contain any non-url-safe
+
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address1') Address
+                  div.col-sm-10
+                    input.form-control(type="text", name="address1", id="address1",  required, ng-model="shipto.address1", autofocus, placeholder="Enter Address")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.address1.$dirty && form.address1.$error.required") Please enter your first line of address
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address2') Address2
+                  div.col-sm-10
+                    input.form-control(type="text", name="address2", id="address2",  ng-model="shipto.address2", autofocus, placeholder="Enter Address")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.address2.$dirty && form.address2.$error.required") Please enter your second line of address
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='address3') Address3
+                  div.col-sm-10
+                    input.form-control(type="text", name="address3", id="address3",  ng-model="shipto.address3", autofocus, placeholder="Enter Address")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.address3.$dirty && form.address3.$error.required") Please enter your third line of address
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='city') City
+                  div.col-sm-10
+                    input.form-control(type="text", name="city", id="city",  ng-model="shipto.city", autofocus, required, placeholder="Enter City")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.city.$dirty && form.city.$error.required") Please enter your city
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='state') State
+                  div.col-sm-10
+                    input.form-control(type="text", name="state", id="state",  ng-model="shipto.state", autofocus, required, placeholder="Enter State or Province")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.state.$dirty && form.state.$error.required") Please enter your state or province
+
+              div.row
+                div.form-group
+                  label.col-sm-2.control-label(for="country") Country
+                  div.col-sm-8
+                    //<pre>Selected: {{mobile.country|json}}</pre>
+                    select(style="width:100%;", name="country", id="country", ui-select2='ui-select2', ng-model="shipto.country", data-placeholder="Choose country")
+                      option
+                        option(ng-repeat="country in countryData", value="{{country.code}}") {{country.name}}
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='zipcode') Zipcode
+                  div.col-sm-3
+                    input.form-control(type="text", maxlength = '10', name="zipcode", id="zipcode", ng-model="shipto.zipcode", only-Digits, autofocus, placeholder="Enter zipcode")
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.zipcode.$dirty && form.zipcode.$error.required") Please enter you zipcode
+                    span.help-block(ng-cloak="ng-cloak", ng-show="form.zipcode.$dirty && form.zipcode.$error.invalidChars") Zipcode may not contain any non-url-safe
+              p
+              //   CHECKBOXES START
+              h4 Your order will be sent discretely by Regular Air Mail at a flat rate of ${{proforma.shippingCharges}}. Normal delivery time is 2 – 4 weeks.
+
+
+              div.row
+                div.form-group
+                  //.col-md-offset-2.col-md-10
+                  .col-sm-12
+                    if error
+                      div.alert #{error}
+
+                    div.row
+                      .row(align='center')
+                        input.btn.btn-primary(type = 'submit', value="Continue with checkout",  ng-disabled="form.$invalid", ng-click="saveShipTo()")
+                        //input.btn.btn-warning(type = 'submit', value="Cancel", ng-click="cancelShipTo()")
+
+              //
+                 End shipping Box
+
+        hr
+        br
+        a.btn.btn-warning(href='#!/shop')  Back to shopping          

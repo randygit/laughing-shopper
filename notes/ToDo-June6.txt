@@ -1,0 +1,59 @@
+TO DO: Friday May 29
+STATUS
+0 - awaiting payment
+1 - mtcn entered, needs verification
+2 -
+3 - payment made/verified, ready for shipment,
+4 - partial shipment done ? could be 3
+5 - final shipment done
+9 - cancelled
+
+BUGS
+--------------
+1. shopping cart - initial click does not display correct itemcount,  promise ... after merge with master
+2. qty in shopping cart - cannot modify..
+
+6. exit gracefully if you cant connect to mongolab OK try {}catch{} in server.js
+7. admin verify wu does not load??
+8. what if email hangs? ECONNRESET
+12. modal controller return to usual place, dont use btfModal
+13. product, cart redesign see ecommerce.js
+14. negative country list, maintain neg country list, validate in shipTo...
+15. contact tropicalmeds, does not return to / after sending email. see contactFormController
+16. unexpected comma when no one is logged in /app/view/index.jade
+// if the user is authenticated, the user object can be interpolated into the view
+// when passed to the client, the user object is attached to the window object and is now
+// available to your javascript as "window.user". if not authenticated, the user is null
+// had to JSON.stringify.the date type produces an unexpected identifier error
+
+17.  http://localhost:3000/font/fontawesome-webfont.woff?v=3.2.1 404 Not found
+
+CODE ORGANIZATION
+-----------------
+1. create folders in /public/view/js/controllers OK
+2. merge similar modals in /public/view/js/services OK variousModals.js
+3. merge similar services in /public/view/js/services OK passParametersBetControllers.js
+
+SEND EMAIL:
+formatting? Kulang use CSS
+
+FOR SHIPMENT
+------------
+0. order.js - add itemShippedCount: Number, initialize to 0 in order.add (/app/controller/order.js)
+2. shipment model
+
+SHIPMENT CLERK
+- ready shipment
+- ship to carrier
+
+CUSTOMER QUERIES
+- pending (with qtyRemaining) can see only the shipment record status='Final'
+- historical (fully shipped)
+
+CUSTOMER SUPPORT
+- view pending transactions for a given customerEmail, name
+- view historical transactions for a given customerEmail, name
+- save support notes in User.log
+
+ACCOUNTANT
+- update MTCN OK

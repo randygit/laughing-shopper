@@ -1,0 +1,92 @@
+TO DO: Friday May 29
+STATUS
+0 - awaiting payment
+1 - mtcn entered, needs verification
+2 -
+3 - ready for shipment
+9 - cancelled
+
+0. order.js model
+- add amount received in verifiedBy OK
+- shipment, handle multiple shipments OK
+[ {shipmentdate: date,
+  items[{manuName, qty}]
+  }
+]
+- add log file, email, date, comments OK
+  - order saved
+  - payment entered
+  - payment verified
+  - payment not verified
+  - partial payment received
+  - cancelled
+
+
+1. Verify MTCN
+- scroll email, username, grand total, mtcn, date entered OK
+
+2. view transaction? OK
+
+3. verify / disapprove
+
+verify OK
+- enter amount in received.
+- update status: status: 3 ready for delivery
+- send email, order will be processed soon
+
+disapprove -OK
+- send email, MTCN is wrong... order cannot be processed
+- write history
+
+ADD LOGS
+---------
+1. booking OK
+2. add mtcn OK
+3. verify mtcn OK
+4. disapprove mtcn OK
+5. partial/full shipment
+6. cancellation?
+
+SEND EMAIL:
+-----------
+0. when order is saved with paymentMode = 'WU', pls update site with MTCN number, OK
+1. when order is saved with paymentMode = 'CC', order is being processed,          OK
+2. when MTCN is verified, order is being processed,                             OK
+3. when MTCN is disapproved, MTCN is wrong, pls update site with MTCN number,     OK
+
+3. when shipment partial/final is made
+
+>>placed in order.js -> should not be here but where will i put it?
+
+>>Country Code not expanded OK for confirmOrder, verify/rejectMTCN to follow
+
+formatting? Kulang
+
+numberFormatting OK
+
+FOR SHIPMENT
+------------
+1. shipment.js model - no need?
+2. shipment controller
+3. save in shipment and also in order
+4. how to select if all items have been shipped
+
+BUG
+--------------
+1. shopping cart - initial click does not display correct itemcount,  promise ...
+2. qty in shopping cart -
+
+3. date in order OK
+4, shopping cart - not reloaded OK
+
+5. 2  logs inserted during book purchase reviewController OK
+
+6. exit gracefully if you cant connect to mongolab OK try {}catch{} in server.js
+7. admin verify wu does not load??
+8. what if email hangs? ECONNRESET
+
+9. hide quoted text in email OK
+10. enter MTCN amount should check for numbers...only-Digit OK
+11. qty format in reviewTx OK
+
+12. modal controller return to usual place, dont use btfModal

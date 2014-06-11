@@ -1,0 +1,14 @@
+extends layouts/default
+
+block main
+  h1 Oops something went wrong. Error 500
+  br
+  span 500
+
+block content
+  br
+  br
+  #error-message-box
+    #error-stack-trace
+      pre
+        code!= error

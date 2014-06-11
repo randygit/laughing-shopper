@@ -1,0 +1,228 @@
+﻿TROPICALMEDS SPECS v0.05
+Feb 3, 2014
+updated: April 21
+
+Buyer
+- buyer signs up OK
+  - enters fullname, address
+  - check if country is in the negative list. disallow if in neg list (no checking as of apr 21. should take it out of the country file)
+- buyer receives confirmation email OK
+- buyer confirms signup OK
+
+- buyer requests for new password OK
+
+- buyer could be disabled by admin OK
+
+- enters MTCN for western union payment option
+
+- receives email if order is placed
+- receives emal if payment has been received
+- receives email if order is shipped
+
+- view pending orders, history
+
+Product
+- fields OK
+  - manufacturer's name
+  - generic name
+  - package_quantity, price, example box of 30, $1.00, 60, $0.75, 90, $0.50
+- product could be place inactive list (no stock available) OK
+
+
+Shopping Cart
+- add item to shopping cart OK
+- modify package_quantity OK
+
+- delete item from shopping cart OK
+- get total item count OK
+- get total price OK
+- shipping cost is fixed. see admin
+
+- checkout
+  - enter ship-to address
+    - check if country is in neg list
+  - payment options
+    - credit card
+        enter credit card details
+        pass info to payment gateway, wait for approval
+        - email buyer when cc payment is ok. inform him that order is being processed
+    - western union
+         - ask buyer to enter MTCN
+
+
+Shipping
+- update shipping info when order is shipped, allow partial shipment
+- email buyer when order is shipped (partially/full)
+
+
+
+USERS
+
+
+1. all users
+- signup, receives email asking him to confirm signup
+- confirm
+- login (default role is buyer)
+
+2. admin
+- enter country negative list (db access)
+- update shipping cost ?
+- assign roles to users (buyer, admin, clerk) OK
+- disable user OK
+
+3. buyer
+- view products, search by keywords OK
+- shopping cart
+  - add items to shopping cart OK
+  - modify package_qty OK
+  - delete items from shopping cart OK
+  - clear shopping cart OK
+  - check out
+    - agrees to terms and conditions of sale before being able to submit their order.
+    - enter shipping address
+    - payment options
+      - western union
+        - receives email instructing him to enter the MTCN number
+        - buyer enters MTCN
+        - buyer receives email that MTCN has been received and order is being processed? see #6 below
+      - credit card
+        - enter credit card info
+        - receives email that payment has been cleared and order is being processed
+
+
+- customer first name and/or last name or email address or order number?
+- receives email when order is shipped (partial/full)
+
+- buyer views history
+
+  - view orders awaiting payment
+   - buyer enters MTCN for Western Union payment option
+  - view orders awaiting shipment
+  - view shipped orders
+  - view purchase history
+
+
+4. inventory/shipping clerk
+- view products
+  
+
+- view unshipped orders (payment has been received/verified)
+  - allow partial shipments
+  - enter info when order has been shipped
+  - generate email for buyer informing him order has been shipped
+
+5. customer support
+
+- search by customer name or email address or order number
+  - view orders awaiting payment
+  - view orders awaiting shipment
+  - view shipped orders
+  - view purchase history
+
+6. accounting clerk
+
+- view orders awaiting payment
+  - verify MTCN for western union payment option
+    - email that payment has been received and order is being processed
+TODO: April 21
+
+CUSTOMER
+1. clear shopping cart
+2. settlement (save entered info??)
+    add shipping cost
+    compute final cost
+    enter ship to address (check country)
+    choose payment mode
+    a. Western Union
+    b. Credit Card
+        enter credit card info 
+          send to payment gateway (capture approval).
+              What happens when no approval is given??
+            send email when payment is approved
+3. enter MTCN number for WU payment
+4. view outstanding orders (where products not fully shipped)
+5. view historical orders 
+
+status of order
+0. in shopping cart
+SETTLEMENT PHASE
+1. enter info  (ship to address, compute shipping cost, compute final cost)
+2. enter payment instructions 
+   what happens when no approval is given? Pending? What if manually done? But we
+   dont capture cc details... nothing happens, shopping cart not cleared)
+
+   (MOVE TO INVOICE FILE AT THIS POINT if cc approval is given or MTCN option is
+    used. CLEAR SHOPPING CART)
+
+3. enter payment details
+   cc approval
+   MTCN
+4. payment verified (MTCN verified by accounting clerk, gateway approval info)
+5. orders shipped (partial or full)
+ 
+
+ACCOUNTING CLERK
+1. verify MTCN (capture email, date, time)
+    send email when MTCN has been verified by accounting clerk
+
+SHIPPING CLERK
+1. view orders where payment is verified
+   - ship partial or full
+     - send email
+
+ADMIN
+1. add/edit shipping cost
+
+CUSTOMER SUPPORT
+1. view by customer
+   - outstanding orders
+     status:
+        booked, awaiting payment instructions
+        cancel?
+        payment received CC
+        awaiting MTCN
+        verifiy MTCN
+
+        shipped (partial, full)
+
+   - historical orders
+
+
+DESIGN
+
+ENTER shipping instructions, compute shipping cost and final cost
+ENTER payment instructions
+      Western Union                     CC
+                         Proceed?
+                            |
+          +-------------------------------+
+          |                               |
+          |                             send to payment gateway
+          |                                      approved?
+          |                                          |
+          |                                          |
+          |                               -----------+-----------
+          |                               |                      |
+          |                             Approved            Not Approved
+          |                               |                     |
+          |                               |                   inform buyer
+          |                               |                  do not move to invoice
+          |                               |                  do not clear cart
+          |                               |                  go back to /shop
+          |                               |
+          |                 inform buyer of approval
+          |                 send email 
+          |                       |
+          + --------------------->|
+                                  V
+                            move to invoice file
+                            clear shopping cart
+                            go back to /shop
+            
+VIEW INCOMPLETE ORDERS (no MTCN)
+  - enter MTCN
+
+
+VERIFY MTCN
+   send email to buyer
+

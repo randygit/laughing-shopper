@@ -1,0 +1,54 @@
+extends ../layouts/default
+
+block head
+  title About Us
+
+block neck 
+
+block feet
+
+block content
+  // init window.user for menu to work properly
+
+  script(type="text/javascript").
+   window.user = !{JSON.stringify(user)};
+
+  // this function overrides the ng-view function
+  // when clicking on this while logged in
+  // routeProvider no longers work
+
+  // have to click home to reinit ng-view
+
+  div 
+    div.row 
+
+          
+        h2 Frequently Asked Questions
+      
+        ul
+          li
+            b How are orders shipped and how long will it take to receive my order?
+            br
+            | Your order will be sent discretely by Regular Air Mail.  Normal delivery time is 2 – 4 weeks.
+          li
+            b Do you offer Express Mail or send orders via courier?
+            br
+            | Unfortunately, no.  Our pharmacies ship by Regular Air Mail only.
+          li
+            b
+              | It has been 4 weeks since my order shipped and I still have not received it.  What do I do?
+            br
+            | Please contact Customer Service and we will be happy to assist you.
+          li
+            b
+              | I received a package but it only contained a portion of my order.  Where is the rest?
+            br
+            | In order to keep packages discrete, the pharmacy filling your order may decide to ship it in two or more envelopes.  The balance should arrive soon.
+          li
+            b Do you offer any products not listed on your web site?
+            br
+            | No.  All products are featured on the site.
+          li
+            b What forms of payment do you accept?
+            br
+            | We currently accept Visa, MasterCard and Western Union.

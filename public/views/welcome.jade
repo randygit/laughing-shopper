@@ -1,0 +1,14 @@
+// sections only for templating purposes as defined in /js/config.sys
+
+section(data-ng-controller='WelcomeController')
+    block body
+      div.jumbotron
+        h1 Welcome {{global.user.name}} !!!
+        p.lead
+          | You have logged in successfully to the Patak website,
+          | {{global.user.email}}
+          div
+            a.btn.btn-primary.btn-lg(href='/signout') Sign out
+            |  or 
+            a.btn.btn-warning.btn-lg(href='/reset') Reset Your Password
+          div.clearfix

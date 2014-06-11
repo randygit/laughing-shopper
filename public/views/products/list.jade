@@ -1,0 +1,56 @@
+//section(data-ng-controller='ShopController')
+section(data-ng-controller='ProductController')
+  .container
+    div.row
+      div.col-sm-12
+        .register
+          h3
+            span.introcolor Product Manager
+
+          hr
+
+          ul.list-inline
+            li(ng-if='products.length == 0') You have no products.
+            li(ng-if='producs.length == 1') You have {{ products.length }} product.
+            li(ng-if='products.length > 1') You have {{ products.length }} products.
+            li
+              .input-prepend
+                span.add-on
+                  i.glyphicon.glyphicon-search
+                input#inputIcon.span2(type='text', placeholder='Search...', ng-model='query')
+
+
+          table.table.table-striped.tcart
+            thead
+              tr
+                th(ng-repeat='header in headers')
+                  a(href='#', ng-click='columnSort.sortColumn=headers[$index];columnSort.reverse=!columnSort.reverse') {{ headers[$index] | capitalise }}
+
+            tbody
+              tr(ng-repeat='product in products | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
+                td {{ product.manufacturersName}}
+                td {{ product.genericName }}
+                td {{ product.packaging }}
+                td.align_right {{ product.unitPrice | currency }}
+                td.align_right {{ product.qtyOnHand | number }}
+
+                td
+                  span.button-checkbox
+                  button.btn.btn-sm(type='button', data-color='disabled') Sell?
+                    input(type='checkbox', ng-model='product.sellFlag', ng-checked= '{{product.sellFlag}}', disabled)
+
+
+                td
+                  a.href(ng-click="edit(product._id, product.manufacturersName)", ng-disabled="form.$invalid",)
+                    | Edit
+                  a.href(ng-click="addPackage(product._id, product.manufacturersName)", ng-disabled="form.$invalid",)
+                    | | Add Package
+                  a.href(ng-click="delete(product._id, product.manufacturersName, product.genericName, product.packaging)", ng-disabled="form.$invalid",)
+                    | | Delete
+
+          a.btn.btn-info(ng-click='add()')
+            i.glyphicon.glyphicon-plus.icon-white
+            | Add Product
+
+
+  script(type='text/javascript', src='/js/scripts/button-checkbox.js')

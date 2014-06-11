@@ -1,0 +1,40 @@
+//
+//Modal Add New Product
+#addProduct.modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', ng-click='close()', aria-hidden='true') ×
+        h4.modal-title Add New Package
+      .modal-body
+        .row
+          .col-md-12
+            form.form-horizontal(role='form')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Product Name
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model="addPack.manufacturersName", placeholder='Name', disable)
+              .form-group
+                label.col-md-4.control-label(for='inputName') Generic Name
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model="addPack.genericName",placeholder='Generic Name', disable)
+              .form-group
+                label.col-md-4.control-label(for='inputpacks') Packaging
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model="addPack.packaging", placeholder='Packaging')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Unit Price
+                .col-md-2
+                  input#inputName.form-control(type='text', ng-model="addPack.unitPrice", placeholder='0.00')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Inventory Qty
+                .col-md-2
+                  input#inputName.form-control(type='text', ng-model="addPack.qtyOnHand", placeholder='0')
+              .form-group
+                label.col-md-4.control-label(for='inputName')  
+                .col-md-4
+                  input(type='checkbox', ng-model="addPack.sellFlag")
+                  | Display item in store
+      .modal-footer
+        a.btn.btn-warning(ng-click='close()') Close
+        a.btn.btn-primary(ng-click='addPackage(addPack)') Submit

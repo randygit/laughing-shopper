@@ -1,0 +1,33 @@
+div(data-ng-controller='HeaderController')
+    .container
+        .nav-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/')
+            //img.navbar-logo(src='/img/logo-symbol-32x32.png')
+            //span.navbar-brand-label TropicalMeds
+            h1.brand TropicalMeds
+        //
+           collect nav links, forms and other contents for toggling
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav.navbar-right
+
+            li(data-ng-repeat='item in menuNotLogged', data-ng-hide='global.user')
+              a(href='/{{item.link}}') {{item.title}}
+
+
+            li(data-ng-repeat='item in menu', data-ng-show='global.user')
+              a(href='#!/{{item.link}}') {{item.title}}
+
+            li.dropdown(data-ng-show='global.authenticated')
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                | {{global.user.email}}
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='#!/profile') Profile
+                  a(href='#!/password') Password
+                  a(href='/signout') Signout

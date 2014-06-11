@@ -1,0 +1,48 @@
+
+<section data-ng-controller="ProductController">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="register"> 
+          <h3> <span class="introcolor">Product Manager</span></h3>
+          <hr/>
+          <ul class="list-inline">
+            <li ng-if="products.length == 0">You have no products.</li>
+            <li ng-if="producs.length == 1">You have {{ products.length }} product.</li>
+            <li ng-if="products.length &gt; 1">You have {{ products.length }} products.</li>
+            <li>
+              <div class="input-prepend"><span class="add-on"><i class="glyphicon glyphicon-search"></i></span>
+                <input id="inputIcon" type="text" placeholder="Search..." ng-model="query" class="span2"/>
+              </div>
+            </li>
+          </ul>
+          <table class="table table-striped tcart">
+            <thead>
+              <tr>
+                <th ng-repeat="header in headers"><a href="#" ng-click="columnSort.sortColumn=headers[$index];columnSort.reverse=!columnSort.reverse">{{ headers[$index] | capitalise }}</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in products | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query">
+                <td>{{ product.manufacturersName}}</td>
+                <td>{{ product.genericName }} </td>
+                <td>{{ product.packaging }} </td>
+                <td class="align_right">{{ product.unitPrice | currency }} </td>
+                <td class="align_right">{{ product.qtyOnHand | number }}  </td>
+                <td> <span class="button-checkbox"></span>
+                  <button type="button" data-color="disabled" class="btn btn-sm">Sell? 
+                    <input type="checkbox" ng-model="product.sellFlag" ng-checked="{{product.sellFlag}}" disabled="disabled"/>
+                  </button>
+                </td>
+                <td><a ng-click="edit(product._id, product.manufacturersName)" ng-disabled="form.$invalid" class="href">
+                     
+                    Edit</a><a ng-click="addPackage(product._id, product.manufacturersName)" ng-disabled="form.$invalid" class="href">| Add Package</a><a ng-click="delete(product._id, product.manufacturersName, product.genericName, product.packaging)" ng-disabled="form.$invalid" class="href">| Delete</a></td>
+              </tr>
+            </tbody>
+          </table><a ng-click="add()" class="btn btn-info"><i class="glyphicon glyphicon-plus icon-white"></i>Add Product</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/js/scripts/button-checkbox.js"></script>
+</section>

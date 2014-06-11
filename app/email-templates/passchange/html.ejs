@@ -1,0 +1,27 @@
+<!-- newuser.ejs -->
+<html>
+<head>
+    <title>Password Change Reminder</title>
+</head>
+    <p>
+        <%= name %>,
+        <br />
+        <br />
+    
+        You recently changed the password associated with your TropicalMeds account.
+        <br />
+        <br />
+        If you did not make this change and believe your TropicalMeds account has been compromised, please contact TropicalMeds support team by clicking <a href="<%= compromisedURL %>">here</a>.
+        <br />
+        <br />
+        Thank you,
+        <br />  
+        <br />
+        <a href="<%= supportURL %>">The TropicalMeds Support Team</a> 
+        <br />
+        <br />
+        If you received this message in error and did not signup for a TropicalMeds account, click <a href="<%= notMyAccountURL %>">not my account.</a>
+    </p>
+<body>
+</body>
+</html>

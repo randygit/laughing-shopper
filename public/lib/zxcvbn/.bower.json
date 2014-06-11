@@ -1,0 +1,13 @@
+{
+  "name": "zxcvbn",
+  "homepage": "https://github.com/brycebaril/node-zxcvbn",
+  "_release": "c3a22d62b5",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c3a22d62b5d4aca6c2344855282da54838296443"
+  },
+  "_source": "git://github.com/brycebaril/node-zxcvbn.git",
+  "_target": "*",
+  "_originalSource": "git://github.com/brycebaril/node-zxcvbn.git"
+}

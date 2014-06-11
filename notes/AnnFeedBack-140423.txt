@@ -1,0 +1,83 @@
+Randy.  Sorry for the delay in reply.  Here are my comments...
+
+- Seeing the web site this way, is it just me or does the logo loOK a bit small?  It kind of just gets lost in the page.
+
+OK
+
+- On the About, FAQ and Terms pages, on the bottom half of the page, you repeat the "About Tropical Meds", "Our Products" and "Contact Us" -- I think you can remove the first two as they seem redundant but leave the Contact Us.
+
+OK
+
+-  In the Terms of Sale page, please amend the line:
+
+4. If you are dissatisfied with the product you received, please contact Customer Service to arrange a return and partial refund**
+
+to
+
+4. If you are dissatisfied with the product you received, please contact Customer Service to arrange a return and re-shipment or partial refund**
+
+..and then change
+
+** All returns are subject to a 30% re-stocking fee exclusive of shipping and handling.
+
+to
+
+** All returns are subject to a 30% processing fee and are exclusive of shipping and handling.
+
+-  I wasn't able to register because the Create My Account button was not working for me?
+
+===
+
+item listing:  clean and simple however, members might think there is only one quantity available to order...the one in the orange box.  some may not think to click on the product name to show other quantities.
+
+1. what do you think about including "click for more options" or "click for more quantities" somewhere?
+
+OK added Click for more quantities
+
+2. i clicked on ativan 1mg (top row, second from left).  on next page, i notice that the unit price of the product does not align under the heading.
+
+OK
+
+3. also, the blue "add to cart" box is a hard to read.  maybe change color or make it consistent w/ the first page with the orange cart that says 'buy'?
+
+OK
+
+4. and what if i want to buy 5x the box of 30?  do i click on the 'buy' button 5 times or are you going to add a drop down menu of quantities?
+
+adding product brings you to shopping cart where you can add items
+
+5. also, i keep trying to add the ativan to my cart from this page but it's not working yet.  will doing so take me back to the previous page or to my shopping cart?  shopping cart would be ideal.
+
+OK
+
+6. please change "manufacturer's name" to "product name".  the manufacturer would be the pharmaceutical company that makes the med -- not the product name itself.  thanks.
+
+OK
+
+OK, so i populated my shopping cart and clicked on the cart icon to display the contents.
+
+7. i think it is on this initial page that i should be able to edit the contents of the cart (add, delete etc)....not after i click the 'checkout' button.  please also add an "update order" button.
+8. when i changed my quantity, i had to return to shopping in order for the cart to update and show appropriate quantities and total due.
+
+you can now edit/delete at the shopping cart, totals are automatically updated when changes occur
+
+9. in the checkout page, you have on the top menu "brand name".  please change to "product name" to stay consistent.
+
+OK
+
+10. maybe say "proceed to payment" instead of "add payment"
+
+OK
+
+by the way, randy, when adding my address to my profile, i noticed that you have three address fields and that the 'add profile' button won't work unless all three are filled with something.  i had to put "-" on line 2 and 3 in order to get the button to work.  maybe make address1 a requirement but not address2 and address3.  most will only use address1 anyway.  thanks!
+
+OK
+
+all else loOKs good, randy.  thanks!
+==
+Hi,
+Thanks, Randy!
+
+TODO:
+1. align total qty
+2. CSS ni jeff

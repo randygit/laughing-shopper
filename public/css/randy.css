@@ -1,0 +1,12 @@
+/** added to make modal work with bootstrap 3.0 and angular-bootstrap-ui 0.10 */
+/** http://blog.corveloper.com/2013/08/angularjs-with-ui-bootstrap-fix-dialog-boxes/ **/
+
+.modal {
+display: block;
+height: 0;
+overflow: visible;
+}
+
+.app-modal-window .modal-content {
+  width: 300px;
+}

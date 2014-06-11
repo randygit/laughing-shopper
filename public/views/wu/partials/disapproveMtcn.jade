@@ -1,0 +1,22 @@
+// Modal Add New Product
+#viewCart.modal
+  //.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title Disapprove Western Union MTCN
+    .modal-body
+      .row
+        .col-md-12
+          form.form-horizontal(name="form", method="post",  novalidate)
+            input(type='hidden', name = '_csrf', value = token)
+            .form-group
+              label.col-sm-2.control-label(for='inputName') State Reason
+              div.col-sm-4
+                input#inputName.form-control(type='text',  name = 'comments', ng-model="mtcn.info", placeholder='State why MTCN is being rejected', required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.required") Please enter you MTCN Amount
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.invalidChars") MTCN may not contain any non-url-safe
+
+    .modal-footer
+      a.btn.btn-warning(ng-click='saveChanges()', ng-disabled="form.$invalid") Reject MTCN
+      a.btn.btn-primary(ng-click='close()') Cancel           

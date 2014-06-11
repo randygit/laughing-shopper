@@ -1,0 +1,16 @@
+version 0.01
+- saves into mean-dev db, xuser collection on creation
+- checks if the the email exists returns 403
+- /public/js/scripts.js cannot handle reply.
+version 0.02 - 13oct27
+- checking if email exists done at submit
+- req.flash does not work??
+
+Nov 1, 2:40AM
+1. checking if token has expired
+2. check if user has already verified. should have verifiedAt: type: Date, also disabledAt and deactivatedAt
+3. sending ty letter after confirmation
+
+
+
+

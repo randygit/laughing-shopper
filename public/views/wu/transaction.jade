@@ -1,0 +1,30 @@
+section(data-ng-controller='WuController')
+  .container.products
+    .row
+        h3
+          span.introcolor Your Transactions Requiring Western Union MTCN
+
+        table.table.table-striped.tcartthead
+          thead
+            tr
+              th.align_right #
+              th Date
+              th.align_right Total
+              th.align_right Shipping
+              th.align_right Grand Total
+              th. Options
+          tbody
+            tr(ng-repeat='order in orders | orderBy:columnSort.sortColumn:columnSort.reverse')
+              td.align_right {{$index+1}}
+              td {{order.orderDate | date:'MMM-dd-yyyy'}}
+              td.align_right {{order.totalAmount | currency}}
+              td.align_right {{order.shippingCharges  | currency}}
+              td.align_right {{order.grandTotal | currency}}
+
+              td
+                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                  | View Details
+        br
+        hr
+        br
+        a.btn.btn-warning(href='#!/shop') Proceed to shopping         

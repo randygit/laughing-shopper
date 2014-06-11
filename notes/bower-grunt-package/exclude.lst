@@ -1,0 +1,11 @@
+*.git*
+*node_modules*
+*nodejs*
+*test*
+*.zip
+exclude.lst
+gruntfile.js
+bower.json
+bower_install.js
+package.json.deploy
+MODULUS

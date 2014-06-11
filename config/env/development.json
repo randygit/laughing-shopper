@@ -1,0 +1,6 @@
+{
+    "db": "mongodb://medic1:default1@dbh74.mongolab.com:27737/tropicalmeds",
+    "app": {
+        "name": "TropicalMeds MEAN - Development"
+    }
+}

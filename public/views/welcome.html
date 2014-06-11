@@ -1,0 +1,12 @@
+
+<section data-ng-controller="WelcomeController">
+  <div class="jumbotron">
+    <h1>Welcome {{global.user.name}} !!!</h1>
+    <p class="lead">
+      You have logged in successfully to the Patak website,
+      {{global.user.email}}
+      <div><a href="/signout" class="btn btn-primary btn-lg">Sign out</a> or <a href="/reset" class="btn btn-warning btn-lg">Reset Your Password</a></div>
+      <div class="clearfix"></div>
+    </p>
+  </div>
+</section>

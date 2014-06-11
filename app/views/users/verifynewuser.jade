@@ -1,0 +1,27 @@
+extends ../layouts/default
+
+block head
+  title About Us
+
+block neck
+    link(rel='stylesheet', href='/css/contact.css')
+    // link(rel='stylesheet', href='/stylesheets/contactForm.css')
+
+block feet
+
+block content
+  div.row
+    div.col-sm-6
+      div.page-header
+        // data is in #{{token}}
+
+        h1 Verify account creation.
+        p Click button to confirm account creation.
+        a.btn.btn-primary.btn-lg(href='/verify/newuser/' + {{token}}) Confirm
+
+    div.col-sm-6
+      div.page-header
+        h1 Help A Student
+      p.lead Send someone to the university
+      //.super-awesome is defined in contact.css
+      span.glyphicon.glyphicon-book.super-awesome

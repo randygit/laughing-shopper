@@ -1,0 +1,55 @@
+/*.modal {
+  display: block;  
+  height: 0;
+  overflow: visible;
+}
+*/
+
+.modal {
+  //position: fixed;
+  top: 25%;
+  left: 20%;
+  width: 70%;
+  display: block;  
+  height: auto;
+  min-width: 330px;
+  max-width:800px;
+  overflow: visible;
+}
+
+
+.modal-backdrop {
+  opacity: 0.5;
+}
+ 
+ 
+.modal-body:before,
+.modal-body:after {
+    display: table;
+    content: " ";
+}
+.modal-header:before,
+.modal-header:after {
+    display: table;
+    content: " ";
+}
+
+  dl {
+    border: 3px double #ccc;
+    padding: 0.5em;
+  }
+  dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    color: green;
+  }
+  dt:after {
+    content: ":";
+  }
+  dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
+  }

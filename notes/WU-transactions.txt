@@ -1,0 +1,17 @@
+transaction - list of customer transactions with WU payment, for adding MTCN
+    controller: WuController
+          option: view Order /order
+
+order - customer to view transaction to enter MTCN
+    controller: OrderController
+        option: Enter MTCN number (MtcnModal)
+
+
+verify - list all transactions with MTCN for verification
+    controller - VerifyWuController
+          option: verifyWu - view Order
+
+verifyWu - view transaction for verification or disapproval
+     controller - OrderController
+          option: VerifyMTCN - VerifyMtcnModal
+                  DisapproveMTCN - DisapproveMtcnModal

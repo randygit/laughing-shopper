@@ -1,0 +1,48 @@
+// Modal Add New Product
+#viewCart.modal
+  //.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title View Shopping Cart
+    .modal-body
+      .row
+        .col-md-12
+           table.table.table-striped.tcart
+              thead
+                tr
+                  th #
+                  th Product Name
+                  th Generic Name
+                  th Packaging
+                  th.align_right Unit Price
+                  th.align_right Quantity
+                  th.align_right Amount
+                  th
+              tbody
+                tr(ng-repeat='item in items | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
+                  td.align_right {{$index+1}}
+                  td {{item.manufacturersName}}
+                  td {{item.genericName}}
+                  td {{item.packaging}}
+                  td.align_right {{item.unitPrice | currency}}
+                  //td.align_right {{item.qty}}
+                  td
+                    input.align_right.input-mini(style='width:5em' ,type = 'number', min = 0, ng-model = 'item.qty')
+                  td.align_right {{subTotal(item.qty, item.unitPrice) | currency}}
+                  td
+                    a.href(ng-click="delete(item._id, item.manufacturersName, item.genericName, item.packaging)", ng-disabled="form.$invalid",) Delete
+                td
+                td
+                td
+                td Subtotal:
+                td
+                //td.align_right {{totalQty()  | customCurrency:"":".":",":0}}
+                td
+                    input.align_right.print-clean.input-mini(style='width:5em' ,type = 'number', min = 0, value = '{{totalQty() }}', disabled)
+                td.align_right {{totalAmount() | currency}}
+                td
+
+    .modal-footer
+      a.btn.btn-warning(ng-click='saveChanges()') Continue Shopping
+      a.btn.btn-primary(ng-click='checkOut(totalQty())') Checkout           

@@ -1,0 +1,39 @@
+//Modal Edit Product
+#editProduct.modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', ng-click='close()', aria-hidden='true') ×
+        h4.modal-title Edit Product
+      .modal-body
+        .row
+          .col-md-12
+            form.form-horizontal(role='form')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Product Name
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model=" editProduct.manufacturersName", placeholder='Name')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Generic Name
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model=" editProduct.genericName",placeholder='Generic Name')
+              .form-group
+                label.col-md-4.control-label(for='inputpacks') Packaging
+                .col-md-4
+                  input#inputName.form-control(type='text', ng-model=" editProduct.packaging", placeholder='Packaging')
+              .form-group
+                label.col-md-4.control-label(for='inputName') Unit Price
+                .col-md-2
+                  input#inputName.form-control(type='text', ng-model=" editProduct.unitPrice")
+              .form-group
+                label.col-md-4.control-label(for='inputName') Inventory Qty
+                .col-md-2
+                  input#inputName.form-control(type='text', ng-model=" editProduct.qtyOnHand")
+              .form-group
+                label.col-md-4.control-label(for='inputName')  
+                .col-md-4
+                  input(type='checkbox', ng-model=" editProduct.sellFlag", ng-checked= '{{editProduct.sellFlag}}')
+                  | Display item in store
+      .modal-footer
+        a.btn.btn-warning(ng-click='close()') Close
+        a.btn.btn-primary(ng-click='edit(editProduct)') Submit

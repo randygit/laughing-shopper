@@ -1,0 +1,40 @@
+section(data-ng-controller='ShopController')
+  #searchbar
+    .container
+      .col-sm-12
+        .row
+          .col-md-6.justleft
+            span.kart-links
+                a.btn.btn-primary(ng-click='viewCart()')
+                  | Your Cart
+                  i.glyphicon.glyphicon-shopping-cart
+                  //| {{summary.itemCount}} Items - {{summary.subtotal | currency}}
+                  span(ng-if='summary.itemCount == 0') is empty
+                  span(ng-if='summary.itemCount == 1') {{summary.itemCount}} Item - {{summary.subtotal | currency}}
+                  span(ng-if='summary.itemCount > 1')  {{summary.itemCount  | customCurrency:"":".":",":0}} Items - {{summary.subtotal | currency}}
+
+          .col-md-6.justright
+            .input-group.form
+              input.form-control(type='text', placeholder='Search...', ng-model='query')
+              span.input-group-btn
+                button.btn.btn-primary(type='button')
+                  i.glyphicon.glyphicon-search Search
+  .clearfix
+  .shop-items.blocky
+    .container
+      .row
+        div(ng-repeat= 'product in products | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
+          //.col-md-3.col-sm-4.col-xs-6
+          .col-md-3
+            .item
+              .item-details
+                a(ng-href='#!/productDetails/{{product._id}}') {{ product.manufacturersName}}
+                p {{product.genericName}}
+                p
+                a(ng-href='#!/productDetails/{{product._id}}') Click for other quantities
+              hr
+              .actionwrap
+                .unitprice
+                  p  {{product.packaging}} @ {{product.unitPrice | currency}}
+                .buyaction
+                  a.glyphicon.glyphicon-shopping-cart(ng-click="addToCart(product)", ng-disabled="form.$invalid",) Buy

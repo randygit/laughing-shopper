@@ -1,0 +1,12 @@
+// Modal DeleteItem
+#deleteItem.modal
+  //.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title Confirmation
+    .modal-body
+      | Are you sure you would like to delete: {{deleteItem.manufacturersName}}, {{deleteItem.genericName}}, {{deleteItem.packaging}} from shopping cart?
+    .modal-footer
+      a.btn.btn-warning(ng-click='close()') Close
+      a.btn.btn-primary(ng-click='delete()') Submit

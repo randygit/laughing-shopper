@@ -1,0 +1,82 @@
+LOADING THE ANGULAR APP. Manual Style
+
+1. node looks for app/views/index.jade as specified
+
+index.jade 
+  extends layouts/defaults
+     which includes 'includes/head.jade'
+                    'includes/foot.jade'
+
+
+
+     after the DOM has been fully loaded
+     DOM looks for $(document).ready.function() which is found in public/js/init.js
+     
+       init.js manually bootstraps angular     
+          angular.bootstrap(document, ['mean']);
+
+          which is found in /public/js/app.js
+
+            window.app = angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system']);
+
+            angular.module('mean.system', []);
+            angular.module('mean.articles', []);
+
+          window.app sets up route in /public/js/config.js
+              window.app.config(['$routeProvider',function($routeProvider) {}
+
+          window.app adds directives in /public/js/directives.js
+              window.app.directive('passwordValidate', function() {}
+              window.app.directive('match', [function () {}
+
+          window.app adds filters in /public/js/filters
+              none in this example
+
+      renders the view
+         
+         /public/views/header.html
+         /app/views/index.jade contentblock content
+            section(data-ng-view)                  <---NG-VIEW will allow us to set up config function and access the $routeProvider
+            script(type="text/javascript").
+              window.user = !{JSON.stringify(user)};
+
+        how did /public/views/index.html got into the picture? 
+            bec .config('routeProvider) has taken triggered by ng-view and
+            the default in routeProvider is '/'
+           
+
+
+LOADING A VIEW app/views/index.jade (extends layouts/default.jade) default.jade defines the layout for index.jade
+
+1. includes includes/head.jade
+
+2. adds navbar
+   header.navbar.navbar-fixed-top.navbar-inverse(data-ng-include="'views/header.html'")
+      /public/views/header.html
+         ng-controller='HeaderController' found in /public/js/controllers/header.hs
+
+         which injects factory: 'Global' among others. 'Global' is found in /public/js/services/globals.js
+           factory 'Global'
+              sets user:window.user
+                   authenticated: !! window.user
+
+
+2. block content from /app/views/index.jade
+
+    block content
+      section(data-ng-view)                      <-- turn over router control to window.app.config['$routeProvide']
+      script(type="text/javascript").             
+        window.user = !{JSON.stringify(user)};   <--- defines window.user
+
+3. some footer info
+
+4. includes include/foot.jade                   <--- loads all the controllers, services plus js libraries
+
+
+PREVENT USER ACCESS INSIDE $routeParams
+1. create factory which checks if user is logged in
+/public/js/services/global.js
+2. modify $routeProvider to prevent access if user is not logged in
+/public/js/config.js
+
+

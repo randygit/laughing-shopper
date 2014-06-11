@@ -1,0 +1,32 @@
+extends ../layouts/default
+
+block head
+  title About Us
+
+block neck 
+
+block feet
+
+block content
+  // init window.user for menu to work properly
+
+  script(type="text/javascript").
+   window.user = !{JSON.stringify(user)};
+
+  // this function overrides the ng-view function
+  // when clicking on this while logged in
+  // routeProvider no longers work
+
+  // have to click home to reinit ng-view
+
+  div 
+
+    div.row  
+        h2 About Us
+        p.conditions
+          | TropicalMeds is not a pharmacy. Our business is customer service. TropicalMeds serves its customers and partner pharmacies by providing a common platform from which buyers and sellers meet.  
+        p.conditions
+          | We choose our partner pharmacies carefully so as to provide members a reliable and cost effective way to purchase their medicines online. Our members benefit from our pre-screening of our partner pharmacies which in turn fill their orders.
+        p.conditions
+          | The pharmacies benefit by making their products available on the world-wide-web through our website without the cost of creating and maintaining their own web storefronts.  For this service, we earn a commission for each fulfilled order.
+

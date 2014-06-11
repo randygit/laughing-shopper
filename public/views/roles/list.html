@@ -1,0 +1,58 @@
+
+<section data-ng-controller="UserRoleController">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="register">
+          <h3><span class="introcolor">User Manager</span></h3>
+          <hr/>
+          <ul class="list-inline">
+            <li ng-if="users.length == 0">You have no users.</li>
+            <li ng-if="users.length == 1">You have {{ users.length }} user.</li>
+            <li ng-if="users.length &gt; 1">You have {{ users.length }} users.</li>
+            <li>
+              <div class="input-prepend"><span class="add-on"><i class="glyphicon glyphicon-search"></i></span>
+                <input id="inputIcon" type="text" placeholder="Search..." ng-model="query" class="span2"/>
+              </div>
+            </li>
+          </ul>
+          <table class="table table-striped tcart">
+            <thead>
+              <tr>
+                <th ng-repeat="header in headers"><a href="#" ng-click="columnSort.sortColumn=headers[$index];columnSort.reverse=!columnSort.reverse">{{ headers[$index] | capitalise }}</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="user in users | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query">
+                <td>{{ user.name}}</td>
+                <td>{{ user.email }}</td>
+                <!--td {{ user.role }}-->
+                <td>
+                  <!--<pre>Selected: {{user|json}}</pre>-->
+                  <!--select(style="width:100%;", name="role", id="role", ui-select2='ui-select2', ng-model="user.role", disabled)-->
+                  <select style="width:100%;" name="role" id="role" ui-select2="ui-select2" ng-model="user.role">
+                    <option>
+                      <option ng-repeat="position in positionData" value="{{position.role}}">{{position.name}}</option>
+                    </option>
+                  </select>
+                </td>
+                <!--td {{ user.deactivated }}-->
+                <!--td-->
+                <!--  label Deactivated:-->
+                <!--    input(ng-model='user.deactivated', type='checkbox', ng-checked = '{{user.deactivated}}', disabled)-->
+                <td><span class="button-checkbox"></span>
+                  <button type="button" data-color="disabled" class="btn btn-sm">Disabled
+                    <!--input(type='checkbox', ng-model='user.deactivated', ng-checked= '{{user.deactivated}}', disabled)-->
+                    <input type="checkbox" ng-model="user.deactivated" ng-checked="{{user.deactivated}}"/>
+                  </button>
+                </td>
+                <td><a ng-click="updateRole(user._id, user.name, user.role, user.deactivated)" ng-disabled="form.$invalid" class="href">Save Changes</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/js/scripts/button-checkbox.js"></script>
+</section>

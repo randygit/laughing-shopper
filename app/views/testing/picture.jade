@@ -1,0 +1,116 @@
+extends ../layouts/default
+
+block head
+  title Profile
+
+block neck
+    link(rel='stylesheet', href='/css/contact.css') 
+
+block feet
+
+block content
+  // init window.user for menu to work properly
+
+  script(type="text/javascript").
+   window.user = !{JSON.stringify(user)};
+
+  // this function overrides the ng-view function
+  // when clicking on this while logged in
+  // routeProvider no longers work
+
+  // have to click home to reinit ng-view
+
+  
+  div.container
+    div(data-ng-controller="PictureFormController", data-ng-init="getProfile()")
+
+      div.col-sm-4
+        div.container
+          div.row
+
+            br
+            br
+            div.panel.panel-default
+              div.panel-body
+                h3  {{global.user.name}}
+                p View my profile page
+          div.row
+         
+             ul.nav.nav-pills.nav-stacked
+                li.active
+                  a(href='/account') Account
+                li.divider
+                li
+                  a(href='/profile') Profile
+                li.divider
+                li
+                  a(href='/resetpassword') Password 
+                li.divider
+                li
+                  a(href='/mobile') Mobile
+                li.divider
+                li
+                  a(href='/picture') Upload Pictures
+                li.divider
+
+      div.col-sm-8.special 
+        div.container
+          //moved so {{user.name}} will appear 
+          div.row
+            br
+            br
+            div.panel.panel-default
+              div.panel-body
+                h3 Upload Pictures
+                .container
+                  .ng-v
+                        | Angular Version:
+                        input(type='text', ng-model='angularVersion')
+                        input(type='button', data-ng-click='changeAngularVersion()', value='Go')
+                      h1 Angular file upload Demo
+                      h3
+                        | Visit
+                        a(href='https://github.com/danialfarid/angular-file-upload') angular-file-upload
+                        | on github
+                      div
+                        | Model object to be sent to the server with the file:
+                        input(type='text', ng-model='myModel')
+                        br
+                        | choose a single file:
+                        input(type='file', ng-file-select='onFileSelect($files)')
+                        br
+                        | or multiple files:
+                        input(type='file', ng-file-select='onFileSelect($files)', multiple='multiple')
+                        br
+                        br
+                        .drop-box(ng-show='dropSupported', ng-file-drop='onFileSelect($files);', ng-file-drop-available='dropSupported=true') or drop files here
+                        div(ng-show='!dropSupported') HTML5 Drop File is not supported on this browser
+                        br
+                        input(type='checkbox', ng-model='uploadRightAway')
+                        | Upload right away
+                        br
+                        br
+                        | Progress:
+                        br
+                        br
+                        div(ng-show='selectedFiles != null')
+                          .sel-file(ng-repeat='f in selectedFiles')
+                            img(ng-show='dataUrls[$index]', src='{{dataUrls[$index]}}')
+                            button.button(ng-click='start($index)', ng-show='ng-show')
+                            span.progress(ng-show='ng-show')
+                              | = 0"
+                              div {{progress[$index]}}%
+                            button.button(ng-click='abort($index)', ng-show='ng-show')
+                            | {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+                        .response(ng-show='ng-show', uploadresult.length='uploadResult.length')
+                          | 0"
+                          | Server Response:
+                          ul
+                            li(ng-repeat='result in uploadResult')
+                              ul
+                                li(ng-repeat='item in result')
+                                  div(data-ng-show='item.name') file name: {{item.name}}
+                                  div(data-ng-show='item.fieldName') name: {{item.fieldName}}
+                                  div(data-ng-show='item.size') size on the serve: {{item.size}}
+                                  div(data-ng-show='item.value') value: {{item.value}}
+                                  div(data-ng-show='item.value') value: {{item.va

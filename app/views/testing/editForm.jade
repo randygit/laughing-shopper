@@ -1,0 +1,89 @@
+extends ../layouts/default
+
+block head
+  title Profile
+
+block neck
+    link(rel='stylesheet', href='/css/contact.css') 
+
+block feet
+
+block content
+  // init window.user for menu to work properly
+
+  script(type="text/javascript").
+   window.user = !{JSON.stringify(user)};
+
+  // this function overrides the ng-view function
+  // when clicking on this while logged in
+  // routeProvider no longers work
+
+  // have to click home to reinit ng-view
+
+  
+  div.container
+    // where did user.email and token come from??
+    div(ng-controller="EditFormController", ng-init="init('#{email}','#{username}')")  
+    
+      div.col-sm-4
+        div.container
+          div.row
+
+            br
+            br
+            div.panel.panel-default
+              div.panel-body
+                h3  {{global.user.name}}
+                p View my profile page
+          div.row
+         
+             ul.nav.nav-pills.nav-stacked
+                li.active
+                  a(href='/account') Account
+                li.divider
+                li
+                  a(href='/profile') Profile
+                li.divider
+                li
+                  a(href='/resetpassword') Password 
+                li.divider
+                li
+                  a(href='/mobile') Mobile
+                li.divider
+
+      div.col-sm-8.special 
+        div.container
+          div.row
+            br
+            br
+            div.panel.panel-default
+              div.panel-body
+                br
+                div.messages 
+                  .alert.alert-warning
+                    strong= message 
+                hr 
+                h3 Edit Form. Server Side Validation
+                .container
+                  form.form-horizontal(name="form", method="post", action ='/updateform', novalidate)
+                    input(type='hidden', name = '_csrf', value = token)
+
+                    div.form-group
+  
+                        label.control-label(for="email") Email:
+                        input.form-control(type="email", name="email", id="email", required, 
+                                           ng-model="editform.email", placeholder="Enter email",   autofocus)
+
+                        label.col-sm-2.control-label(for="username") User Name:
+                        .col-sm-6 
+                        input.form-control(type="text", name="username", id="username",  required, 
+                                           ng-model="editform.username", placeholder="Enter username", autofocus)
+                    div.form-group
+                    hr
+                    if error
+                        div.alert #{error}
+                    //input.btn.btn-primary(type="submit", value="Save Changes",data-ng-click="updateform()")
+                    input.btn.btn-primary(type="submit", value="Save Changes")
+           
+           
+

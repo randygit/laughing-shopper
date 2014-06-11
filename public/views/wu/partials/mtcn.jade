@@ -1,0 +1,22 @@
+// Modal Add New Product
+#viewCart.modal
+  //.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title Enter Western Union MTCN
+    .modal-body
+      .row
+        .col-md-12
+          form.form-horizontal(name="form", method="post",  novalidate)
+            input(type='hidden', name = '_csrf', value = token)
+            .form-group
+              label.col-md-4.control-label(for='inputName') MTCN
+              .col-md-4
+                input#inputName.form-control(type='text', minlength= '10', pattern="[0-9]*", name = 'mtcn', ng-model="mtcn.number", placeholder='MTCN', only-Digits, required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.required") Please enter you MTCN
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.invalidChars") MTCN may not contain any non-url-safe
+
+    .modal-footer
+      a.btn.btn-warning(ng-click='saveChanges()', ng-disabled="form.$invalid") Save MTCN
+      a.btn.btn-primary(ng-click='close()') Cancel           

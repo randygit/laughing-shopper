@@ -1,0 +1,90 @@
+section(ng-controller="ProfileFormController", ng-init="getDefault()")
+  div.col-sm-12
+    div.container
+      div.row
+        div.messages
+          .alert.alert-blank
+            strong= message
+      div.account-content
+        div.container
+          div.row
+            div.col-sm-8
+            .rblock
+              .rbox
+                .rboxborder
+                  h3
+                    span.introcolor Update Profile
+
+                  form.form-horizontal(name="form", method="post",  novalidate)
+                    input(type='hidden', name = '_csrf', value = token)
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='name') Name
+                        div.col-sm-10
+                          //<pre>Selected: {{profile.fullname|json}}</pre>
+                          //input.form-control(type="text", name="profile.fullname", id="profile.fullname",  required, ng-model="profile.fullname", autofocus, placeholder="Enter Full name", ng-init="profile.fullname = {{profile.fullname}}")
+                          input.form-control(type="text", name="profile.fullname", id="profile.fullname",  required, ng-model="profile.fullname", autofocus, placeholder="Enter Full name")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.fullname.$dirty && form.fullname.$error.required") Please enter your full name
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.fullname.$dirty && form.fullname.$error.invalidChars") User name may not contain any non-url-safe
+
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='address1') Address
+                        div.col-sm-10
+                          input.form-control(type="text", name="address1", id="address1",  required, ng-model="profile.address1", autofocus, placeholder="Enter Address")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.address1.$dirty && form.address1.$error.required") Please enter your first line of address
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='address2') Address2
+                        div.col-sm-10
+                          input.form-control(type="text", name="address2", id="address2",  ng-model="profile.address2", autofocus, placeholder="Enter Address")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.address2.$dirty && form.address2.$error.required") Please enter your second line of address
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='address3') Address3
+                        div.col-sm-10
+                          input.form-control(type="text", name="address3", id="address3",  ng-model="profile.address3", autofocus, placeholder="Enter Address")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.address3.$dirty && form.address3.$error.required") Please enter your third line of address
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='city') City
+                        div.col-sm-10
+                          input.form-control(type="text", name="city", id="city",  ng-model="profile.city", autofocus, required, placeholder="Enter City")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.city.$dirty && form.city.$error.required") Please enter your city
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='state') State
+                        div.col-sm-10
+                          input.form-control(type="text", name="state", id="state",  ng-model="profile.state", autofocus, required, placeholder="Enter State or Province")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.state.$dirty && form.state.$error.required") Please enter your state or province
+
+                    div.row
+                      div.form-group
+                        label.col-sm-2.control-label(for="country") Country
+                        div.col-sm-10
+                          //<pre>Selected: {{mobile.country|json}}</pre>
+                          select(style="width:100%;", name="country", id="country", ui-select2='ui-select2', ng-model="profile.country", data-placeholder="Choose country")
+                            option
+                              option(ng-repeat="country in countryData", value="{{country.code}}") {{country.name}}
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='zipcode') Zipcode
+                        div.col-sm-10
+                          input.form-control(type="text",  pattern="[0-9]*", name="zipcode", id="zipcode", ng-model="profile.zipcode", autofocus, placeholder="Enter zipcode")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.zipcode.$dirty && form.zipcode.$error.required") Please enter you zipcode
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.zipcode.$dirty && form.zipcode.$error.invalidChars") Zipcode may not contain any non-url-safe
+                    p
+                    div.row
+                      div.form-group
+                        .col-md-offset-2.col-md-10
+                          if error
+                            div.alert #{error}
+                          input.btn.btn-success(type = 'submit', value="Update profile",  ng-disabled="form.$invalid", ng-click="updateProfile()")
+                          input.btn.btn-warning(type = 'submit', value="Cancel", ng-click="cancelProfile()") 

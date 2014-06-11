@@ -1,0 +1,16 @@
+// if the user is authenticated, the user object can be interpolated into the view
+// when passed to the client, the user object is attached to the window object and is now
+// available to your javascript as "window.user". if not authenticated, the user is null
+// had to JSON.stringify.the date type produces an unexpected identifier error
+
+// window.user is set initially  and reset by
+// signin? how
+
+extends layouts/default
+
+block content
+  // ng-view will allow us to set up config function and access the $routeProvider
+
+  section(data-ng-view)
+  script(type="text/javascript").
+    window.user = !{JSON.stringify(user)};

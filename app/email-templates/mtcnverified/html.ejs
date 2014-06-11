@@ -1,0 +1,134 @@
+<!-- mtcnverified/html.ejs -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>MTCN not verified</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--- ><link ref="special.css" rel="stylesheet" type='text/css">  --->
+    </head>
+
+    <body>
+        <div>
+            Dear <%= name%>,
+            <br />
+            <br />
+            We have verified the Western Union MTCN <%= paymentRefInfo%> that you have inputted for your order. Your order is now being processed and will be shipped using <%= shipment%>.
+            <br />
+            <br />
+            The order details are as follows:
+            <br />
+            <br />
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Order Date  :</td>
+                        <td> <%= orderDate %></td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td>Ship To    :</td>
+                        <td> <%= shipTo.fullname %></td>
+                    </tr>
+                    <tr>
+                        <td>Address    :</td>
+                        <td> <%= shipTo.address1 %></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> <%= shipTo.address2 %></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> <%= shipTo.address3 %></td>
+                    </tr>
+                    <tr>
+                        <td>City       :</td>
+                        <td><%= shipTo.city %></td>
+                    </tr>
+                    <tr>
+                        <td>State      :</td>
+                        <td> <%= shipTo.state %></td>
+                    </tr>
+                    <tr>
+                        <td>Country    :</td>
+                        <td><%= shipTo.country %></td>
+                    </tr>
+                    <tr>
+                        <td>Zipcode    :</td>
+                        <td><%= shipTo.zipcode %></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <br />
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                      <th align='left'>#</th>
+                      <th align='left'>Product Name</th>
+                      <th align='left'>Generic Name</th>
+                      <th align='left'>Packaging</th>
+                      <th align='right'>Unit Price</th>
+                      <th align='right'>Quantity</th>
+                      <th align='right'>Amount</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<items.length; i++) {%>
+                      <tr>
+                        <td align='left'><%= i+1 %></td>
+                        <td align='left'><%= items[i].manufacturersName %> </td>
+                        <td align='left'><%= items[i].genericName %> </td>
+                        <td align='left'><%= items[i].packaging %> </td>
+                        <td align='right'><%= items[i].unitPrice %> </td>
+                        <td align='right'><%= items[i].qty %> </td>
+                        <td align='right'><%= items[i].subTotal %> </td>
+                      <tr/>
+                    <% }%>
+                </tbody>
+                <tfoot>
+                    <br />
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Subtotal:</td>
+                      <td></td>
+                      <td align='right'> <%= itemCount%></td>
+                      <td align='right'> <%= totalAmount%></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Shipping:</td>
+                      <td></td>
+                      <td></td>
+                      <td align='right'> <%= shippingCharges%></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Total:</td>
+                      <td></td>
+                      <td></td>
+                      <td align='right'> <%= grandTotal%></td>
+                </tfoot>
+            </table>
+            <br />
+            Thank you,
+            <br />
+            <br />
+            <a href="<%= supportURL %>">The TropicalMeds Support Team</a>
+        </div>
+    </body>
+    <footer>
+    </footer>
+</html>

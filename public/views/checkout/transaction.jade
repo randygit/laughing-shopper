@@ -1,0 +1,52 @@
+section(data-ng-controller='TransactionController')
+  .container.products
+    .row
+      .col-sm-12
+        ul#myTab.nav.nav-tabs
+          li.active
+            a( ) 1. Your Transaction
+          li
+            a( ) 2. Shipping Info
+          li
+            a( ) 3. Billing Information
+          li
+            a( ) 4. Review & Complete Purchase
+
+        h3
+          span.introcolor Your Transaction
+
+        table.table.table-striped.tcartthead
+          thead
+            tr
+              th #
+              th Product Name
+              th Generic Name
+              th Packaging
+              th.align_right Unit Price
+              th.align_right Quantity
+              th.align_right Amount
+              th
+          tbody
+            tr(ng-repeat='item in items | orderBy:columnSort.sortColumn:columnSort.reverse')
+              td.align_right {{$index+1}}
+              td {{item.manufacturersName}}
+              td {{item.genericName}}
+              td {{item.packaging}}
+              td.align_right {{item.unitPrice | currency}}
+              //td.align_right {{item.qty}}
+              td.align_right {{item.qty | customCurrency:"":".":",":0}}
+              td.align_right {{subTotal(item.qty, item.unitPrice) | currency}}
+            td
+            td
+            td
+            td Subtotal:
+            td
+            //td.align_right {{totalQty(items)}}
+            td.align_right {{totalQty(items) | customCurrency:"":".":",":0}}
+            td.align_right {{totalAmount(items) | currency}}
+        br
+        .row(align='center')
+          input.btn.btn-primary(type = 'submit', value="Continue with checkout",  ng-click="toShipTo()")
+        hr
+        br
+        a.btn.btn-warning(href='#!/shop') Back to shopping         

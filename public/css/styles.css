@@ -1,0 +1,512 @@
+body {
+  min-height: 800px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#444;
+  font-size:13px;
+  line-height:25px;
+	-webkit-font-smoothing: antialiased;
+  background:  #cad4f4;
+}
+
+.navbar-static-top {
+  margin-bottom: 19px;
+}
+
+
+/* Override navbar color */
+.navbar {
+  position: relative;
+  min-height: 50px;
+  border-bottom:1px solid #000;
+  background: #f6b900;
+  border-top:4px solid #5f3a07;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #000;
+  background-color: transparent;
+  font-weight:  bold;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #000;
+  background-color: transparent;
+  font-weight:  bold;
+}
+
+
+.navbar-default .navbar-text {
+  color: #555;
+  font-weight:  bold;
+
+}
+.navbar-default .navbar-nav > li > a {
+  color: #555;
+  font-weight:  bold;
+
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 300px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ddd;
+  text-decoration: none;
+  background-color: #000;
+}
+
+.alert-blank {
+  color: #000;
+  background-color: transparent;
+  /* border-color:  transparent; */
+  border:  0;
+
+}
+
+
+
+#searchbar {
+	height:50px;
+	background-color: #373737;
+	color:  #fff;
+	font-weight:  bold;
+	padding-top:  8px;
+	margin-top:  -20px;
+}
+
+/** TM Button start **/
+.btn-tropical {
+  /*
+  background-color: #5bc0de;
+  */
+  /* TM Themne */
+  /**
+  April 24, 2014 changing color from blue to orange
+  background-color:#435968;
+  color: #fff
+  **/
+  background-color:#ff6600;
+  color: #000;
+
+
+
+}
+
+.btn-tropical:hover,
+.btn-tropical:focus,
+.btn-tropical:active,
+.btn-tropical.active,
+.open .dropdown-toggle.btn-tropical {
+  color: #ffffff;
+  /* TM Themne */
+
+  /**
+  April 24, 2014 changing color
+
+  background-color:#006600;
+  background-color:#3394b5;
+  **/
+  background-color:#435968;
+
+
+}
+
+.btn-tropical:active,
+.btn-tropical.active,
+.open .dropdown-toggle.btn-tropical {
+  background-image: none;
+}
+
+.btn-tropical.disabled,
+.btn-tropical[disabled],
+fieldset[disabled] .btn-tropical,
+.btn-tropical.disabled:hover,
+.btn-tropical[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-tropical.disabled:focus,
+.btn-tropical[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-tropical.disabled:active,
+.btn-tropical[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-tropical.disabled.active,
+.btn-tropical[disabled].active,
+fieldset[disabled] .btn-tropical.active {
+
+
+  /* TM Themne */
+  background-color:#0033aa;
+
+}
+
+
+.register{
+   max-width:800px;
+   margin:30px auto;
+   background-color:  #fff;
+   padding:  20px;
+}
+
+
+
+.rblock{
+   max-width:480px;
+   margin:30px auto;
+   height:600px;
+   overflow:  auto;
+}
+
+
+.rblock h3{
+   margin:0px;
+   font-size:18px;
+   line-height:25px;
+   color:#888;
+   margin-bottom:20px;
+   padding-bottom:15px;
+   border-bottom:1px solid #eee;
+   font-weight:bold;
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+/* Cool block */
+
+.rbox{
+   background:#fff;
+   border:1px solid #bbb;
+   box-shadow:0px 0px 1px #999;
+   border-radius:3px;
+}
+
+.rboxborder{
+   margin:3px;
+   /* border:1px dashed #aaa; */
+   border:1px dotted #aaa;
+
+   box-shadow:0px 0px 1px #000;
+   padding:20px;
+   border-radius:2px;
+
+}
+
+
+/* Conditions terms */
+.conditions {
+	margin-left:  20px;
+	width:  80%;
+}
+
+.smallbold {
+	font-weight:  bold;
+	font-style:  italic;
+
+}
+
+.boldred {
+	color:  red;
+	font-weight:  bold;
+}
+
+
+
+/* March 26 */
+.brand {
+	font-weight:  bold;
+	color: #000;
+	padding: 0;
+	margin:  0;
+	font-size: 20px;
+}
+
+
+
+
+@media (max-width: 1020px) {
+	#searchbar {
+		height:110px;
+		background-color: #373737;
+		color:  #fff;
+		font-weight:  bold;
+		padding-top:  8px;
+		margin-top:  -20px;
+	}
+}
+
+
+/* Begin Mar 29 */
+/* Footer */
+
+footer{
+   background:#111;
+   border-top:3px solid #ddd;
+   box-shadow:inset 0px 0px 3px #111;
+   color:#ccc;
+   font-size:12px;
+   line-height:1.5em;
+   padding:35px 0px 10px 0px;
+}
+
+footer a{
+   color:#eee;
+   text-decoration:none;
+   border-bottom:1px dotted #888;
+}
+
+footer a:hover{
+   color:#aaa;
+   text-decoration:none;
+   border:0px;
+}
+
+footer hr{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: #000 1px solid;
+	border-bottom: #212121 1px solid;
+}
+
+/*** Footer end ***/
+
+/* End Mar 29 */
+
+/* Begin Mar 31 */
+.home {
+	width:  80%;
+	text-align:  center;
+	margin:  auto;
+	font-size:  2em;
+	line-height:  1.2em;
+}
+
+/* End Mar 31  */
+
+
+.products {
+   max-width:1000px;
+   margin:30px auto;
+   background-color:  #fff;
+   padding:  20px;
+}
+
+.rightjustify {
+	text-align:  right;
+}
+
+.search-bar .search-query,
+.search-bar .btn-primary {
+    display: inline-block; /* allows for heights to be set */
+}
+.search-bar .search-query {
+    height: 30px;
+}
+.search-bar .btn-primary {
+    height: 40px;
+}
+
+/* April 10 2014 adding right justify class */
+.align_right {
+	text-align:  right;
+}
+
+
+/* View Cart  definitions */
+
+.view-cart img{
+   max-height:50px;
+}
+
+.view-cart .input-group{
+   max-width:120px;
+}
+
+.blocky{
+   margin:30px 0px;
+}
+
+.tlight {
+	background-color:#1e94cb;
+}
+
+
+/** Product item definitions */
+
+.actionwrap {
+	background-color: #36c;
+	background:#0066cc;
+	background:#577890;
+	height: 25px;
+	background:#577890;
+	background:  #f38009;
+	background:  #975616;
+	background:  #f37a05;
+}
+
+.unitprice {
+	padding-left: 4px;
+	font-size: 1m;
+
+	width: 70%;
+	float: left;
+	color: #333;
+	font-weight: bold;
+}
+
+.buyaction {
+	font-size: 1em;
+	/** width: 28%;
+	float: right;
+
+	**/
+	width:  100%;
+	font-weight: bold;
+	text-align:  center;
+
+}
+
+.buyaction a {
+	color: #444;
+	border-bottom: 1px dotted #444;
+}
+
+.buyaction a:hover {
+	color: #fff;
+	font-weight:  bold;
+	border-bottom: 1px dotted #fff;
+}
+
+.itemdetails {
+	max-width:  800px;
+	font-size:  120%;
+	line-height:  1.5em;
+}
+
+.justleft {
+	text-align:  left;
+}
+
+.item{
+   position:relative;
+	max-height: 320px;
+	max-width: 250px;
+	margin: 10px auto;
+	padding: 20px 10px 10px 10px;
+   background:#fff;
+   border:1px solid #f2f2f2;
+	border-right: 2px solid #eee;
+   border-bottom:2px solid #eee;
+   border-radius:7px;
+}
+
+.item-fixed {
+   position:relative;
+    height:  200px;
+	max-width: 250px;
+	margin: 10px auto;
+	padding: 20px 10px 10px 10px;
+   background:#fff;
+   border:1px solid #f2f2f2;
+	border-right: 2px solid #eee;
+   border-bottom:2px solid #eee;
+   border-radius:7px;
+}
+
+.actionwrap-fixed {
+	height: 25px;
+	border-bottom:  1px solid #aaa;
+}
+
+.buyaction-fixed {
+	font-size: 1em;
+	/** width: 28%;
+	float: right;
+
+	**/
+	width:  100%;
+	font-weight: bold;
+	text-align:  center;
+
+}
+
+.buyaction-fixed a {
+	color: #444;
+	border-bottom: 1px dotted #444;
+}
+
+.buyaction-fixed a:hover {
+	color: #ff3300;
+	font-weight:  bold;
+	border-bottom: 1px dotted #fff;
+}
+
+
+
+/**added April 25 begin */
+.pdetails{
+   max-width:750px;
+   margin:30px auto;
+   background-color:  #fff;
+   padding:  20px;
+}
+
+
+.print-clean {
+    border: none;
+    background: transparent;
+}
+/**added April 25 end */
+
+/** Added April 28 start Transaction Payment and invoice **/
+#shipping {
+	margin-left:  30px;
+	background-color:  #f7f7f7;
+	padding :  20px;
+	border: 1px solid  #999;
+	width:  60%;
+}
+
+.highlight {
+	background-color:  yellow;
+	color:  #000;
+	font-weight:  bold;
+	padding :  5px;
+	width:  40%;
+	margin-bottom: 20px;
+}
+
+.ship_input{
+    border: none;
+    background: transparent;
+    border:  1px solid #999;
+}
+
+#invoice_header {
+	padding:  10px;
+	width:  400px;
+	border:  1px solid #999;
+	background-color:  #eee;
+}
+
+/** Added April 28, end **/

@@ -1,0 +1,26 @@
+!!! 5
+html(lang='en', xmlns='http://www.w3.org/1999/xhtml', xmlns:fb='https://www.facebook.com/2008/fbml', itemscope='itemscope', itemtype='http://schema.org/Product')
+  include ../includes/head
+  body
+    //header.navbar.navbar-fixed-top.navbar-inverse(data-ng-include="'views/header.html'")
+    header.navbar.navbar-static-top(data-ng-include="'views/header.html'")
+
+
+    div.content
+      div.container
+        block content
+
+    footer
+      .container
+        .row
+          .col-md-12.col-sm-12.text-center
+            h4
+              a(href='/contact') Contact Us
+            .address
+              | put email here or telno
+        hr
+        .copy.text-center
+          | Copyright 2013 © - TropicalMeds.com
+
+
+  include ../includes/foot

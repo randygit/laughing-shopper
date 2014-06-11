@@ -1,0 +1,104 @@
+extends ../layouts/default
+
+block head
+  title Sign Up
+block neck
+
+
+block content
+  div.row
+
+    div.col-sm-12
+      div.messages
+        .alert.alert-blank
+          strong #{message}
+      div.account-content
+        div.container
+          div.row
+            div.col-sm-6
+            .rblock
+              .rbox
+                .rboxborder
+                  h3
+                    span.introcolor Register
+
+                  form.form-horizon(name="form", method="post", action="/signup", novalidate)
+                    input(type='hidden', name = '_csrf', value = token)
+
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='name') Name
+                        div.col-sm-10
+                          input.form-control(type="text", name="name", id="name",  required, ng-model="name", autofocus, placeholder="Enter Full name")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.name.$dirty && form.name.$error.required") Please enter you full name
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.name.$dirty && form.name.$error.invalidChars") Username may not contain any non-url-safe
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='email') Email
+                        div.col-sm-10
+                          input.form-control(type="email", name="email", id="email", required, ng-model="email", placeholder="Enter email")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.email") Email is invalid
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.email.$dirty && form.email.$error.required") Please enter email
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for="password") Password
+                        div.col-sm-10
+                          // password-validate and match are directives defined in /public/js/directives/directives.js
+
+                          input.form-control(type="password", class="pass1", name="password", id="password", ng-model="password", password-validate, required, match="verification", placeholder="Enter password")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.password.$dirty && form.password.$error.required") Please enter a password
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.password.$dirty && form.password.$error.pwd") Invalid Password. Length must be > 8 characters and have a letter and number
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for="verify", class="verify") Retype Password
+                        div.col-sm-10
+                          input.form-control(type="password", class="verification", name="verification", id="verification", ng-model="verification", required, match="password", placeholder="Retype password")
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.verification.$dirty && form.verification.$error.required") Please repeat your password
+                          span.help-block(ng-cloak="ng-cloak", ng-show="form.verification.$dirty && form.verification.$error.match && !form.verification.$error.required") Passwords don't match
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='readTerms')
+                        div.col-sm-10
+                          input(type='checkbox', name='readTerms', ng-model="checked", value='readTerms', required)
+                          | I have read the
+                          a(href='/terms') Terms and conditions
+
+
+                    //br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='captcha')
+                        div.col-sm-8
+                          | Place captcha here later to check make sure you are not a bot
+
+
+
+
+                    div.row
+                      div.form-group
+                        .col-md-offset-2.col-md-10
+                          if error
+                            div.alert #{error}
+
+                          input.btn.btn-tropical(type="submit", value="Create My Account", ng-disabled="form.$invalid")
+                          input.button.btn.btn-default(type='reset') Reset
+
+
+
+                    br
+                    div.row
+                      div.form-group
+                        label.control-label.col-sm-2(for='blocked') Blocked Countries
+                        div.col-sm-10
+                          | We don't ship to the following countries: Indonesia, Pakistan, Tonga
+
+
+      script(type='text/javascript', src='/js/scripts/check-password.js')
