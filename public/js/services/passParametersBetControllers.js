@@ -124,7 +124,7 @@ angular.module('mean.system')
     var OrderService = {};
 
     OrderService.addOrderId = function(newObj) {
-        console.log('add Order Id ' + newObj);
+        //console.log('add Order Id ' + newObj);
         orderList.push(newObj);
     };
     OrderService.getOrderId = function(){
