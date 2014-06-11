@@ -64,6 +64,12 @@ window.app.config(['$routeProvider',
         when('/verifyWu', {
             templateUrl: 'views/wu/verifyWu.html'
         }).
+        when('/shipment', {
+            templateUrl: 'views/shipment/orderShipmentList.html'
+        }).
+        when('/orderDetails', {
+            templateUrl: 'views/shipment/orderDetails.html'
+        }).
         when('/', {
             templateUrl: 'views/index.html'
         }).

@@ -26,6 +26,9 @@ BUGS
 // available to your javascript as "window.user". if not authenticated, the user is null
 // had to JSON.stringify.the date type produces an unexpected identifier error
 
+17. use order.customerName for viewing order, not global.user.name
+18. shopping cart lost - when checking out
+
 17.  http://localhost:3000/font/fontawesome-webfont.woff?v=3.2.1 404 Not found
 
 CODE ORGANIZATION

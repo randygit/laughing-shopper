@@ -34,23 +34,26 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
 
         }
 
-        // format total Qty here.. is there a need? will an order exceed 1,000 items
 
-        //$scope.totalQty       = order.itemCount.formatMoney(0,',','.');
-
-        /* other methods that work the same as hasOwnProperty
-        if('paymentRef' in order){
-            console.log("yes, i have that property using in");
+        $scope.shipMode = 'Air Mail';
+        if (angular.equals(order.paymentMode, 'WU')) {
+            $scope.payment  = 'Western Union';
+        }
+        else {
+            $scope.payment  = 'Credit/Debit Card';
+            if (angular.equals(order.ccdetails.cardtype,'MC')) {
+                $scope.cardName = 'MasterCard';
+            }
+            if (angular.equals(order.ccdetails.cardtype,'VISA')) {
+                $scope.cardName = 'VISA';
+            }
         }
 
-        if (testObject(order, 'paymentRef')) {
-            console.log("yes, i have that property using test");
-        }
-        */
+
 
     });
 
-    $scope.paymentMode = function(paymentMode) {
+    $scope.paymentForm = function(paymentMode) {
         if (angular.equals(paymentMode, 'WU')) {
             return 'Western Union';
         }

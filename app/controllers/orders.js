@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
-    Order = mongoose.model('Order15');
+    Order = mongoose.model('Order20');
 
 /**
  * Auth callback. what is this here
@@ -306,6 +306,7 @@ exports.add = function(req,res) {
     order = new Order({
         "orderDate": {type:Date},       // had to explicitly do {type:date} else cast error
         "orderRef":String,
+        "customerName": String,
         "customerEmail":String,
         "shipto" : {"fullname": String, "address1": String, "address2": String,"address3":String,
                     "city": String, "state": String, "country": String, "zipcode": String},
@@ -321,21 +322,22 @@ exports.add = function(req,res) {
                       "expiryyear":  { type:String}, "cardcvv": { type:String}},
         "ccowner" : {"fullname":  { type:String}, "address1": { type:String}, "address2": { type:String},"address3": { type:String},"city":  { type:String}, "state": { type:String}, "country": { type:String}, "zipcode": {type:String}},
         "items": [{
-                  //email:String,
                   productId: Schema.Types.ObjectId,
                   manufacturersName: String,
                   genericName: String,
                   packaging: String,
                   unitPrice: {Type:Number},
                   qty: {Type:Number},
+                  qtyReadied: {Type:Number},
+                  qtyShipped: {Type:Number},
                   subTotal: {Type:Number}
                   }],
-         //"paymentRef":  {"info": String, "email": String, "date": Date},
+         "paymentRef":  {"info": String, "email": String, "date": {Type:Date}},
          "status":{type:Number},
          "log": [{"email": String, "date": {Type:Date}, "comment": String}]
     });
 
-    //name = req.body.name;
+    order.customerName    = req.body.name;
     order.orderDate       = req.body.orderDate;
     order.orderRef        = req.body.orderRef;
     order.customerEmail   = req.body.customerEmail;
@@ -346,10 +348,9 @@ exports.add = function(req,res) {
     order.shippingCharges = req.body.shippingCharges;
     order.grandTotal      = req.body.grandTotal;
     order.ccdetails       = req.body.ccdetails;
-    //order.paymentRef      = req.body.paymentRef;
+    order.paymentRef      = req.body.paymentRef;
 
     order.ccowner         = req.body.ccowner;
-    order.items           = req.body.items;
     order.status          = req.body.status;
 
     order.log = req.body.log;
@@ -357,6 +358,28 @@ exports.add = function(req,res) {
     // for shipment
     order.qtyReadied = 0;
     order.qtyShipped = 0;
+
+
+    // order.items           = req.body.items; but populate first
+    var items = [];
+
+    for (i=0; i < req.body.items.length; i++) {
+        //console.log('Product Name' + req.body.items[i].manufacturersName);
+
+        items.push({
+            'productId': req.body.items[i].productId,
+            'manufacturersName':req.body.items[i].manufacturersName,
+            'genericName':req.body.items[i].genericName,
+            'packaging':req.body.items[i].packaging,
+            'qty':req.body.items[i].qty,
+            'qtyReadied': 0,
+            'qtyShipped': 0,
+            'unitPrice':req.body.items[i].unitPrice,
+            'subTotal':req.body.items[i].subTotal
+        });
+    }
+
+    order.items = items;
 
     order.save(function(err) {
         if (err) {
@@ -372,6 +395,27 @@ exports.add = function(req,res) {
 
     res.end();
 
+};
+
+exports.shipment = function(req,res) {
+    //console.log('Email  '  + req.params.email);
+    //console.log('Status ' + req.params.status);
+
+    // dont know how to select where email = "*"
+
+    Order.find({ 'status': req.params.status},
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1 },
+        {sort: {orderDate: 1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders');
+                res.redirect('/');
+            }
+    });
 };
 
 var sendConfirmOrderEmail = function(req, order) {

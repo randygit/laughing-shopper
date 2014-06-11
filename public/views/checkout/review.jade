@@ -65,7 +65,7 @@ section(data-ng-controller='ReviewController')
                     //select(style="width:100%;", name="country", id="country", ui-select2='ui-select2', ng-model="order.shipto.country", data-placeholder="Choose country",disabled)
                     //  option
                     //    option(ng-repeat="country in countryData", value="{{country.code}}") {{country.name}}
-                    input.form-control(type="text", name="country", id="country",  ng-model="country", autofocus, required, placeholder="Enter Country", disabled)
+                    input.form-control(type="text", name="country", id="country",  ng-model="shiptoCountry", autofocus, required, placeholder="Enter Country", disabled)
               div.row
                 div.form-group
                   label.control-label.col-sm-2(for='zipcode') Zipcode

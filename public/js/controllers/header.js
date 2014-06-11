@@ -41,6 +41,10 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$locati
                 {
                     "title": "Verify MTCN",
                     "link": "verify"
+                },
+                {
+                    "title": "Ship Orders",
+                    "link": "shipment"
                 }
 
 

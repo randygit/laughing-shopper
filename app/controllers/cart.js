@@ -136,14 +136,14 @@ exports.add = function(req,res) {
 
 exports.edit = function (req, res) {
     //console.log('cart.edit() ' + JSON.stringify(req.body));
-    console.log('cart id ' + req.params.id);
+    //console.log('cart id ' + req.params.id);
     var id = req.params.id;
     if (id) {
         Cart.findById(id, function (err, cart) {
             if(!err) {
                 if(cart) {
-                    console.log('cart.edit() ' + JSON.stringify(cart));
-                    console.log('Cart.edit() - findById ' + cart.email);
+                    //console.log('cart.edit() ' + JSON.stringify(cart));
+                    //console.log('Cart.edit() - findById ' + cart.email);
 
                     cart.email            = req.body.email;
                     cart.productId        = req.body.productId;
@@ -179,7 +179,7 @@ exports.edit = function (req, res) {
 
 exports.delete = function (req, res) {
 
-    console.log('cart delete id ' + req.params.id);
+    //console.log('cart delete id ' + req.params.id);
     var id = req.params.id;
     if (id) {
         Cart.findById(id, function (err, cart) {

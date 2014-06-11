@@ -33,7 +33,7 @@ angular.module('mean.system')
                     else {
                         $scope.shipto = data;
 
-                        $scope.country = getCountryName(countries,$scope.shipto.country);
+                        $scope.shiptoCountry = getCountryName(countries,$scope.shipto.country);
                     }
 
 
@@ -53,6 +53,7 @@ angular.module('mean.system')
                         console.log("Do not Proceed");
                     }else {
                         $scope.ccowner = data;
+                        $scope.ccCountry =  getCountryName(countries,$scope.ccowner.country);
                     }
 
                     data = CcDetailsService.popItem();
@@ -155,11 +156,11 @@ angular.module('mean.system')
 
         $scope.completePurchase = function() {
             // if credit card, go to gateway
-            // save into invoice
-            saveOrder();
+            // save into invoice and clear cart
+            saveOrderAndClearCart();
 
             // clear shopping cart
-            clearCart(Global.user.email);
+            //clearCart(Global.user.email);
 
             // clear all services
             ShipToService.clearItems() ;
@@ -187,7 +188,7 @@ angular.module('mean.system')
 
       };
 
-        var saveOrder = function() {
+        var saveOrderAndClearCart = function() {
             // will force api/product to redirect
             var order = {
                     "name": String,
@@ -247,47 +248,56 @@ angular.module('mean.system')
             order.grandTotal = order.totalAmount + order.shippingCharges;
             order.ccdetails = $scope.ccdetails;
             order.ccdetails = secureCCInfo(order.ccdetails);
-            //console.log('Saving ccdetails ' + JSON.stringify(order.ccdetails));
             order.ccowner   = $scope.ccowner;
             order.items     = $scope.items;   //items.email is redundant
 
-            order.country = $scope.country;
+            //order.country = $scope.country;
 
             // save countryName to order instead of countryCode for less bandwidth req
-            order.shipto.country = $scope.country;
+            order.shipto.country  = $scope.shiptoCountry;
+            order.ccowner.country = $scope.ccCountry;
 
-            /*
+            order.log = [];
+            order.log.push({email:Global.user.email, comment: 'Order booked', date: Date.now()});
+
+            // if payment is thru WU, the paymentRef will be updated later
+            // if payment is thru CC, information from CC payment gateway will be added here
+
             var paymentRef = {
                 info: String,
                 date: Date,
                 email:String
             };
 
-
-            paymentRef.info  = '';
-            paymentRef.email = '';
-            paymentRef.date  = '';
-
-            order.paymentRef = paymentRef;
-            */
-
-            order.log = [];
-            order.log.push({email:Global.user.email, comment: 'Order booked', date: Date.now()});
-
            if (angular.equals($scope.proforma.paymentMode, 'WU')) {
-                order.status    = 0;         //
+                order.status     = 0;
+                paymentRef.info  = '';
+                paymentRef.email = '';
+                paymentRef.date  = '';
+
             }
             else {
-                 order.status   = 3;        // assume cc gateway signals ok
+                order.status    = 3;
+                paymentRef.info  = 'Paypal Ref. #666';
+                paymentRef.email = '';
+                paymentRef.date  =  '';
             }
-            order.status    = 0;        // assume cc gateway signals ok
+
+            // order.status     = 0;        // assume cc gateway signals ok
+            order.paymentRef = paymentRef;
 
             $http.post('/api/order', order).success(function(data) {
 
                 console.log("Success. adding record at /api/shoppingCart");
-                //SEND EMAIL HERE
-                //sendEmail(Global.user.name, order);
                 changeLocation('/shop', false);
+
+                $http.put('/api/clearCart/'+Global.user.email).success(function(data) {
+
+                    console.log("Success. deleting record at /api/shoppingCart");
+                })
+                .error(function(data) {
+                    console.log("Error. deleting record at /api/shoppingCart");
+                });
             })
             .error(function(data) {
                   console.log("Error. adding record at /api/shoppingCart");
@@ -295,17 +305,6 @@ angular.module('mean.system')
             });
         };
 
-        var clearCart = function(email) {
-            $http.put('/api/clearCart/'+Global.user.email).success(function(data) {
-
-                console.log("Success. deleting record at /api/shoppingCart");
-                //$route.reload loads /shop but not the modal
-            })
-            .error(function(data) {
-                console.log("Error. deleting record at /api/shoppingCart");
-            });
-
-        };
 
         secureCCInfo = function(ccData) {
 
