@@ -6,14 +6,25 @@ section(data-ng-controller='OrderController')
 
         .col-sm-6
           .well.well-lg
-            div.form-group
+              h4
+                span Sold To:
               div.row
-                h4
-                  span Sold To: {{global.user.name}}
-                  //span Sold To: {{order.customerEmail}}
-                h4
-                  span Ship To:
+                div.form-group
+                  label.control-label.col-sm-2(for='name') Name
+                  div.col-sm-10
+                    input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerName", autofocus, placeholder="Enter Full name", disabled)
               div.row
+                div.form-group
+                  label.control-label.col-sm-2(for='name') Email
+                  div.col-sm-10
+                    input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerEmail", autofocus, placeholder="Enter Full name", disabled)
+
+
+              h4
+                span Ship To:
+
+              div.row
+                div.form-group
                   label.control-label.col-sm-2(for='name') Name
                   div.col-sm-10
                     input.form-control(type="text", name="order.shipto.fullname", id="shipto.fullname",  required, ng-model="order.shipto.fullname", autofocus, placeholder="Enter Full name", disabled)
@@ -40,7 +51,7 @@ section(data-ng-controller='OrderController')
                 div.form-group
                   label.control-label.col-sm-2(for='city') City
                   div.col-sm-10
-                    input.form-control(type="text", name="city", id="city",  ng-model="order.shipto.city", autofocus, required, placeholder="Enter City")
+                    input.form-control(type="text", name="city", id="city",  ng-model="order.shipto.city", autofocus, required, placeholder="Enter City", disabled)
                     span.help-block(ng-cloak="ng-cloak", ng-show="form.city.$dirty && form.city.$error.required") Please enter your city
 
               div.row
@@ -52,23 +63,30 @@ section(data-ng-controller='OrderController')
                 div.form-group
                   label.col-sm-2.control-label(for="country") Country
                   div.col-sm-8
-                    //select(style="width:100%;", name="country", id="country", ui-select2='ui-select2', ng-model="order.shipto.country", data-placeholder="Choose country",disabled)
-                    //  option
-                    //    option(ng-repeat="country in countryData", value="{{country.code}}") {{country.name}}
                     input.form-control(type="text", name="country", id="country",  ng-model="order.shipto.country", autofocus, required, placeholder="Enter Country", disabled)
               div.row
                 div.form-group
                   label.control-label.col-sm-2(for='zipcode') Zipcode
                   div.col-sm-4
                     input.form-control(type="text", maxlength = '10', name="zipcode", id="zipcode", ng-model="order.shipto.zipcode", only-Digits, autofocus, placeholder="Enter zipcode", disabled)
+
         .col-sm-6
           .well.well-lg
-            div.form-group
               div.row
-                h4
-                  span Ship Via    : Air Mail
-                h4
-                  span Payment Mode: {{paymentMode(order.paymentMode)}}
+                div.form-group
+                  label.control-label.col-sm-4(for='name') Ship thru
+                  div.col-sm-8
+                    input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="shipMode", autofocus, placeholder="Ship thru", disabled)
+
+              div.row
+                div.form-group
+                  label.control-label.col-sm-4(for='name') Payment Mode
+                  div.col-sm-8
+                    input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="payment", autofocus, placeholder="Payment mode", disabled)
+
+
+              br
+
               div(collapse='showWU(order.paymentMode)')
                 div.row
                   div.form-group
@@ -86,9 +104,7 @@ section(data-ng-controller='OrderController')
                 div.row
                   label.control-label.col-sm-4(for='cardtype') Card Type
                   div.col-sm-8
-                    select( style="width:100%;",name="pay.cardtype", id="pay.cardtype", ui-select2='ui-select2', ng-model="order.ccdetails.cardtype", data-placeholder="Enter card type", disabled)
-                     option
-                        option(ng-repeat="card in cardData", value="{{card.code}}") {{card.name}}
+                      input.form-control(type="text",maxlength="20", name="cardnum", id="cardnum",  required, ng-model="cardName", autofocus, placeholder="Enter credit/debit card issuer", disabled)
                 div.row
                   div.form-group
                     label.control-label.col-sm-4(for='cardnum') Card Number

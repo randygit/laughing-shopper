@@ -7,28 +7,20 @@ angular.module('mean.system')
         $scope.window = $window;
         $scope.global = Global;
 
-
-
-        $scope.cardData = [
-          {'code': 'MC', name: 'Mastercard'},
-          {'code': 'VISA', name: 'Visa'}
-        ];
-
+        $scope.customerName  = Global.user.name;
+        $scope.customerEmail = Global.user.email;
+        $scope.shipMode = 'Air Mail';
 
         $http.get('/api/shoppingCart/' + Global.user.email).
-            success(function(data, status, headers, config) {
-                // console.log('Shopping Cart items ' + JSON.stringify(data));
+            success(function(data, status, headers, config) { ;
                 $scope.items = data;
 
                 Countries.getData().then(function(countries) {
                     $scope.countryData = countries;
-                    // start
                     data = ShipToService.popItem();
-                    //console.log("Success. back from shipTo.popItem " + JSON.stringify(data));
 
                     if(!data) {
                         console.log("Do not Proceed");
-                        //changeLocation('/shipto');
                     }
                     else {
                         $scope.shipto = data;
@@ -45,6 +37,12 @@ angular.module('mean.system')
                     }
                     else {
                         $scope.proforma = data;
+                        if (angular.equals(data.paymentMode, 'WU')) {
+                            $scope.payment  = 'Western Union';
+                        }
+                        else {
+                            $scope.payment  = 'Credit/Debit Card';
+                        }
                     }
 
 
@@ -61,8 +59,16 @@ angular.module('mean.system')
                         console.log("Do not Proceed");
                     }else {
                         $scope.ccdetails = data;
+                        console.log('CCDetails ' + JSON.stringify(data));
+                        if (angular.equals(data.cardtype,'MC')) {
+                            $scope.cardName = 'MasterCard';
+                        }
+                        if (angular.equals(data.cardtype,'VISA')) {
+                            $scope.cardName = 'VISA';
+                        }
                     }
                     // end
+
 
                 });
 
@@ -113,9 +119,6 @@ angular.module('mean.system')
             var retValue = angular.equals(paymentMode, 'CC');
             return !retValue;
         };
-
-
-
 
         $scope.toTransaction = function() {
             ShipToService.addItem($scope.shipto);
@@ -191,7 +194,7 @@ angular.module('mean.system')
         var saveOrderAndClearCart = function() {
             // will force api/product to redirect
             var order = {
-                    "name": String,
+                    "customerName": String,
                     "orderDate": Date,
                     "orderRef":String,
                     "customerEmail":String,
@@ -251,7 +254,7 @@ angular.module('mean.system')
             order.ccowner   = $scope.ccowner;
             order.items     = $scope.items;   //items.email is redundant
 
-            //order.country = $scope.country;
+            order.country = $scope.country;
 
             // save countryName to order instead of countryCode for less bandwidth req
             order.shipto.country  = $scope.shiptoCountry;
@@ -277,13 +280,13 @@ angular.module('mean.system')
 
             }
             else {
-                order.status    = 3;
+                order.status     = 3;
                 paymentRef.info  = 'Paypal Ref. #666';
                 paymentRef.email = '';
                 paymentRef.date  =  '';
             }
 
-            // order.status     = 0;        // assume cc gateway signals ok
+
             order.paymentRef = paymentRef;
 
             $http.post('/api/order', order).success(function(data) {
@@ -361,28 +364,28 @@ angular.module('mean.system')
             var paymentMode ='';
             var orderMsg = '';
 
-            if (angular.equals(order.paymentMode, 'WU')) {
+            if (angular.equals(shipto.paymentMode, 'WU')) {
                 paymentMode = 'thru Western Union';
                 orderMsg = 'Your order will be processed as soon as you update tropicalmeds.com with a Western Union MTCN';
             }
             else {
-                paymentMode = 'using Credit Card ' + order.cdetails.cardnum;
+                paymentMode = 'using Credit Card ' + shipto.cdetails.cardnum;
                 orderMsg = 'Your order is now being processed';
             }
 
 
             var message = {
                 name: name,
-                email: order.customerEmail,
+                email: shipto.customerEmail,
                 subject: 'Your Order',
                 paymentMode: paymentMode,
                 orderMsg: orderMsg,
-                shipTo: order.shipTo,
-                items: order.items,
-                totalAmount: order.totalAmount,
-                itemCount: order.itemCount,
-                shippingCharges: order.shippingCharges,
-                grandTotal: order.grandTotal,
+                shipTo: shipto.shipTo,
+                items: shipto.items,
+                totalAmount: shipto.totalAmount,
+                itemCount: shipto.itemCount,
+                shippingCharges: shipto.shippingCharges,
+                grandTotal: shipto.grandTotal,
                 shipment: 'using Air Mail'
             };
 
