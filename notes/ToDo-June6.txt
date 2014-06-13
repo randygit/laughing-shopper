@@ -31,6 +31,9 @@ BUGS
 
 17.  http://localhost:3000/font/fontawesome-webfont.woff?v=3.2.1 404 Not found
 
+18. validate enter qtyReadied vs qtyRemaining
+
+
 CODE ORGANIZATION
 -----------------
 1. create folders in /public/view/js/controllers OK
