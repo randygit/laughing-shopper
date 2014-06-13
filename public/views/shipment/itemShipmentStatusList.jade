@@ -6,18 +6,18 @@ section(data-ng-controller='ItemShipmentStatusListController')
         div.row
           div.form-group
             label.control-label.col-sm-2(for='name') Order Date
-            div.col-sm-10
-              input.form-control(type="text", size = "20", name="order.customerName", id="shipto.fullname",  required, ng-model="order.orderDate", autofocus, placeholder="Enter Full name", disabled)
+            div.col-sm-4
+              input.form-control(type="text", maxlength = "20", size="35", name="order.customerName", id="shipto.fullname",  required, ng-model="orderDate", autofocus, placeholder="Enter Full name", disabled)
         div.row
           div.form-group
             label.control-label.col-sm-2(for='name') Name
-            div.col-sm-10
-              input.form-control(type="text", size = "20", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerName", autofocus, placeholder="Enter Full name", disabled)
+            div.col-sm-4
+              input.form-control(type="text",maxlength = "20", size="35", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerName", autofocus, placeholder="Enter Full name", disabled)
         div.row
           div.form-group
             label.control-label.col-sm-2(for='name') Email
-            div.col-sm-10
-              input.form-control(type="text", size = "20", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerEmail", autofocus, placeholder="Enter Full name", disabled)
+            div.col-sm-4
+              input.form-control(type="text",maxlength = "20", size="35", name="order.customerName", id="shipto.fullname",  required, ng-model="order.customerEmail", autofocus, placeholder="Enter Full name", disabled)
         br
         table.table.table-striped.tcartthead
           thead
@@ -42,12 +42,13 @@ section(data-ng-controller='ItemShipmentStatusListController')
               td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
               td
-                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewReadiedItems(order._id)", ng-disabled="form.$invalid",)
                   | View Dock
               td
-                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewShippedItems(order._id)", ng-disabled="form.$invalid",)
                   | View Shipments
         br
         hr
         br
-        //a.btn.btn-warning(href='#!/shop') Proceed to shopping         
+        a.btn.btn-success(href='#!/shipment') Back to Pending Deliveries
+        a.btn.btn-warning(ng-click="createShippingRecord(order)") Create shipping Record         
