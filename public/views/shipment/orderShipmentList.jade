@@ -3,6 +3,15 @@ section(data-ng-controller='OrderShipmentListController')
     .row
         h3
           span.introcolor Orders with pending shipment
+        ul.list-inline
+          li(ng-if='orders.length == 0') You have no orders.
+          li(ng-if='orders.length == 1') You have {{ orders.length }} order.
+          li(ng-if='orders.length > 1') You have {{ orders.length }} orders.
+          li
+            .input-prepend
+              span.add-on
+                i.glyphicon.glyphicon-search
+              input#inputIcon.span2(type='text', placeholder='Search...', ng-model='query')
 
         table.table.table-striped.tcartthead
           thead
@@ -17,7 +26,7 @@ section(data-ng-controller='OrderShipmentListController')
               th.align_right Qty unshipped
               th Options
           tbody
-            tr(ng-repeat='order in orders | orderBy:columnSort.sortColumn:columnSort.reverse')
+            tr(ng-repeat='order in orders | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
               td.align_right {{$index+1}}
               td {{order.orderDate | date:'MMM-dd-yyyy'}}
               td {{order.customerName}}
@@ -27,7 +36,7 @@ section(data-ng-controller='OrderShipmentListController')
               td.align_right {{order.qtyShipped| customCurrency:"":".":",":0}}
               td.align_right {{qtyRemaining(order.itemCount, order.qtyShipped) | customCurrency:"":".":",":0}}
               td
-                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewItemShipmentStatusList(order)", ng-disabled="form.$invalid",)
                   | View Shipments
               td
                 a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
