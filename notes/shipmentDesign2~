@@ -1,0 +1,93 @@
+Shipment Design #2, June 13
+
+1. orders should have items[], readiedItems[], shippedItems[], this is akin to inventory
+   might need QtyRemaining = ItemCount - itemShipped for selecting , same as inventory.qty which is being
+   decremented everytime there a shoppingcart record and final order
+
+2. shippingDock will have readiedItems[], this is akin to shopping cart
+3. shipment will have shippedItems[],     this is akin to order
+
+UI FOR SHIPPER (PENDING ORDERS)
+1. View order status list,
+   order Date, customerName, ItemCount,qtyReadied,qtyShipped,qtyRemaining
+   sort by order Date, search by customer name, email, status = 3, qtyRemaining > 0
+   1a. View Order Record
+   1b. View Shipment Status list (see #2)
+
+2. View shipment status list for given orderID)
+   (manufacturersName, genericName, Packaging, Qtyordered, Qtyreadied, Qtyshipped, QtyRemaining)
+   2a. Create readied Record
+   2b. View readied list by clicking on qtyReadied (see#3)
+   2b. View shipped list by clicking on qtyShipped (see#4)
+
+3. View readied list for given orderID
+   3a. View readied Record
+       3a1. Create readied Record ** duplicate above
+       3a2. Cancel readied Record
+       3a3. Save updated readied Record, log in order
+       3a3. Print readied Record
+       3a4. Ship this record, log in order, send email
+
+4. View shipped list for given orderID
+   4a. View shipped Record
+       4a1. Cancel shipment record, log in order.log
+       4a2. Print shipping record
+
+UI FOR SHIPPER (FINAL ORDERS)
+1. view shipment list order by date, search by customer name, email, qtyRemaining = 0, including cancelled ship
+   1a. view Order record
+   1b. view shipment record
+       1b1. Cancel shipment record (lost in mail, for reshipment) log in order
+
+
+
+
+===
+
+FOR CUSTOMER
+1. view orders with pending shipments (PENDING)
+   1a. view order record without logs
+2. view orders that are fully shipped (HISTORICAL)
+   2a. view order record with logs
+3. view medicines order
+   3a. view order status
+
+
+CUSTOMER SUPPORT
+1. view all customers
+
+    1. View order status list for customer
+       order Date, customerName, ItemCount,qtyReadied,qtyShipped,qtyRemaining
+       sort by order Date, search by customer name, email, status = 3, qtyRemaining > 0
+       1a. View Order Record
+       1b. View Shipment Status list (see #2)
+
+    2. View shipment status list for given orderID)
+       (manufacturersName, genericName, Packaging, Qtyordered, Qtyreadied, Qtyshipped, QtyRemaining)
+       2b. View readied list by clicking on qtyReadied (see#3)
+       2b. View shipped list by clicking on qtyShipped (see#4)
+
+    3. View readied list for given orderID
+       3a. View readied Record, including cancelled
+
+    4. View shipped list for given orderID
+       4a. View shipped Record, including cancelled
+
+5. log concerns in order, user.logs
+
+ADMIN
+1. view all orders, status, search by customer Name, orderDate
+   1. view all orders by customerName, email
+       1a. view order Record
+       1b. view shipment status list (see #2)
+
+    2. View shipment status list for given orderID
+       (ordered, readied, shipped, pulldown readied list, pulldown shipment list)
+
+    3. View readied list for given orderID
+       3a. View readied Record
+
+    4. View shipped list for given orderID
+       4a. View shipped Record
+
+Cancel this Order

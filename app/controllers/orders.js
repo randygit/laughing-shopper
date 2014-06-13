@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
-    Order = mongoose.model('Order20');
+    Order = mongoose.model('Order22');
 
 /**
  * Auth callback. what is this here
@@ -315,6 +315,7 @@ exports.add = function(req,res) {
         "itemCount": {type:Number},
         "qtyReadied":{type:Number},
         "qtyShipped":{type:Number},
+        "qtyRemaining":{type:Number},
         "totalAmount": {type:Number}, // had to explicitly do {type:date} else cast error on numbers
         "shippingCharges":{type:Number},
         "grandTotal": {type:Number},
@@ -358,6 +359,7 @@ exports.add = function(req,res) {
     // for shipment
     order.qtyReadied = 0;
     order.qtyShipped = 0;
+    order.qtyRemaining = req.body.itemCount;
 
 
     // order.items           = req.body.items; but populate first
@@ -374,6 +376,7 @@ exports.add = function(req,res) {
             'qty':req.body.items[i].qty,
             'qtyReadied': 0,
             'qtyShipped': 0,
+            'qtyReamining':req.body.items[i].qty,
             'unitPrice':req.body.items[i].unitPrice,
             'subTotal':req.body.items[i].subTotal
         });

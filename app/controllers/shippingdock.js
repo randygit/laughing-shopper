@@ -4,20 +4,20 @@
 var mongoose = require('mongoose'),
     async = require('async'),
     _ = require('underscore'),
-    mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order22');
     Shipment = mongoose.model('Shipment4');
+    ShippingDock = mongoose.model('ShippingDock1');
 
     events:
-    0. create record (by shippingDock)  shipmentQty <= order.ItemsCount - order.QtyShipped
-    1. view all shipment for given orderId
-    2. view all shipment for given email
-    3. view all shipments
-    4. cancel this shipment
-    5. print DR
-    6. email customer again??
+    0. create shippingDock record
+    1. view all shippingDock record for a particular orderID
+    2. view all shippingDock records
+    3. cancel shippingDock record
+    4. delete an item
+    5. save changes product.qty <= itemsOrdered - itemsShipped - itemsReadied
+    6. ship this record, email customer
 
 
 /*

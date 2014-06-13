@@ -1,5 +1,13 @@
 /**
  * Module dependencies.
+  STATUS
+  0 - awaiting payment
+  1 - mtcn entered, needs verification
+  2 -
+  3 - payment made/verified, ready for shipment,
+  4 - partial shipment done ? could be 3          // not necessary
+  5 - final shipment done                         // not necessary
+  9 - cancelled
  */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
@@ -17,6 +25,7 @@ var OrderSchema = new Schema({
         "itemCount": Number,
         "qtyReadied": Number,
         "qtyShipped": Number,
+        "qtyRemaing": Number,
         "totalAmount": Number,
         "shippingCharges": Number,
         "grandTotal": Number,
@@ -33,15 +42,21 @@ var OrderSchema = new Schema({
                   "qty": Number,
                   "qtyReadied": Number,
                   "qtyShipped": Number,
+                  "qtyRemaining": Number,
                   "subTotal": Number
                   }],
          "status":Number,
          "paymentRef":  {"info": String, "email": String, "date": Date},
          "verifiedBy":  {"info": String, "email": String, "date": Date, "amount": Number},
-         "shipment": [{
-                        "shipmentId": Schema.Types.ObjectId,
+         "readied": [{
+                        "readiedId": Schema.Types.ObjectId,
                         "productId":  Schema.Types.ObjectId,
                         "qtyReadied": Number,
+                        "timestamp": Date
+                      }],
+         "shipped": [{
+                        "shipmentId": Schema.Types.ObjectId,
+                        "productId":  Schema.Types.ObjectId,
                         "qtyShipped": Number,
                         "timestamp": Date
                       }],
@@ -49,4 +64,4 @@ var OrderSchema = new Schema({
          "log": [{"email": String, "date": Date, "comment": String}]
 });
 
-mongoose.model('Order21', OrderSchema);
+mongoose.model('Order22', OrderSchema);
