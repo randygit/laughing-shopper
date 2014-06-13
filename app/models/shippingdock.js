@@ -27,4 +27,4 @@ var ShippingDockSchema = new Schema({
         "log": [{"email": String, "activity": String, "date": Date, "comment": String}]  //should be in order
 });
 
-mongoose.model('ShippingDock1', ShipmentSchema);
+mongoose.model('ShippingDock2', ShippingDockSchema);

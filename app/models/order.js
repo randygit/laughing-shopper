@@ -25,7 +25,7 @@ var OrderSchema = new Schema({
         "itemCount": Number,
         "qtyReadied": Number,
         "qtyShipped": Number,
-        "qtyRemaing": Number,
+        "qtyRemaining": Number,
         "totalAmount": Number,
         "shippingCharges": Number,
         "grandTotal": Number,
@@ -64,4 +64,4 @@ var OrderSchema = new Schema({
          "log": [{"email": String, "date": Date, "comment": String}]
 });
 
-mongoose.model('Order22', OrderSchema);
+mongoose.model('Order24', OrderSchema);

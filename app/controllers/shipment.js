@@ -1,14 +1,5 @@
 /**
  * Module dependencies.
- */
-var mongoose = require('mongoose'),
-    async = require('async'),
-    _ = require('underscore'),
-    mailer = require('../../config/mailer'),
-    Schema = mongoose.Schema,
-
-    Order = mongoose.model('Order22');
-    Shipment = mongoose.model('Shipment4');
 
     events:
     0. create record (by shippingDock)  shipmentQty <= order.ItemsCount - order.QtyShipped
@@ -18,6 +9,16 @@ var mongoose = require('mongoose'),
     4. cancel this shipment
     5. print DR
     6. email customer again??
+
+ */
+var mongoose = require('mongoose'),
+    async = require('async'),
+    _ = require('underscore'),
+    mailer = require('../../config/mailer'),
+    Schema = mongoose.Schema,
+
+    Order = mongoose.model('Order24');
+    Shipment = mongoose.model('Shipment4');
 
 
 /*

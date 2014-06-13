@@ -1,37 +1,31 @@
 
-angular.module('mean.roles').controller('OrderShipmentListController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal', 'OrderService', function ($scope, $location, $route, Global, $window, $http, $modal,  OrderService ) {
+angular.module('mean.roles').controller('OrderShipmentListController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal', 'OrderService', 'Basket', function ($scope, $location, $route, Global, $window, $http, $modal,  OrderService, Basket ) {
 
     $scope.window = $window;
     $scope.global = Global;
 
 
-    console.log('Initialize in OrderShipmentListController ');
-
     email = '*';
     status = 3;
 
-    $http.get('/api/orderShipment/' + email + '/' + status).
+    //$http.get('/api/orderShipment/' + email + '/' + status).
+    $http.get('/api/pendingShipment').
       success(function(data, status, headers, config) {
-            //console.log('orderShipment ' + JSON.stringify(data));
             $scope.orders = data;
-
     });
 
 
+    $scope.viewItemShipmentStatusList = function(order) {
+        // might have to pass orderID so the itemShipmentStatusList can automatically refresh
 
+        Basket.addItem(order);
+        changeLocation('/itemShipmentStatusList');
+    };
 
-
-     // handle view transaction
+    // handle view transaction
     $scope.viewOrder = function(orderId) {
-
-        console.log('order Id to view ' + orderId);
-        // pass orderId to service
         OrderService.addOrderId(orderId);
-
-        // changeLocation to ('/order') which has a controller that gets the orderId from a service
-
         changeLocation('/orderDetails');
-
     };
 
     $scope.qtyRemaining = function(itemCount,qtyShipped) {

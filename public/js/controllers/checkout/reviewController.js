@@ -2,8 +2,6 @@
 angular.module('mean.system')
     .controller('ReviewController', ['$scope', '$http','$location','$route','$parse', '$window','Global', 'Countries', 'ShipToService', 'ProformaService', 'CcOwnerService', 'CcDetailsService', function ($scope, $http, $location, $route, $parse,  $window, Global, Countries, ShipToService, ProformaService, CcOwnerService, CcDetailsService) {
 
-        //var mailer = require('../../../config/mailer');
-
         $scope.window = $window;
         $scope.global = Global;
 
@@ -12,7 +10,7 @@ angular.module('mean.system')
         $scope.shipMode = 'Air Mail';
 
         $http.get('/api/shoppingCart/' + Global.user.email).
-            success(function(data, status, headers, config) { ;
+            success(function(data, status, headers, config) {
                 $scope.items = data;
 
                 Countries.getData().then(function(countries) {

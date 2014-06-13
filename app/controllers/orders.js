@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
-    Order = mongoose.model('Order22');
+    Order = mongoose.model('Order24');
 
 /**
  * Auth callback. what is this here
@@ -331,6 +331,7 @@ exports.add = function(req,res) {
                   qty: {Type:Number},
                   qtyReadied: {Type:Number},
                   qtyShipped: {Type:Number},
+                  qtyRemaining: {Type:Number},
                   subTotal: {Type:Number}
                   }],
          "paymentRef":  {"info": String, "email": String, "date": {Type:Date}},
@@ -376,7 +377,7 @@ exports.add = function(req,res) {
             'qty':req.body.items[i].qty,
             'qtyReadied': 0,
             'qtyShipped': 0,
-            'qtyReamining':req.body.items[i].qty,
+            'qtyRemaining':req.body.items[i].qty,
             'unitPrice':req.body.items[i].unitPrice,
             'subTotal':req.body.items[i].subTotal
         });
@@ -407,7 +408,41 @@ exports.shipment = function(req,res) {
     // dont know how to select where email = "*"
 
     Order.find({ 'status': req.params.status},
-        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1 },
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
+        {sort: {orderDate: 1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders');
+                res.redirect('/');
+            }
+    });
+};
+
+exports.pendingShipment = function(req,res) {
+
+    Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
+        {sort: {orderDate: 1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders');
+                res.redirect('/');
+            }
+    });
+};
+
+exports.finalShipment = function(req,res) {
+
+    Order.find({ 'status': 3, 'qtyRemaining': 0},
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
         {sort: {orderDate: 1}},
         function(err,orders) {
             if(!err) {

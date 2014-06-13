@@ -210,6 +210,8 @@ module.exports = function(app, passport, auth) {
     app.put('/api/verifyWuOrder/:id', order.verifyWuOrder);
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
     app.get('/api/orderShipment/:email/:status', order.shipment);       // for all outstanding, for an email and
+    app.get('/api/pendingShipment', order.pendingShipment);       // for all outstanding, for an email and
+    app.get('/api/finalShipment', order.finalShipment);       // for all outstanding, for an email and
 
     // shipments
     var shipment = require('../app/controllers/shipment');

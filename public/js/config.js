@@ -70,6 +70,12 @@ window.app.config(['$routeProvider',
         when('/orderDetails', {
             templateUrl: 'views/shipment/orderDetails.html'
         }).
+        when('/itemShipmentStatusList', {
+            templateUrl: 'views/shipment/itemShipmentStatusList.html'
+        }).
+        when('/shippingRecord', {
+            templateUrl: 'views/shipment/shippingRecord.html'
+        }).
         when('/', {
             templateUrl: 'views/index.html'
         }).

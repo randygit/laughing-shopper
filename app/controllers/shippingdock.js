@@ -1,16 +1,6 @@
 /**
  * Module dependencies.
- */
-var mongoose = require('mongoose'),
-    async = require('async'),
-    _ = require('underscore'),
-    Schema = mongoose.Schema,
-
-    Order = mongoose.model('Order22');
-    Shipment = mongoose.model('Shipment4');
-    ShippingDock = mongoose.model('ShippingDock1');
-
-    events:
+  events:
     0. create shippingDock record
     1. view all shippingDock record for a particular orderID
     2. view all shippingDock records
@@ -18,6 +8,17 @@ var mongoose = require('mongoose'),
     4. delete an item
     5. save changes product.qty <= itemsOrdered - itemsShipped - itemsReadied
     6. ship this record, email customer
+
+ */
+var mongoose = require('mongoose'),
+    async = require('async'),
+    _ = require('underscore'),
+    Schema = mongoose.Schema,
+
+    Order = mongoose.model('Order24');
+    Shipment = mongoose.model('Shipment4');
+    ShippingDock = mongoose.model('ShippingDock2');
+
 
 
 /*
