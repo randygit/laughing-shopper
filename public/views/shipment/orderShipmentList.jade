@@ -19,7 +19,7 @@ section(data-ng-controller='OrderShipmentListController')
               th.align_right #
               th Order Date
               th Name
-              th Email
+              th Destination
               th.align_right Qty ordered
               th.align_right Qty readied
               th.align_right Qty shipped
@@ -30,13 +30,13 @@ section(data-ng-controller='OrderShipmentListController')
               td.align_right {{$index+1}}
               td {{order.orderDate | date:'MMM-dd-yyyy'}}
               td {{order.customerName}}
-              td {{order.customerEmail}}
+              td {{order.shipto.country}}
               td.align_right {{order.itemCount | customCurrency:"":".":",":0}}
               td.align_right {{order.qtyReadied | customCurrency:"":".":",":0}}
               td.align_right {{order.qtyShipped| customCurrency:"":".":",":0}}
               td.align_right {{qtyRemaining(order.itemCount, order.qtyShipped) | customCurrency:"":".":",":0}}
               td
-                a.href(ng-click="viewItemShipmentStatusList(order)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewItemShipmentStatusList(order._id)", ng-disabled="form.$invalid",)
                   | View Shipments
               td
                 a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)

@@ -47,19 +47,21 @@ angular.module('mean.system')
 
                 var proformaData = {
                     paymentMode: String,
-                    shippingCharges: Number
+                    shippingCharges: Number,
+                    shippingMode: String
                 };
 
                 data = ProformaService.popItem();
-                //console.log("Success. back from proforma.popItem " + JSON.stringify(data));
-
                 if(!data) {
                     // get data from mongodb
                     shippingCharges = 17.95;
+                    shippingMode = 'Air Mail';
 
                     // initialize proformData
                     proformaData.paymentMode     = 'WU';
                     proformaData.shippingCharges = shippingCharges;
+                    proformaData.shippingMode = shippingMode;
+
 
                     // save to scope so we can access it later
                     $scope.shippingCharges = shippingCharges;

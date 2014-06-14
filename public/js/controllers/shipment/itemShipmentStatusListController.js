@@ -5,20 +5,44 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
     $scope.window = $window;
     $scope.global = Global;
 
-    $scope.order = Basket.popItem();
-    //console.log('ItemShipmentStatus' + JSON.stringify($scope.order));
+    orderId = OrderService.getOrderId();
 
-    var pDate = new Date($scope.order.orderDate);
-    $scope.orderDate = pDate.toDateString();
+    $http.get('/api/order/' + orderId).
+      success(function(order, status, headers, config) {
+        $scope.order = order;
+
+        var pDate = new Date($scope.order.orderDate);
+        $scope.orderDate = pDate.toDateString();
+
+        var totQty       = 0;
+        var totReadied   = 0;
+        var totShipped   = 0;
+        var totRemaining = 0;
+
+        angular.forEach(items, function(item) {
+            totalQty          += item.qty;
+            totalReadied      += item.qtyReadied;
+            totalQtyShipped   += item.qtyShipped;
+            totalQtyRemaining += item.qtyRemaining;
+        });
+        $scope.totQty       = totQty;
+        $scope.totReadied   = totReadied;
+        $scope.totShipped   = totShipped;
+        $scope.totRemaining = totRemaining;
+    });
 
     // handle view transaction
-    $scope.viewReadiedItems = function(orderId) {
-        OrderService.addOrderId(orderId);
+    $scope.viewReadiedItems = function(order) {
+        // or use Basket
+        Basket.addItem(order);
+        //OrderService.addOrderId(orderId);
         changeLocation('/readiedItems');
     };
 
-    $scope.shippedItems = function(orderId) {
-        OrderService.addOrderId(orderId);
+    $scope.shippedItems = function(order) {
+        // or use Basket
+        Basket.addItem(order);
+        //OrderService.addOrderId(orderId);
         changeLocation('/shippedItems');
     };
 

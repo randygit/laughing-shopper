@@ -35,7 +35,7 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
         }
 
 
-        $scope.shipMode = 'Air Mail';
+        //$scope.shipMode = 'Air Mail';
         if (angular.equals(order.paymentMode, 'WU')) {
             $scope.payment  = 'Western Union';
         }

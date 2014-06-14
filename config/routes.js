@@ -210,31 +210,16 @@ module.exports = function(app, passport, auth) {
     app.put('/api/verifyWuOrder/:id', order.verifyWuOrder);
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
     app.get('/api/orderShipment/:email/:status', order.shipment);       // for all outstanding, for an email and
-    app.get('/api/pendingShipment', order.pendingShipment);       // for all outstanding, for an email and
-    app.get('/api/finalShipment', order.finalShipment);       // for all outstanding, for an email and
+    app.get('/api/packingList', order.packList);
+    app.get('/api/postedShipment', order.postedShipment);
+
+    // packingLists
+    var packingList = require('../app/controlers/packingList');
+    app.post('/api/packingList', packingList.add);                    // add shipmentList and update Order
 
     // shipments
     var shipment = require('../app/controllers/shipment');
     //app.get('/api/shipment/:email/:status', shipment.shipments);      // get all items
-
-
-    /*
-    1. add order
-    WU
-    2. get all orders with paymentMode = 'WU' for a given email
-    3. get count of all orders with paymentMode = 'WU' for a given email
-    4. update order with payment Reference for given _id
-    5. verify order with for given_id
-    */
-    /*
-    app.get('/api/getOrders', order.list)             // get all orders
-                                                      // get all unshipped orders
-                                                      // get all orders for email
-    app.put('/api/addPayRef/:id', order.payRef);      // update order with pay ref
-    app.put('/api/verifyPayRef/:id', order.verifyPayRef); // update order with payment verification
-    app.put('/api/cancelOrder/:id', order.cancel);        // cancel order
-    app.post('/api/addShipment/:id', order.shipOrder);    // ship full/partial
-    */
 
 
     //Home route

@@ -11,13 +11,39 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
     $scope.orderDate = pDate.toDateString();
 
     // handle view transaction
-    $scope.cancel = function(order) {
-        Basket.addItem(order);
+    $scope.cancel = function(orderId) {
+        OrderService.addOrderId(orderId);
         changeLocation('/itemShipmentStatusList');
     };
 
-    $scope.save = function(order,shippingRecord) {
+    $scope.save = function(orderId,shippingRecord) {
         //console.log('Saving shipping Record' + JSON.stringify(shippingRecord));
+
+        var packingList =  {
+            "orderId": Schema.Types.ObjectId,
+            "qtyReadied": Number,
+            "items": [{
+                productId: Schema.Types.ObjectId,
+                manufacturersName: String,
+                genericName: String,
+                packaging: String,
+                qtyReadied: Number,
+                qtyShipped: Number
+            }],
+            "status": Number,       // 0 ok 9 -cancelled
+            "modifiedBy":   {"info": String, "email": String, "date": Date}
+          };
+
+        var modifiedBy = {
+            info: String,
+            email: String,
+            date: Date
+        };
+
+        modifiedBy.info = 'Created by';
+        modifiedBy.email = Global.user.email;
+        modifiedBy.date  = Date.now();
+
 
         totQtyReadied = 0;
         for(i=0;i<shippingRecord.items.length; i++) {
@@ -31,11 +57,23 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
             );
         }
 
-        console.log('Total Qty Readied ' + totQtyReadied);
+        packingList.orderId    = ShippingRecord._id;
+        packingList.qtyReadied = totQtyReadied;
+        packingList.status     = 0;
+        packingList.items      = shippingRecord.items;
+        packingList.modifiedBy = modifiedBy;
 
-        Basket.addItem(order);
-        // itemShipmentStatus List most update ites Record..
-        changeLocation('/itemShipmentStatusList');
+        $http.post('/api/packingList', packingList).success(function(data) {
+
+            console.log("Success. adding record at /api/packingList");
+            OrderService.addOrderId(orderId);
+            changeLocation('/itemShipmentStatusList');
+
+        })
+        .error(function(data) {
+                console.log("Error. adding record at /api/packingList");
+                $route.reload();
+        });
     };
 
 

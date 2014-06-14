@@ -42,11 +42,22 @@ section(data-ng-controller='ItemShipmentStatusListController')
               td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
               td
-                a.href(ng-click="viewReadiedItems(order._id)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewReadiedItems(order)", ng-disabled="form.$invalid",)
                   | View Dock
               td
-                a.href(ng-click="viewShippedItems(order._id)", ng-disabled="form.$invalid",)
+                a.href(ng-click="viewShippedItems(order)", ng-disabled="form.$invalid",)
                   | View Shipments
+          tfoot
+            tr
+              td
+              td
+              td Subtotal:
+              td
+              td.align_right {{totQty       | customCurrency:"":".":",":0}}
+              td.align_right {{totReadied   | customCurrency:"":".":",":0}}
+              td.align_right {{totShipped   | customCurrency:"":".":",":0}}
+              td.align_right {{totRemaining | customCurrency:"":".":",":0}}
+            tr
         br
         hr
         br

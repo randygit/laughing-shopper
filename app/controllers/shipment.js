@@ -17,7 +17,7 @@ var mongoose = require('mongoose'),
     mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
-    Order = mongoose.model('Order24');
+    Order = mongoose.model('Order26');
     Shipment = mongoose.model('Shipment4');
 
 

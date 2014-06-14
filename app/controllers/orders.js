@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     mailer = require('../../config/mailer'),
     Schema = mongoose.Schema,
 
-    Order = mongoose.model('Order24');
+    Order = mongoose.model('Order26');
 
 /**
  * Auth callback. what is this here
@@ -336,6 +336,7 @@ exports.add = function(req,res) {
                   }],
          "paymentRef":  {"info": String, "email": String, "date": {Type:Date}},
          "status":{type:Number},
+         "shippingMode": String,
          "log": [{"email": String, "date": {Type:Date}, "comment": String}]
     });
 
@@ -351,9 +352,12 @@ exports.add = function(req,res) {
     order.grandTotal      = req.body.grandTotal;
     order.ccdetails       = req.body.ccdetails;
     order.paymentRef      = req.body.paymentRef;
+    order.shippingMode    = req.body.shippingMode;
 
     order.ccowner         = req.body.ccowner;
     order.status          = req.body.status;
+
+    order.shippingMode    = req.body.shippingMode;
 
     order.log = req.body.log;
 
@@ -401,28 +405,8 @@ exports.add = function(req,res) {
 
 };
 
-exports.shipment = function(req,res) {
-    //console.log('Email  '  + req.params.email);
-    //console.log('Status ' + req.params.status);
 
-    // dont know how to select where email = "*"
-
-    Order.find({ 'status': req.params.status},
-        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
-        {sort: {orderDate: 1}},
-        function(err,orders) {
-            if(!err) {
-                //console.log('Orders ' + JSON.stringify(orders));
-                res.json(orders);
-            }
-            else {
-                console.log('Error in orders');
-                res.redirect('/');
-            }
-    });
-};
-
-exports.pendingShipment = function(req,res) {
+exports.packingList = function(req,res) {
 
     Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
         {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
@@ -439,7 +423,7 @@ exports.pendingShipment = function(req,res) {
     });
 };
 
-exports.finalShipment = function(req,res) {
+exports.postedShipment = function(req,res) {
 
     Order.find({ 'status': 3, 'qtyRemaining': 0},
         {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
@@ -510,7 +494,7 @@ var sendConfirmOrderEmail = function(req, order) {
         itemCount: itemCount,
         shippingCharges: shippingCharges,
         grandTotal: grandTotal,
-        shipment: 'Air Mail',
+        shipment: order.shippingMode,
         supportURL: req.protocol + "://" + req.get('host') + "/support"
     };
 
@@ -565,7 +549,7 @@ var sendMtcnEmail = function(req, order, subject, template) {
         itemCount: itemCount,
         shippingCharges: shippingCharges,
         grandTotal: grandTotal,
-        shipment: 'Air Mail',
+        shipment: order.shippingMode,
         supportURL: req.protocol + "://" + req.get('host') + "/support"
     };
 

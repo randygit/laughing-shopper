@@ -48,20 +48,29 @@ var OrderSchema = new Schema({
          "status":Number,
          "paymentRef":  {"info": String, "email": String, "date": Date},
          "verifiedBy":  {"info": String, "email": String, "date": Date, "amount": Number},
+         "shippingMode": String,
          "readied": [{
                         "readiedId": Schema.Types.ObjectId,
                         "productId":  Schema.Types.ObjectId,
+                        "manufacturersName": String,
+                        "genericName": String,
+                        "packaging": String,
                         "qtyReadied": Number,
+                        "shippingClerk": String,
                         "timestamp": Date
                       }],
          "shipped": [{
                         "shipmentId": Schema.Types.ObjectId,
                         "productId":  Schema.Types.ObjectId,
+                        "manufacturersName": String,
+                        "genericName": String,
+                        "packaging": String,
                         "qtyShipped": Number,
+                        "shippingClerk": String,
                         "timestamp": Date
                       }],
          "cancelledBy": {"info": String, "email": String, "date": Date},
          "log": [{"email": String, "date": Date, "comment": String}]
 });
 
-mongoose.model('Order24', OrderSchema);
+mongoose.model('Order26', OrderSchema);

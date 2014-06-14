@@ -7,7 +7,7 @@ angular.module('mean.system')
 
         $scope.customerName  = Global.user.name;
         $scope.customerEmail = Global.user.email;
-        $scope.shipMode = 'Air Mail';
+        //$scope.shipMode = 'Air Mail';
 
         $http.get('/api/shoppingCart/' + Global.user.email).
             success(function(data, status, headers, config) {
@@ -221,6 +221,7 @@ angular.module('mean.system')
                      "status":Number,
                      "paymentRef":  {"info": String, "email": String, "date": Date},
                      "verifiedBy":  {"info": String, "email": String, "date": Date},
+                     "shippingMode": String,
                      "cancelledBy": {"info": String, "email": String, "date": Date},
                      "log":[{email:String, comment: String, date: Date}],
                      "shipment": [{
@@ -286,6 +287,7 @@ angular.module('mean.system')
 
 
             order.paymentRef = paymentRef;
+            order.shippingMode = $scope.proforma.shippingMode;
 
             $http.post('/api/order', order).success(function(data) {
 

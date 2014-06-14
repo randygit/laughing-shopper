@@ -1,24 +1,20 @@
 
-angular.module('mean.roles').controller('OrderShipmentListController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal', 'OrderService', 'Basket', function ($scope, $location, $route, Global, $window, $http, $modal,  OrderService, Basket ) {
+angular.module('mean.roles').controller('OrderShipmentListController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal', 'OrderService',   function ($scope, $location, $route, Global, $window, $http, $modal,  OrderService ) {
 
     $scope.window = $window;
     $scope.global = Global;
 
-
-    email = '*';
-    status = 3;
-
-    //$http.get('/api/orderShipment/' + email + '/' + status).
-    $http.get('/api/pendingShipment').
+    // status =3 and qtyRemaining gte 1
+    $http.get('/api/packingList').
       success(function(data, status, headers, config) {
             $scope.orders = data;
     });
 
 
-    $scope.viewItemShipmentStatusList = function(order) {
+    $scope.viewItemShipmentStatusList = function(orderId) {
         // might have to pass orderID so the itemShipmentStatusList can automatically refresh
 
-        Basket.addItem(order);
+        OrderService.addOrderId(orderId);
         changeLocation('/itemShipmentStatusList');
     };
 
