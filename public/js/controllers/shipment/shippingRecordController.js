@@ -6,10 +6,42 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
 
     $scope.order = Basket.popItem();
     $scope.shippingRecord = angular.copy($scope.order);
+    //console.log('ORder' + JSON.stringify($scope.order));
 
     var pDate = new Date($scope.shippingRecord.orderDate);
     $scope.orderDate = pDate.toDateString();
 
+    var totQty       = 0;
+    //var totReadied   = 0;
+    var totShipped   = 0;
+    var totRemaining = 0;
+
+    angular.forEach($scope.order.items, function(item) {
+        totQty       += item.qty;
+        //totReadied   += item.qtyReadied;
+        totShipped   += item.qtyShipped;
+        totRemaining += item.qtyRemaining;
+    });
+    $scope.totQty       = totQty;
+    //$scope.totReadied   = totReadied;
+    $scope.totShipped   = totShipped;
+    $scope.totRemaining = totRemaining;
+
+    $scope.totalQtyReadied =function() {
+        var total = 0;
+        angular.forEach($scope.shippingRecord.items, function(item) {
+            total += item.qtyReadied;
+        });
+        return total;
+    };
+
+    $scope.totalQtyShipped =function() {
+        var total = 0;
+        angular.forEach($scope.shippingRecord.items, function(item) {
+            total += item.qtyShipped;
+        });
+        return total;
+    };
     // handle view transaction
     $scope.cancel = function(orderId) {
         OrderService.addOrderId(orderId);
@@ -20,10 +52,10 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
         //console.log('Saving shipping Record' + JSON.stringify(shippingRecord));
 
         var packingList =  {
-            "orderId": Schema.Types.ObjectId,
+            "orderId": String,
             "qtyReadied": Number,
             "items": [{
-                productId: Schema.Types.ObjectId,
+                productId: String,
                 manufacturersName: String,
                 genericName: String,
                 packaging: String,
@@ -48,16 +80,9 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
         totQtyReadied = 0;
         for(i=0;i<shippingRecord.items.length; i++) {
             totQtyReadied = totQtyReadied + shippingRecord.items[i].qtyReadied;
-
-            console.log(shippingRecord.items[i].manufacturersName + ' ' +
-                        shippingRecord.items[i].qty + ' ' +
-                        shippingRecord.items[i].qtyReadied + ' ' +
-                        shippingRecord.items[i].qtyShipped + ' ' +
-                        shippingRecord.items[i].qtyRemaining + ' '
-            );
         }
 
-        packingList.orderId    = ShippingRecord._id;
+        packingList.orderId    = orderId;
         packingList.qtyReadied = totQtyReadied;
         packingList.status     = 0;
         packingList.items      = shippingRecord.items;

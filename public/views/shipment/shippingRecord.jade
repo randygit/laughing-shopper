@@ -30,7 +30,6 @@ section(data-ng-controller='ShippingRecordController')
               th.align_right Qty readied
               th.align_right Qty shipped
               th.align_right Qty unshipped
-              th Options
           tbody
             tr(ng-repeat='item in shippingRecord.items | orderBy:columnSort.sortColumn:columnSort.reverse')
               td.align_right {{$index+1}}
@@ -42,6 +41,17 @@ section(data-ng-controller='ShippingRecordController')
                 input.align_right.input-mini(style='width:5em' ,type = 'number', min = 0, ng-model = 'item.qtyReadied')
               td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
+          tfoot
+              td
+              td
+              td Total
+              td
+              td.align_right {{totQty          | customCurrency:"":".":",":0}}
+              td
+                  input.align_right.print-clean.input-mini(style='width:5em' ,type = 'number', min = 0, value = '{{totalQtyReadied() }}', disabled)
+              td.align_right {{totShipped   | customCurrency:"":".":",":0}}
+              td.align_right {{totRemaining | customCurrency:"":".":",":0}}
+
         br
         hr
         br

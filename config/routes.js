@@ -209,12 +209,11 @@ module.exports = function(app, passport, auth) {
     app.get('/api/verifyWuOrders', order.verifyWuOrders);
     app.put('/api/verifyWuOrder/:id', order.verifyWuOrder);
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
-    app.get('/api/orderShipment/:email/:status', order.shipment);       // for all outstanding, for an email and
-    app.get('/api/packingList', order.packList);
+    app.get('/api/packingList', order.packingList);
     app.get('/api/postedShipment', order.postedShipment);
 
     // packingLists
-    var packingList = require('../app/controlers/packingList');
+    var packingList = require('../app/controllers/packingList');
     app.post('/api/packingList', packingList.add);                    // add shipmentList and update Order
 
     // shipments

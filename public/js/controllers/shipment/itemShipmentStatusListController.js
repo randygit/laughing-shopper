@@ -19,16 +19,17 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         var totShipped   = 0;
         var totRemaining = 0;
 
-        angular.forEach(items, function(item) {
-            totalQty          += item.qty;
-            totalReadied      += item.qtyReadied;
-            totalQtyShipped   += item.qtyShipped;
-            totalQtyRemaining += item.qtyRemaining;
+        angular.forEach($scope.order.items, function(item) {
+            totQty       += item.qty;
+            totReadied   += item.qtyReadied;
+            totShipped   += item.qtyShipped;
+            totRemaining += item.qtyRemaining;
         });
         $scope.totQty       = totQty;
         $scope.totReadied   = totReadied;
         $scope.totShipped   = totShipped;
         $scope.totRemaining = totRemaining;
+
     });
 
     // handle view transaction

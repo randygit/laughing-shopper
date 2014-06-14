@@ -43,10 +43,10 @@ section(data-ng-controller='ItemShipmentStatusListController')
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
               td
                 a.href(ng-click="viewReadiedItems(order)", ng-disabled="form.$invalid",)
-                  | View Dock
+                  | Packing Lists
               td
                 a.href(ng-click="viewShippedItems(order)", ng-disabled="form.$invalid",)
-                  | View Shipments
+                  | Shipments
           tfoot
             tr
               td

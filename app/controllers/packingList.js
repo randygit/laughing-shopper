@@ -37,26 +37,30 @@ exports.authCallback = function(req, res, next) {
 
 exports.add = function(req, res) {
 
-    console.log('packingList' + JSON.stringify(req.body));
+
     // create shippingList record
 
     var packingList = new PackingList({
-          "orderId": Schema.Types.ObjectId,
-          "qtyReadied": Number,
+          "orderId": {type:Schema.Types.ObjectId},
+          "qtyReadied":{type:Number},
           "items": [{
-              productId: Schema.Types.ObjectId,
+              productId:{type:Schema.Types.ObjectId},
               manufacturersName: String,
               genericName: String,
               packaging: String,
-              qtyReadied: Number,
-              qtyShipped: Number
+              qtyReadied: {type:Number},
+              qtyShipped: {type:Number}
           }],
-          "status": Number,       // 0 ok 9 -cancelled
-          "modifiedBy":   {"info": String, "email": String, "date": Date}
+          "status": {type:Number},       // 0 ok 9 -cancelled
+          "modifiedBy":   {"info": String, "email": String, "date":{Type:Date}}
     });
 
+
     packingList.orderId    = req.body.orderId;
-    packingList.qtyReadied = req.body.totQtyReadied;
+    packingList.qtyReadied = req.body.qtyReadied;
+    packingList.status     = req.body.status;
+    packingList.modifiedBy = req.body.modifiedBy;
+
 
     var items = [];
 
@@ -73,9 +77,6 @@ exports.add = function(req, res) {
     }
 
     packingList.items      = items;
-    packingList.status     = req.body.status;
-    packingList.modifiedBy = req.body.modifiedBy;
-
     packingList.save(function(err) {
         if (err) {
             console.log('error in saving ' + err);

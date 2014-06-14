@@ -32,16 +32,18 @@
                   td.align_right {{subTotal(item.qty, item.unitPrice) | currency}}
                   td
                     a.href(ng-click="delete(item._id, item.manufacturersName, item.genericName, item.packaging)", ng-disabled="form.$invalid",) Delete
-                td
-                td
-                td
-                td Subtotal:
-                td
-                //td.align_right {{totalQty()  | customCurrency:"":".":",":0}}
-                td
-                    input.align_right.print-clean.input-mini(style='width:5em' ,type = 'number', min = 0, value = '{{totalQty() }}', disabled)
-                td.align_right {{totalAmount() | currency}}
-                td
+              tfoot
+                tr
+                  td
+                  td
+                  td
+                  td Subtotal:
+                  td
+                  //td.align_right {{totalQty()  | customCurrency:"":".":",":0}}
+                  td
+                      input.align_right.print-clean.input-mini(style='width:5em' ,type = 'number', min = 0, value = '{{totalQty() }}', disabled)
+                  td.align_right {{totalAmount() | currency}}
+                  td
 
     .modal-footer
       a.btn.btn-warning(ng-click='saveChanges()') Continue Shopping
