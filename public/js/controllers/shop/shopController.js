@@ -28,7 +28,7 @@ angular.module('mean.system').controller('ShopController', ['$scope', '$location
 
               cartTotals = data.pop();
 
-              console.log('Pop SummarizeCart ' + JSON.stringify(cartTotals));
+              //console.log('Pop SummarizeCart ' + JSON.stringify(cartTotals));
 
               if(!cartTotals) {
                   var emptyCart = {

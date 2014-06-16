@@ -77,10 +77,6 @@ exports.add = function(req, res) {
 
     packingList.items      = items;
 
-    //console.log('packing list items ' + JSON.stringify(packingList.items));
-    console.log('PACKLSTID ' + packingList._id);
-
-
     packingList.save(function(err) {
         if (err) {
             console.log('error in saving ' + err);
@@ -88,10 +84,9 @@ exports.add = function(req, res) {
         }
         else {
 
-            console.log('Preparing readiedItems');
-
             var readiedItems = [];
 
+            /*
             for (i=0; i < req.body.items.length; i++) {
                 if (req.body.items[i].qtyReadied > 0) {
                     readiedItems.push({
@@ -109,10 +104,18 @@ exports.add = function(req, res) {
 
                 }
             }
+            */
+            for (i=0; i < req.body.items.length; i++) {
+                if (req.body.items[i].qtyReadied > 0) {
+                    readiedItems.push({
+                        'productId':     req.body.items[i].productId,
+                        'qtyReadied':    req.body.items[i].qtyReadied
+                    });
 
-            //console.log('readied items ' + JSON.stringify(readiedItems));
+                }
+            }
 
-            // ADD ITEMS TO CART
+            console.log('readiedItems ' + JSON.stringify(readiedItems));
 
 
             Order.find({'_id': packingList.orderId,'qtyRemaining' : {$gte : 1}},function(err,currentOrder) {
@@ -120,7 +123,6 @@ exports.add = function(req, res) {
                 // find returns an arrary .. findById returns a single record
 
                 if(err) {
-                    // delete packingList record
                     PackingList.findByIdAndRemove({id: packingList._id}, function(err){
                         if(!err) {
                             console.log('Error in orders');
@@ -132,42 +134,69 @@ exports.add = function(req, res) {
 
                 if(currentOrder) {
                     order = currentOrder[0];
-                    console.log('order record found for ' + packingList.orderId);
-                    //console.log('order ' + JSON.stringify(order));
-                    console.log('order qty           ' + order.itemCount);
-                    console.log('order qty Remaining ' + order.qtyRemaining);
-
-
-
-                    //console.log('order items ' + JSON.stringify(order.items));
-                    //console.log('readied items ' + JSON.stringify(readiedItems));
+                    //console.log('order record found for ' + packingList.orderId);
 
                     var updatedItems = [];
 
-                    for (i=0; i < items.length; i++) {
+                    // update items[] in order. set qtyReadied = qtyReadied + readiedItems.qtyReadied
+
+                    // console.log(' Items ' + JSON.stringify(items));
+
+                    for (i=0; i < order.items.length; i++) {
+
+                        item = order.items[i];
+
+                        console.log('i = ' + i + ' Product ' +item.productId + ' ' + item.manufacturersName + ' ' + item.qtyReadied);
+
+                        prodId = item.productId;
+
+                        oldQtyReadied =  item.qtyReadied;
+                        newQtyReadied =  getQtyReadied(readiedItems, prodId);
+                        qtyReadied    =  oldQtyReadied + newQtyReadied;
+                        console.log('item ' + JSON.stringify(item));
 
                         updatedItems.push({
-                            'productId':    order.items[i].productId,
-                            'manufacturersName':items[i].manufacturersName,
-                            'genericName':  order.items[i].genericName,
-                            'packaging':    order.items[i].packaging,
-                            'qty':          order.items[i].qty,
-                            'qtyReadied':   getQtyReadied(readiedItems, order.items[i].productId),
-                            'qtyShipped':   order.items[i].qtyShipped,
-                            'qtyRemaining': order.items[i].qtyRemaining,
-                            'subtotal':     order.items[i].subtotal
+                            'productId':        item.productId,
+                            'manufacturersName':item.manufacturersName,
+                            'genericName':      item.genericName,
+                            'packaging':        item.packaging,
+                            'qty':              item.qty,
+                            'qtyReadied':       qtyReadied,
+                            'qtyShipped':       item.qtyShipped,
+                            'qtyRemaining':     item.qtyRemaining,
+                            'unitPrice':        item.unitPrice,
+                            'subTotal':         item.subTotal
                         });
+
+                        console.log('About to loop back for i = ' + i);
+
                     }
 
-                    console.log('order items   ' + JSON.stringify(updatedItems));
-                    console.log('readied items ' + JSON.stringify(readiedItems));
+                    order.items      = updatedItems;      // overlay exisiting items with new qtyReadied
 
-                    order.readied    = readiedItems;
-                    order.items      = updatedItems;
-                    order.qtyReadied = req.body.qtyReadied;
+                    // add more records to order.readied...
+
+                    for (i=0; i < req.body.items.length; i++) {
+                        if (req.body.items[i].qtyReadied > 0) {
+                            order.readied.push({
+                                'readiedId':     packingList._id,
+                                'productId':     req.body.items[i].productId,
+                                'manufacturersName':req.body.items[i].manufacturersName,
+                                'genericName':   req.body.items[i].genericName,
+                                'packaging':     req.body.items[i].packaging,
+                                'qty':           req.body.items[i].qty,
+                                'qtyReadied':    req.body.items[i].qtyReadied,
+                                'qtyShipped':    req.body.items[i].qtyShipped,
+                                'shippingClerk': req.body.modifiedBy.email,
+                                'timestamp':     Date.now()
+                            });
+
+                        }
+                    }
+
+
+                    order.qtyReadied = order.qtyReadied + req.body.qtyReadied;
                     order.log.push({email: req.body.modifiedBy.email, date: Date.now(), comment: 'shipment readied'});
-
-                    console.log('new order ' + JSON.stringify(order));
 
                     order.save(function(err) {
                         if (!err) {
@@ -212,17 +241,41 @@ exports.add = function(req, res) {
 
 };
 
-var getQtyReadied = function(items, productId) {
-    //console.log('items ' + JSON.stringify(items));
+var getQtyReadied = function(readyItems, productId) {
+    /*
+    console.log('\tgetQtyReadied product Id ' + productId);
+    console.log('\tgetQtyReadied items      ' + JSON.stringify(items));
+    console.log('\tgetQtyReadied length     ' + items.length);
+    */
 
-    for ( i=0; i < items.length; i++) {
-        console.log(i + ' ' + 'productID ' + productId + ' item ' + items[i].productId + ' qtyReadied' + items[i].qtyReadied);
+    var retQty = 0;
+    prodId = productId.toString();
 
-        if (items[i].productId == productId) {
-            break;
+    for(j=0; j < readyItems.length; j++) {
+        rdyItem= readyItems[j];
+        iD     = rdyItem.productId;
+        itemId = iD.toString();
+
+        //console.log('\t\tj for getQtyReadied = ' + j + ' itemId ' + itemId + ' prodId ' + prodId);
+
+
+        if(prodId.localeCompare(itemId) === 0) {
+            //console.log('\t\tPAREHO');
+            retQty = rdyItem.qtyReadied;
         }
     }
 
-    console.log( ' returning ' + i + ' ' + items[i].qtyReadied);
-    return items[i].qtyReadied;
+
+
+    console.log('\t\tretQty ' + retQty);
+
+    return retQty;
+
+};
+
+var tulogNa = function(x) {
+  j = 0;
+  for(i=0;i< x; i++) {
+      j = j + i;
+  }
 };

@@ -30,6 +30,12 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         $scope.totShipped   = totShipped;
         $scope.totRemaining = totRemaining;
 
+        $scope.totQty = $scope.order.itemCount;
+        $scope.totReadied = $scope.order.qtyReadied;
+        $scope.totShipped = $scope.order.qtyShipped;
+        $scope.totRemaining = $scope.order.qtyRemaining;
+
+
     });
 
     // handle view transaction
