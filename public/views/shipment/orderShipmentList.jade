@@ -34,7 +34,8 @@ section(data-ng-controller='OrderShipmentListController')
               td.align_right {{order.itemCount | customCurrency:"":".":",":0}}
               td.align_right {{order.qtyReadied | customCurrency:"":".":",":0}}
               td.align_right {{order.qtyShipped| customCurrency:"":".":",":0}}
-              td.align_right {{qtyRemaining(order.itemCount, order.qtyShipped) | customCurrency:"":".":",":0}}
+              //td.align_right {{qtyRemaining(order.itemCount, order.qtyShipped) | customCurrency:"":".":",":0}}
+              td.align_right {{order.qtyRemaining | customCurrency:"":".":",":0}}
               td
                 a.href(ng-click="viewItemShipmentStatusList(order._id)", ng-disabled="form.$invalid",)
                   | View Shipments

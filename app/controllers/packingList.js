@@ -146,14 +146,14 @@ exports.add = function(req, res) {
 
                         item = order.items[i];
 
-                        console.log('i = ' + i + ' Product ' +item.productId + ' ' + item.manufacturersName + ' ' + item.qtyReadied);
+                        //console.log('i = ' + i + ' Product ' +item.productId + ' ' + item.manufacturersName + ' ' + item.qtyReadied);
 
                         prodId = item.productId;
 
                         oldQtyReadied =  item.qtyReadied;
                         newQtyReadied =  getQtyReadied(readiedItems, prodId);
                         qtyReadied    =  oldQtyReadied + newQtyReadied;
-                        console.log('item ' + JSON.stringify(item));
+                        //console.log('item ' + JSON.stringify(item));
 
                         updatedItems.push({
                             'productId':        item.productId,
@@ -167,8 +167,6 @@ exports.add = function(req, res) {
                             'unitPrice':        item.unitPrice,
                             'subTotal':         item.subTotal
                         });
-
-                        console.log('About to loop back for i = ' + i);
 
                     }
 
@@ -242,11 +240,6 @@ exports.add = function(req, res) {
 };
 
 var getQtyReadied = function(readyItems, productId) {
-    /*
-    console.log('\tgetQtyReadied product Id ' + productId);
-    console.log('\tgetQtyReadied items      ' + JSON.stringify(items));
-    console.log('\tgetQtyReadied length     ' + items.length);
-    */
 
     var retQty = 0;
     prodId = productId.toString();
@@ -267,7 +260,7 @@ var getQtyReadied = function(readyItems, productId) {
 
 
 
-    console.log('\t\tretQty ' + retQty);
+    // console.log('\t\tretQty ' + retQty);
 
     return retQty;
 
