@@ -38,7 +38,6 @@ exports.authCallback = function(req, res, next) {
 exports.add = function(req, res) {
 
 
-    // create shippingList record
 
     var packingList = new PackingList({
           "orderId": {type:Schema.Types.ObjectId},
@@ -66,51 +65,164 @@ exports.add = function(req, res) {
 
     for (i=0; i < req.body.items.length; i++) {
         items.push({
-            'productId': req.body.items[i].productId,
+            'productId':   req.body.items[i].productId,
             'manufacturersName':req.body.items[i].manufacturersName,
-            'genericName':req.body.items[i].genericName,
-            'packaging':req.body.items[i].packaging,
-            'qty':req.body.items[i].qty,
+            'genericName': req.body.items[i].genericName,
+            'packaging':   req.body.items[i].packaging,
+            'qty':         req.body.items[i].qty,
             'qtyReadied':  req.body.items[i].qtyReadied,
             'qtyShipped':  req.body.items[i].qtyShipped
         });
     }
 
     packingList.items      = items;
+
+    //console.log('packing list items ' + JSON.stringify(packingList.items));
+    console.log('PACKLSTID ' + packingList._id);
+
+
     packingList.save(function(err) {
         if (err) {
             console.log('error in saving ' + err);
             return res.json(err);
         }
         else {
-            console.log('shippingList saved');
+
+            console.log('Preparing readiedItems');
+
+            var readiedItems = [];
+
+            for (i=0; i < req.body.items.length; i++) {
+                if (req.body.items[i].qtyReadied > 0) {
+                    readiedItems.push({
+                        'readiedId':     packingList._id,
+                        'productId':     req.body.items[i].productId,
+                        'manufacturersName':req.body.items[i].manufacturersName,
+                        'genericName':   req.body.items[i].genericName,
+                        'packaging':     req.body.items[i].packaging,
+                        'qty':           req.body.items[i].qty,
+                        'qtyReadied':    req.body.items[i].qtyReadied,
+                        'qtyShipped':    req.body.items[i].qtyShipped,
+                        'shippingClerk': req.body.modifiedBy.email,
+                        'timestamp':     Date.now()
+                    });
+
+                }
+            }
+
+            //console.log('readied items ' + JSON.stringify(readiedItems));
+
+            // ADD ITEMS TO CART
+
+
+            Order.find({'_id': packingList.orderId,'qtyRemaining' : {$gte : 1}},function(err,currentOrder) {
+
+                // find returns an arrary .. findById returns a single record
+
+                if(err) {
+                    // delete packingList record
+                    PackingList.findByIdAndRemove({id: packingList._id}, function(err){
+                        if(!err) {
+                            console.log('Error in orders');
+                            res.json({status:false});
+                        }
+                    });
+                }
+
+
+                if(currentOrder) {
+                    order = currentOrder[0];
+                    console.log('order record found for ' + packingList.orderId);
+                    //console.log('order ' + JSON.stringify(order));
+                    console.log('order qty           ' + order.itemCount);
+                    console.log('order qty Remaining ' + order.qtyRemaining);
+
+
+
+                    //console.log('order items ' + JSON.stringify(order.items));
+                    //console.log('readied items ' + JSON.stringify(readiedItems));
+
+                    var updatedItems = [];
+
+                    for (i=0; i < items.length; i++) {
+
+                        updatedItems.push({
+                            'productId':    order.items[i].productId,
+                            'manufacturersName':items[i].manufacturersName,
+                            'genericName':  order.items[i].genericName,
+                            'packaging':    order.items[i].packaging,
+                            'qty':          order.items[i].qty,
+                            'qtyReadied':   getQtyReadied(readiedItems, order.items[i].productId),
+                            'qtyShipped':   order.items[i].qtyShipped,
+                            'qtyRemaining': order.items[i].qtyRemaining,
+                            'subtotal':     order.items[i].subtotal
+                        });
+                    }
+
+                    console.log('order items   ' + JSON.stringify(updatedItems));
+                    console.log('readied items ' + JSON.stringify(readiedItems));
+
+                    order.readied    = readiedItems;
+                    order.items      = updatedItems;
+                    order.qtyReadied = req.body.qtyReadied;
+                    order.log.push({email: req.body.modifiedBy.email, date: Date.now(), comment: 'shipment readied'});
+
+                    console.log('new order ' + JSON.stringify(order));
+
+                    order.save(function(err) {
+                        if (!err) {
+                            console.log("order updated");
+                            res.json(order);
+                        } else {
+                            res.json(false);
+                            console.log(err);
+                        }
+
+                    });
+
+                }
+                else {
+                    // no record with qtyRemaining > qty
+                    // rollback readiedList
+
+                    PackingList.findByIdAndRemove({id: packingList._id}, function(err){
+                        if(!err) {
+                            console.log('Error in orders');
+                            res.json({status:false});
+                        }
+                        else {
+                            res.json(true);
+                        }
+                    });
+                }
+
+
+            });
+
+
+            // end of update Order
+
         }
     });
 
 
 
-    /*
+    // res.end();
 
-    // update order
 
-    ADD ITEMS TO CART
-    db.orders.update(
-        {
-            _id: req.body._id
-        },
-        {
-             $set: { modified_on: ISODate() },
-             $push: {
-                 products: {
-                   sku: "111445GB3", quantity: 1, title: "Simsong One mobile phone", price:1000
-                 }
-             }
+};
+
+var getQtyReadied = function(items, productId) {
+    //console.log('items ' + JSON.stringify(items));
+
+    for ( i=0; i < items.length; i++) {
+        console.log(i + ' ' + 'productID ' + productId + ' item ' + items[i].productId + ' qtyReadied' + items[i].qtyReadied);
+
+        if (items[i].productId == productId) {
+            break;
         }
-    );
+    }
 
-    */
-
-    res.end();
-
-
+    console.log( ' returning ' + i + ' ' + items[i].qtyReadied);
+    return items[i].qtyReadied;
 };

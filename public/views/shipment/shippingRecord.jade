@@ -27,7 +27,7 @@ section(data-ng-controller='ShippingRecordController')
               th Generic Name
               th Packaging
               th.align_right Qty ordered
-              th.align_right Qty readied
+              th Qty readied
               th.align_right Qty shipped
               th.align_right Qty unshipped
           tbody
@@ -38,7 +38,7 @@ section(data-ng-controller='ShippingRecordController')
               td {{item.packaging}}
               td.align_right {{item.qty          | customCurrency:"":".":",":0}}
               td
-                input.align_right.input-mini(style='width:5em' ,type = 'number', min = 0, ng-model = 'item.qtyReadied')
+                input.input-mini.align_right(style='width:5em' ,type = 'number', min = 0, max = '{{item.qtyRemaining}}', ng-model = 'item.qtyReadied')
               td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
           tfoot

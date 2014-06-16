@@ -6,7 +6,7 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
 
     $scope.order = Basket.popItem();
     $scope.shippingRecord = angular.copy($scope.order);
-    //console.log('ORder' + JSON.stringify($scope.order));
+    //console.log('Order' + JSON.stringify($scope.order));
 
     var pDate = new Date($scope.shippingRecord.orderDate);
     $scope.orderDate = pDate.toDateString();
@@ -35,7 +35,8 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
         return total;
     };
 
-    $scope.totalQtyShipped =function() {
+
+    $scope.totalQtyShipped =function(qtyReadied,qtyRemaining) {
         var total = 0;
         angular.forEach($scope.shippingRecord.items, function(item) {
             total += item.qtyShipped;
