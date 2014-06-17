@@ -113,6 +113,7 @@ section(data-ng-controller='ShippingRecordController')
               td.align_right {{prevReadied(item.productId)}}
               td
                 input.input-mini.align_right(style='width:5em' ,type = 'number', min = 0, max = '{{item.qtyRemaining}}', ng-model = 'item.qtyReadied')
+                //input.input-mini.align_right(style='width:5em' ,type = 'number', min = 0, max = '{{prevReadied(item.productId)}}', ng-model = 'item.qtyReadied')
               td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
               td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
           tfoot

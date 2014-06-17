@@ -15,6 +15,7 @@ var mongoose = require('mongoose'),
 var ShipmentSchema = new Schema({
         "drNumber": String,             // company DR number
         "orderId": Schema.Types.ObjectId,
+        "packingListId": Schema.Types.ObjectId,
         "orderDate": {type: Date},
         "orderRef":String,
         "customerName": String,
@@ -27,7 +28,6 @@ var ShipmentSchema = new Schema({
             manufacturersName: String,
             genericName: String,
             packaging: String,
-            qtyReadied: Number,
             qtyShipped: Number,
             unitPrice: Number
             }],
@@ -38,4 +38,4 @@ var ShipmentSchema = new Schema({
         "log": [{"email": String, "activity": String, "date": Date, "comment": String}]  //should be in order
 });
 
-mongoose.model('Shipment4', ShipmentSchema);
+mongoose.model('Shipment5', ShipmentSchema);

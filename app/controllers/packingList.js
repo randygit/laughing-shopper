@@ -17,7 +17,7 @@ var mongoose = require('mongoose'),
 
     Order = mongoose.model('Order26');
     Shipment = mongoose.model('Shipment4');
-    PackingList = mongoose.model('PackingList2');
+    PackingList = mongoose.model('PackingList3');
 
 
 
@@ -48,8 +48,7 @@ exports.add = function(req, res) {
               manufacturersName: String,
               genericName: String,
               packaging: String,
-              qtyReadied: {type:Number},
-              qtyShipped: {type:Number}
+              qtyReadied: {type:Number}
           }],
           "status": {type:Number},       // 0 ok 1- shipped 9 -cancelled
           "modifiedBy":   {"info": String, "email": String, "date":{Type:Date}}
@@ -70,9 +69,7 @@ exports.add = function(req, res) {
             'manufacturersName':req.body.items[i].manufacturersName,
             'genericName': req.body.items[i].genericName,
             'packaging':   req.body.items[i].packaging,
-            'qty':         req.body.items[i].qty,
-            'qtyReadied':  req.body.items[i].qtyReadied,
-            'qtyShipped':  req.body.items[i].qtyShipped
+            'qtyReadied':  req.body.items[i].qtyReadied
         });
     }
 
