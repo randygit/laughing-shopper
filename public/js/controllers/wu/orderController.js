@@ -34,6 +34,9 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
 
         }
 
+        var orDate = new Date(order.orderDate);
+        $scope.orderDate = orDate.toDateString();
+
 
         //$scope.shipMode = 'Air Mail';
         if (angular.equals(order.paymentMode, 'WU')) {

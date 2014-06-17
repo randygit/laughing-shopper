@@ -35,6 +35,19 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         $scope.totShipped = $scope.order.qtyShipped;
         $scope.totRemaining = $scope.order.qtyRemaining;
 
+        //$scope.shipMode = 'Air Mail';
+        if (angular.equals(order.paymentMode, 'WU')) {
+            $scope.payment  = 'Western Union';
+        }
+        else {
+            $scope.payment  = 'Credit/Debit Card';
+            if (angular.equals(order.ccdetails.cardtype,'MC')) {
+                $scope.cardName = 'MasterCard';
+            }
+            if (angular.equals(order.ccdetails.cardtype,'VISA')) {
+                $scope.cardName = 'VISA';
+            }
+        }
 
     });
 
@@ -54,7 +67,6 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
     };
 
      $scope.createShippingRecord = function(order) {
-        console.log('Create shipping Record');
         Basket.addItem(order);
         changeLocation('/shippingRecord');
     };

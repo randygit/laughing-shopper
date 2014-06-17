@@ -74,6 +74,11 @@ section(data-ng-controller='OrderController')
           .well.well-lg
               div.row
                 div.form-group
+                  label.control-label.col-sm-4(for='name') Order Date
+                  div.col-sm-8
+                    input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="orderDate", autofocus, placeholder="Order date", disabled)
+              div.row
+                div.form-group
                   label.control-label.col-sm-4(for='name') Ship thru
                   div.col-sm-8
                     input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="order.shippingMode", autofocus, placeholder="Ship thru", disabled)

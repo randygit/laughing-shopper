@@ -12,20 +12,56 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
     $scope.orderDate = pDate.toDateString();
 
     var totQty       = 0;
-    //var totReadied   = 0;
+    var totReadied   = 0;
     var totShipped   = 0;
     var totRemaining = 0;
+    var totPrevReadied = 0;
+
+    angular.forEach($scope.shippingRecord.items, function(item) {
+        item.qtyReadied = 0;
+    });
 
     angular.forEach($scope.order.items, function(item) {
         totQty       += item.qty;
-        //totReadied   += item.qtyReadied;
         totShipped   += item.qtyShipped;
+        totPrevReadied += item.qtyReadied;
         totRemaining += item.qtyRemaining;
+
     });
+
     $scope.totQty       = totQty;
-    //$scope.totReadied   = totReadied;
+    $scope.totReadied   = totReadied;
     $scope.totShipped   = totShipped;
+    $scope.totPrevReadied = totPrevReadied;
     $scope.totRemaining = totRemaining;
+
+
+    if (angular.equals($scope.order.paymentMode, 'WU')) {
+        $scope.payment  = 'Western Union';
+    }
+    else {
+        $scope.payment  = 'Credit/Debit Card';
+        if (angular.equals($scope.order.ccdetails.cardtype,'MC')) {
+            $scope.cardName = 'MasterCard';
+        }
+        if (angular.equals($scope.order.ccdetails.cardtype,'VISA')) {
+            $scope.cardName = 'VISA';
+        }
+    }
+
+    $scope.prevReadied = function (productId) {
+
+        retQty = 0;
+        angular.forEach($scope.order.items, function(item) {
+            if(angular.equals(productId, item.productId)) {
+                retQty = item.qtyReadied;
+                return retQty;
+            }
+        });
+
+        return retQty;
+
+    };
 
     $scope.totalQtyReadied =function() {
         var total = 0;
@@ -63,7 +99,7 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
                 qtyReadied: Number,
                 qtyShipped: Number
             }],
-            "status": Number,       // 0 ok 9 -cancelled
+            "status": Number,       // 0 ok 1- shipped 9 -cancelled
             "modifiedBy":   {"info": String, "email": String, "date": Date}
           };
 
