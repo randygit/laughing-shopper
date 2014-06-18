@@ -120,16 +120,24 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
         modifiedBy.date  = Date.now();
 
 
-        totQtyReadied = 0;
-        for(i=0;i<shippingRecord.items.length; i++) {
-            totQtyReadied = totQtyReadied + shippingRecord.items[i].qtyReadied;
-        }
 
         packingList.orderId    = orderId;
-        packingList.qtyReadied = totQtyReadied;
         packingList.status     = 0;
         packingList.items      = shippingRecord.items;
         packingList.modifiedBy = modifiedBy;
+
+
+        packingListQtyReadied = 0;
+        for(i=0;i<packingList.items.length; i++) {
+            //console.log('item qty ' + packingList.items[i].qtyReadied);
+
+            packingListQtyReadied = packingListQtyReadied + packingList.items[i].qtyReadied;
+        }
+        //console.log('tot qty ' + packingListQtyReadied);
+
+        packingList.qtyReadied = packingListQtyReadied;
+        //console.log('packList ' + JSON.stringify(packingList));
+
 
         $http.post('/api/packingList', packingList).success(function(data) {
 

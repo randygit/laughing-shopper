@@ -48,6 +48,7 @@ exports.list = function(req, res) {
 
 exports.add = function(req, res) {
 
+    //console.log('ADDING' + JSON.stringify(req.body));
 
     var packingList = new PackingList({
           "orderId": {type:Schema.Types.ObjectId},
@@ -102,7 +103,27 @@ exports.add = function(req, res) {
     Order.findById(packingList.orderId, function(err,order) {
         if(order) {
 
-            if (order.qtyReadied + packingList.qtyReadied > order.qtyRemaining) {
+
+            if (typeof packingList.qtyReadied === 'undefined') {
+                console.log('Method 1. Readied items > Remaining. Saving aborted! ');
+                return res.json(order);
+
+            }
+
+            if(! packingList.qtyReadied) {
+                console.log('Method 2. Readied items > Remaining. Saving aborted! ');
+                return res.json(order);
+
+            }
+
+            totQtyReadied = order.qtyReadied + packingList.qtyReadied;
+
+            console.log('order qtyReadied   ' + order.qtyReadied );
+            console.log('packingList        ' + packingList.qtyReadied);
+            console.log('Total qtyReadied   ' + totQtyReadied);
+            console.log('order qtyRemaining ' + order.qtyRemaining);
+
+            if (totQtyReadied > order.qtyRemaining) {
                 console.log('Readied items > Remaining. Saving aborted! ');
                 // go home
                 return res.json(order);
