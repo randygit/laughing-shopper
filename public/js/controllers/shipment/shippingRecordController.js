@@ -63,6 +63,11 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
 
     };
 
+    $scope.qtyReadiedMax = function(qtyPrevReadied,qtyRemaining) {
+        retVal = qtyRemaining - qtyPrevReadied;
+        return retVal;
+    };
+
     $scope.totalQtyReadied =function() {
         var total = 0;
         angular.forEach($scope.shippingRecord.items, function(item) {

@@ -96,15 +96,11 @@ exports.add = function(req, res) {
         }
     }
 
-    console.log('PackingListId ' + packingList._id);
+    //console.log('PackingListId ' + packingList._id);
 
 
     Order.findById(packingList.orderId, function(err,order) {
         if(order) {
-
-            console.log('order qtyReadied ' + order.qtyReadied );
-            console.log('packingList ' + packingList.qtyReadied);
-            console.log('order qtyRemaining ' + order.qtyRemaining);
 
             if (order.qtyReadied + packingList.qtyReadied > order.qtyRemaining) {
                 console.log('Readied items > Remaining. Saving aborted! ');
