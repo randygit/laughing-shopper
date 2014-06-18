@@ -135,7 +135,46 @@ angular.module('mean.roles').controller('PackingRecordController', ['$scope', '$
 
         modalInstance.result.then(function(shipInfo) {
             if (shipInfo) {
-                console.log('shipping info ' + JSON.stringify(shipInfo ));
+                //console.log('shipping info ' + JSON.stringify(shipInfo ));
+
+                var info = {
+                    orderId: String,
+                    readiedId: String,
+                    qtyShipped: Number,
+                    details: String,
+                    when: String,
+                    by: String,
+                    items: [],
+                    email: String
+                };
+
+                info.orderId   = packingList.orderId;
+                info.readiedId = packingList._id;
+                info.qtyShipped= packingList.qtyReadied;
+                info.email     = Global.user.email;
+                info.items     = packingList.items;
+                info.details   = shipInfo.details;
+                info.when      = shipInfo.when;
+                info.by        = shipInfo.by;
+
+
+                //console.log('About to shipPackingList ' + JSON.stringify(info));
+                $http.post('/api/shipPackingList', info).success(function(data) {
+
+                    console.log("Success. adding record at /api/packingList");
+                    Basket.addItem($scope.order);
+                    changeLocation('/packingList');
+
+                })
+                .error(function(data) {
+                    console.log("Error. adding record at /api/packingList");
+                    Basket.addItem($scope.order);
+                    changeLocation('/packingList');
+                });
+            }
+            else {
+                console.log('No data to delete');
+                $route.reload();
             }
 
         });

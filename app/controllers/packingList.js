@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order26');
-    Shipment = mongoose.model('Shipment4');
+    Shipment = mongoose.model('Shipment9');
     PackingList = mongoose.model('PackingList3');
 
 
@@ -262,8 +262,8 @@ exports.cancel = function(req, res) {
                         'qty':              order.readied[i].qty,
                         'qtyReadied':       order.readied[i].qtyReadied,
                         'qtyShipped':       order.readied[i].qtyShipped,
-                        'shippingClerk':    order.readied[i].shippingClerk,
-                        'timestamp':        order.readied[i].timestamp
+                        'shippingClerk':    req.body.email,
+                        'timestamp':        Date.now()
                     });
                 }
             }
@@ -292,7 +292,7 @@ exports.cancel = function(req, res) {
                             cancelInfo.email = req.body.email;
                             cancelInfo.date  = Date.now();
 
-                            packingList.status = 1;
+                            packingList.status = 9;     // 0- ok. 1- shipped 9 -cancelled
                             packingList.cancelledBy = cancelInfo;
 
                             packingList.save(function(err) {
@@ -321,6 +321,222 @@ exports.cancel = function(req, res) {
     });
 };
 
+exports.ship = function(req, res) {
+    console.log('SHIP' + JSON.stringify(req.body));
+
+    /*
+    1. create shipment Record
+    2. update Order
+       set qtyShipped
+       set qtyReadied
+       set qtyRemaning
+
+       items[] - update when record is in items
+       readied[] - delete when readiedID
+       shipped[] - add records
+
+       save order
+          save packingList
+             save shipment
+
+    */
+    var shipment = new Shipment({
+        "deliveryRef": String,
+        "shipmentDate": {type:Date},
+        "orderId": {type:Schema.Types.ObjectId},
+        "readiedId": {type:Schema.Types.ObjectId},
+        "orderDate": {type:Date},
+        "orderRef":String,
+        "customerName": String,
+        "customerEmail":String,
+        "shipto" : {"fullname": String, "address1": String, "address2": String,"address3":String,
+                    "city": String, "state": String, "country": String, "zipcode": String},
+        "qtyShipped": {type:Number},
+        "items": [{
+            productId: {type:Schema.Types.ObjectId},
+            manufacturersName: String,
+            genericName: String,
+            packaging: String,
+            qtyShipped: {type:Number},
+            unitPrice: {type:Number}
+            }],
+        "status": {type:Number},         // 0 ok 9 cancelled
+        "cancelledBy":  {"info": String, "email": String, "date":{type:Date}},
+        "shipmentRef":  {"email": String, "date": {type:Date}, "details": String, "when": String, "by":String},
+        "trackingInfo": {"company": String, "trackingNumber": String, "status": String, "estDeliveryDate": {type:Date}}
+        });
+
+        var info = {
+            email:String,
+            date: Date,
+            details:String,
+            when: String,
+            by: String
+        };
+
+        info.email   = req.body.email;
+        info.date    = Date.now();
+        info.details = req.body.details;
+        info.when    = req.body.when;
+        info.by      = req.body.by;
+
+        shipment.deliveryRef  = 'DR1001';
+        shipment.shipmentDate = Date.now();
+        shipment.orderId      = req.body.orderId;
+        shipment.readiedId    = req.body.readiedId;
+        shipmet.qtyShipped    = req.body.qtyShipped;
+        shipment.status       = 0;
+        shipment.shipmentRef  = info;
+        shipment.items        = req.body.items;
+
+        var readiedItems = [];
+
+        for (i=0; i < req.body.items.length; i++) {
+            if (req.body.items[i].qtyReadied > 0) {
+                readiedItems.push({
+                    'productId':     req.body.items[i].productId,
+                    'qtyReadied':    req.body.items[i].qtyReadied
+                });
+
+            }
+        }
+
+
+        Order.findById(req.body.orderId, function(err,order) {
+            if(order) {
+
+
+                shipment.orderRef =      order.orderRef;
+                shipment.orderDate =     order.orderDate;
+                shipment.customerName =  order.customerName;
+                shipment.customerEmail = order.customerEmail;
+                shipment.shipto        = order.shipto;
+
+                order.qtyReadied   = order.qtyReadied - req.body.qtyReadied;
+                order.qtyShipped   = order.qtyShipped  + req.body.qtyReadied;
+                order.qtyRemaining = order.qtyRemaining - req.body.qtyReadied;
+
+               // this is needed to update the order.items
+
+                var updatedItems = [];
+                for (i=0; i < order.items.length; i++) {
+
+                    item = order.items[i];
+                    prodId = item.productId;
+
+
+                    newQtyReadied =  getQtyReadied(readiedItems, prodId);
+                    qtyReadied    =  item.qtyReadied - newQtyReadied;
+                    qtyShipped    =  item.qtyShipped + newQtyReadied;
+                    qtyRemaining  =  item.qtyRemaining - newQtyReadied;
+
+                    updatedItems.push({
+                        'productId':        item.productId,
+                        'manufacturersName':item.manufacturersName,
+                        'genericName':      item.genericName,
+                        'packaging':        item.packaging,
+                        'qty':              item.qty,
+                        'qtyReadied':       qtyReadied,
+                        'qtyShipped':       qtyShipped,
+                        'qtyRemaining':     qtyRemaining,
+                        'unitPrice':        item.unitPrice,
+                        'subTotal':         item.subTotal
+                    });
+
+                }
+
+                order.items = updatedItems;
+
+
+                // delete records in order.readied and transfer them to order.shipment
+                var updatedReadiedItems = [];
+                for (i=0; i < order.readied.length; i++) {
+                    if (checkIds(order.readied[i].readiedId, req.body.readiedId) > 0) {
+                        updatedReadiedItems.push({
+                            'readiedId':        order.readied[i].readiedId,
+                            'productId':        order.readied[i].productId,
+                            'manufacturersName':order.readied[i].manufacturersName,
+                            'genericName':      order.readied[i].genericName,
+                            'packaging':        order.readied[i].packaging,
+                            'qty':              order.readied[i].qty,
+                            'qtyReadied':       order.readied[i].qtyReadied,
+                            'qtyShipped':       order.readied[i].qtyShipped,
+                            'shippingClerk':    req.body.email,
+                            'timestamp':        Date.now()
+                        });
+                    }
+                }
+
+                order.readied = updatedReadiedItems;
+
+                for (i=0; i < req.body.items.length; i++) {
+                    if (req.body.items[i].qtyReadied > 0) {
+                        order.shipped.push({
+                            'shipmentdId':   shipment._id,
+                            'productId':     req.body.items[i].productId,
+                            'manufacturersName':req.body.items[i].manufacturersName,
+                            'genericName':   req.body.items[i].genericName,
+                            'packaging':     req.body.items[i].packaging,
+                            'qty':           req.body.items[i].qty,
+                            'qtyReadied':    req.body.items[i].qtyReadied,
+                            'qtyShipped':    req.body.items[i].qtyShipped,
+                            'shippingClerk': req.body.email,
+                            'timestamp':     Date.now()
+                        });
+
+                    }
+                }
+
+                comment = 'shipment made: <'+ req.body.info + '>. qty shipped ' + qtyShipped + ',  qty remaining ' + qtyRemaining;
+
+                order.log.push({email: req.body.email, date: Date.now(), comment: comment });
+
+
+                order.save(function(err) {
+                    if(!err) {
+                        console.log('Updated order ' + req.body.orderId);
+                        PackingList.findById(req.body.readiedId, function(err, packingList) {
+                            if(!err) {
+
+                                packingList.status = 1;     // 0- ok. 1- shipped 9 -cancelled
+                                packingList.cancelledBy = cancelInfo;
+
+                                packingList.save(function(err) {
+                                    if(!err) {
+                                        console.log('packing List cancelled');
+                                        shipment.save(function(err) {
+                                            if (!err) {
+                                                console.log('shipping record saved');
+                                                return res.json(order);
+                                            }
+                                            else {
+                                                console.log('Error in saving shipping Record');
+                                                return res.json(order);
+                                            }
+
+                                        });
+                                    }
+                                    else {
+                                        console.log('Error in updating packing list');
+                                        return res.json(order);
+                                    }
+                                });
+                            }
+
+                        });
+                    }
+                    else {
+                        console.log("Error in updating order " + err);
+                        return res.json(order);
+                    }
+                });
+
+            } // if order
+
+
+        });
+
+};
 
 var checkIds = function(itemReadiedId, readyId) {
 

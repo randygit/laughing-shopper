@@ -214,9 +214,10 @@ module.exports = function(app, passport, auth) {
 
     // packingLists
     var packingList = require('../app/controllers/packingList');
-    app.post('/api/packingList'         ,packingList.add);                     // add to packinglist
-    app.get('/api/packingLists/:orderId',packingList.list);                    // add shipmentList and update Order
-    app.post('/api/cancelPackingList'  ,packingList.cancel);                  // add shipmentList and update Order
+    app.post('/api/packingList'         ,packingList.add);          // add to packinglist, update Order
+    app.get('/api/packingLists/:orderId',packingList.list);         // list all packingList
+    app.post('/api/cancelPackingList'  ,packingList.cancel);        // cancel packing and update Order
+    app.post('/api/shipPackingList'    ,packingList.ship);          // add shipment, update packingList,Order
 
 
     // shipments

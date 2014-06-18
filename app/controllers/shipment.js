@@ -18,7 +18,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order26');
-    Shipment = mongoose.model('Shipment5');
+    Shipment = mongoose.model('Shipment9');
 
 
 /*
