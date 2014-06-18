@@ -86,6 +86,7 @@ angular.module('mean.roles').controller('ShippingRecordController', ['$scope', '
     };
 
     $scope.save = function(orderId,shippingRecord) {
+        console.log('Saving shipping Record');
         //console.log('Saving shipping Record' + JSON.stringify(shippingRecord));
 
         var packingList =  {

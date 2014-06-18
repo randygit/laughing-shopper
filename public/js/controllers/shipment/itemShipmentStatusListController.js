@@ -53,16 +53,12 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
 
     // handle view transaction
     $scope.viewReadiedItems = function(order) {
-        // or use Basket
         Basket.addItem(order);
-        //OrderService.addOrderId(orderId);
-        changeLocation('/readiedItems');
+        changeLocation('/packingList');
     };
 
     $scope.shippedItems = function(order) {
-        // or use Basket
         Basket.addItem(order);
-        //OrderService.addOrderId(orderId);
         changeLocation('/shippedItems');
     };
 

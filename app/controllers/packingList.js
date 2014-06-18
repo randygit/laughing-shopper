@@ -22,10 +22,8 @@ var mongoose = require('mongoose'),
 
 
 /*
-exports.shipmentLists - list all shipments, pass the status, email (could be all)
+exports.list          - list all packinglists
 exports.add           - add readied record and update order
-exports.shipmentList  - get a shipment record given shipmentId
-exports.edit          - update shipment a record in items given shipmentId
 exports.cancel        - cancel shipment, given shipmentId
 exports.delete        - delete a record in items, given shipmentId
 exports.ship          - ship, status from Readied to Shipped, givenShipmentId
@@ -35,10 +33,21 @@ exports.authCallback = function(req, res, next) {
     res.redirect('/');
 };
 
+exports.list = function(req, res) {
+    PackingList.find ({'orderId': req.params.orderId, 'status': 0}, function(err,packingLists) {
+        if(!err) {
+            res.json(packingLists);
+        }
+        else {
+            console.log('Error in packingList');
+            res.redirect('/');
+        }
+    });
+};
+
+
 exports.add = function(req, res) {
 
-
-    // prepare packingList record
 
     var packingList = new PackingList({
           "orderId": {type:Schema.Types.ObjectId},
@@ -174,28 +183,169 @@ exports.add = function(req, res) {
     });
 };
 
+
+exports.cancel = function(req, res) {
+
+    //console.log('Cancel Info ' + JSON.stringify(req.body));
+
+    cancelledItems = req.body.items;
+    qtyCancelled   = req.body.qtyCancelled;
+    cancelledId    = req.body.readiedId;
+
+    Order.findById(req.body.orderId, function(err,order) {
+        if(order) {
+
+            //console.log('Order ' + order.qtyReadied + ' qty Cancelled ' + req.body.qtyCancelled) ;
+
+            order.qtyReadied = order.qtyReadied - req.body.qtyCancelled;
+
+            // reduce items.qtyReadied from packingList.qtyReadied
+
+            var updatedItems = [];
+            for (i=0; i < order.items.length; i++) {
+
+                item = order.items[i];
+
+                prodId = item.productId;
+
+                oldQtyReadied    =  item.qtyReadied;
+                deductQtyReadied =  getQtyReadied(cancelledItems, prodId);
+                qtyReadied       =  oldQtyReadied - deductQtyReadied;
+
+                updatedItems.push({
+                    'productId':        item.productId,
+                    'manufacturersName':item.manufacturersName,
+                    'genericName':      item.genericName,
+                    'packaging':        item.packaging,
+                    'qty':              item.qty,
+                    'qtyReadied':       qtyReadied,
+                    'qtyShipped':       item.qtyShipped,
+                    'qtyRemaining':     item.qtyRemaining,
+                    'unitPrice':        item.unitPrice,
+                    'subTotal':         item.subTotal
+                });
+
+            }
+
+            order.items      = updatedItems;      // overlay exisiting items with new qtyReadied
+
+            // delete records in items.readied where readiedId
+
+            var readiedItems = [];
+            for (i=0; i < order.readied.length; i++) {
+                if (checkIds(order.readied[i].readiedId, cancelledId) > 0) {
+                    readiedItems.push({
+                        'readiedId':        order.readied[i].readiedId,
+                        'productId':        order.readied[i].productId,
+                        'manufacturersName':order.readied[i].manufacturersName,
+                        'genericName':      order.readied[i].genericName,
+                        'packaging':        order.readied[i].packaging,
+                        'qty':              order.readied[i].qty,
+                        'qtyReadied':       order.readied[i].qtyReadied,
+                        'qtyShipped':       order.readied[i].qtyShipped,
+                        'shippingClerk':    order.readied[i].shippingClerk,
+                        'timestamp':        order.readied[i].timestamp
+                    });
+                }
+            }
+
+            order.readied = readiedItems;
+
+
+            order.log.push({email: req.body.email, date: Date.now(), comment: 'packing record cancelled'});
+
+            //console.log('About to save ' + JSON.stringify(order));
+
+
+            order.save(function(err) {
+                if(!err) {
+                    console.log('Updated order ' + req.body.orderId);
+                    PackingList.findById(req.body.readiedId, function(err, packingList) {
+                        if(!err) {
+                            var cancelInfo = {
+                                info: String,
+                                email: String,
+                                date: Date
+                            };
+
+                            cancelInfo.info  = 'Cancelled';
+                            cancelInfo.email = req.body.email;
+                            cancelInfo.date  = Date.now();
+
+                            packingList.status = 1;
+                            packingList.cancelledBy = cancelInfo;
+
+                            packingList.save(function(err) {
+                                if(!err) {
+                                    console.log('packing List cancelled');
+                                    return res.json(order);
+                                }
+                                else {
+                                    console.log('Error in updating packing list');
+                                    return res.json(order);
+                                }
+                            });
+                        }
+
+                    });
+                }
+                else {
+                    console.log("Error in updating order " + err);
+                    return res.json(order);
+                }
+            });
+
+
+        }
+
+    });
+};
+
+
+var checkIds = function(itemReadiedId, readyId) {
+
+
+    var ret = 1;
+
+    itemRId = itemReadiedId.toString();
+
+    //console.log('packingList.Id ' + readyId + ' item[].readied ' + itemRId);
+    if (readyId.localeCompare(itemRId) === 0 ) {
+        ret = 0;
+    }
+
+
+    //console.log('\tret  ' + ret );
+    return ret;
+};
+
 var getQtyReadied = function(readyItems, productId) {
 
     var retQty = 0;
     prodId = productId.toString();
 
-    for(j=0; j < readyItems.length; j++) {
+    //console.log('\t\tfor getQtyReadied prodId ' + prodId);
+    var j = 0;
+
+    while (j < readyItems.length ) {
         rdyItem= readyItems[j];
         iD     = rdyItem.productId;
         itemId = iD.toString();
 
-        //console.log('\t\tj for getQtyReadied = ' + j + ' itemId ' + itemId + ' prodId ' + prodId);
+        //console.log('\t\tj  = ' + j + ' itemId ' + itemId);
 
 
         if(prodId.localeCompare(itemId) === 0) {
             //console.log('\t\tPAREHO');
             retQty = rdyItem.qtyReadied;
+            break;
         }
+        j++;
     }
 
 
 
-    // console.log('\t\tretQty ' + retQty);
+   // console.log('\t\tretQty ' + retQty);
 
     return retQty;
 

@@ -1,8 +1,8 @@
-section(data-ng-controller='ItemShipmentStatusListController')
+section(data-ng-controller='PackingListController')
   .container.products
     .row
         h3
-          span.introcolor Order Shipment Status
+          span.introcolor Packing List
         .col-sm-6
           .well.well-lg
               h4
@@ -94,38 +94,28 @@ section(data-ng-controller='ItemShipmentStatusListController')
           thead
             tr
               th.align_right #
-              th Product Name
-              th Generic Name
-              th Packaging
-              th.align_right Qty ordered
+              th Order Date
+              th Shipping Clerk
               th.align_right Qty readied
-              th.align_right Qty shipped
-              th.align_right Qty unshipped
+              th Option
           tbody
-            tr(ng-repeat='item in order.items | orderBy:columnSort.sortColumn:columnSort.reverse')
+            tr(ng-repeat='pList in packingList | orderBy:columnSort.sortColumn:columnSort.reverse')
               td.align_right {{$index+1}}
-              td {{item.manufacturersName}}
-              td {{item.genericName}}
-              td {{item.packaging}}
-              td.align_right {{item.qty          | customCurrency:"":".":",":0}}
-              td.align_right {{item.qtyReadied   | customCurrency:"":".":",":0}}
-              td.align_right {{item.qtyShipped   | customCurrency:"":".":",":0}}
-              td.align_right {{item.qtyRemaining | customCurrency:"":".":",":0}}
+              td {{pList.modifiedBy.date | date:'MMM-dd-yyyy'}}
+              td {{pList.modifiedBy.email}}
+              td.align_right {{pList.qtyReadied   | customCurrency:"":".":",":0}}
+              td
+                a.href(ng-click="viewShippingRecord(pList)", ng-disabled="form.$invalid",)
+                  | View details
           tfoot
             tr
               td
               td
               td Subtotal:
+              td.align_right {{totQtyReadied()   | customCurrency:"":".":",":0}}
               td
-              td.align_right {{totQty       | customCurrency:"":".":",":0}}
-              td.align_right {{totReadied   | customCurrency:"":".":",":0}}
-              td.align_right {{totShipped   | customCurrency:"":".":",":0}}
-              td.align_right {{totRemaining | customCurrency:"":".":",":0}}
             tr
         br
         hr
         br
-        a.btn.btn-success(href='#!/shipment') Back to Pending Shipment
-        a.btn.btn-warning(ng-click="createShippingRecord(order)") Create Packing Record
-        a.btn.btn-danger(ng-click="viewReadiedItems(order)") View packing lists
-        a.btn.btn-warning(ng-click="viewShippedItems(order)") View shipments     
+        a.btn.btn-success(ng-click="exitPackingList(order)") Back to Packing List Summary              
