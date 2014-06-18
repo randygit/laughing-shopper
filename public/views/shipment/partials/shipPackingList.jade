@@ -1,0 +1,32 @@
+#shipPackingList.modal
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title Ship items in this Packing List
+    .modal-body
+      .row
+        .col-md-12
+          form.form-horizontal(name="form", method="post",  novalidate)
+            input(type='hidden', name = '_csrf', value = token)
+            .form-group
+              label.col-sm-4.control-label(for='inputName') Shipping Details
+              div.col-sm-8
+                input#inputName.form-control(type='text',  name = 'reason', ng-model="shipPackingList.details", placeholder='Enter shipping details', required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.reason.$dirty && form.mtcn.$error.required") Please enter Enter shipping details
+            .form-group
+              label.col-sm-4.control-label(for='inputName') Date shipped
+              div.col-sm-8
+                input#inputName.form-control(type='text',  name = 'reason', ng-model="shipPackingList.when", placeholder='Date shipped', required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.reason.$dirty && form.mtcn.$error.required") Please enter date shipped
+            .form-group
+              label.col-sm-4.control-label(for='inputName') Shipped by
+              div.col-sm-8
+                input#inputName.form-control(type='text',  name = 'reason', ng-model="shipPackingList.by", placeholder='Name of person who handled shipping', required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.reason.$dirty && form.mtcn.$error.required") Please enter Name of person who handled shipping
+
+
+
+
+    .modal-footer
+      a.btn.btn-warning(ng-click='saveChanges()', ng-disabled="form.$invalid") Ship Items in Packing List
+      a.btn.btn-primary(ng-click='close()') Disregard changes

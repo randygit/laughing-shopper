@@ -163,7 +163,9 @@ exports.add = function(req, res) {
 
 
             order.qtyReadied = order.qtyReadied + req.body.qtyReadied;
-            order.log.push({email: req.body.modifiedBy.email, date: Date.now(), comment: 'shipment readied'});
+
+            comment = 'packing list readied for ' + req.body.qtyReadied + ' items. total items in various packing lists ' + order.qtyReadied;
+            order.log.push({email: req.body.modifiedBy.email, date: Date.now(), comment: comment });
 
             order.save(function(err) {
                 if(!err) {
@@ -251,8 +253,9 @@ exports.cancel = function(req, res) {
 
             order.readied = readiedItems;
 
+            comment = 'packing list cancelled reason: <'+ req.body.reason + '>. qty cancelled ' + qtyCancelled + ', available qty packed ' + order.qtyReadied;
 
-            order.log.push({email: req.body.email, date: Date.now(), comment: 'packing record cancelled'});
+            order.log.push({email: req.body.email, date: Date.now(), comment: comment });
 
             //console.log('About to save ' + JSON.stringify(order));
 
@@ -268,7 +271,7 @@ exports.cancel = function(req, res) {
                                 date: Date
                             };
 
-                            cancelInfo.info  = 'Cancelled';
+                            cancelInfo.info  = req.body.reason;
                             cancelInfo.email = req.body.email;
                             cancelInfo.date  = Date.now();
 

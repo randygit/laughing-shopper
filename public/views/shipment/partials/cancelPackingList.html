@@ -1,0 +1,25 @@
+
+<div id="cancelPackingList" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" ng-click="close()" aria-hidden="true" class="close">×</button>
+      <h4 class="modal-title">Confirm Cancellation</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <form name="form" method="post" novalidate="novalidate" class="form-horizontal">
+            <input type="hidden" name="_csrf"/>
+            <div class="form-group">
+              <label for="inputName" class="col-sm-2 control-label">Reason</label>
+              <div class="col-sm-10">
+                <input id="inputName" type="text" name="reason" ng-model="cancelPackingList.reason" placeholder="Enter reason for cancellation" required="required" class="form-control"/><span ng-cloak="ng-cloak" ng-show="form.reason.$dirty &amp;&amp; form.mtcn.$error.required" class="help-block">Please enter reason for cancellation</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><a ng-click="saveChanges()" ng-disabled="form.$invalid" class="btn btn-warning">Cancel Packing List</a><a ng-click="close()" class="btn btn-primary">Disregard changes</a></div>
+  </div>
+</div>

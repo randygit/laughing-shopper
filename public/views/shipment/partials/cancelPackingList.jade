@@ -1,0 +1,20 @@
+#cancelPackingList.modal
+  .modal-content
+    .modal-header
+      button.close(type='button', ng-click='close()', aria-hidden='true') ×
+      h4.modal-title Confirm Cancellation
+    .modal-body
+      .row
+        .col-md-12
+          form.form-horizontal(name="form", method="post",  novalidate)
+            input(type='hidden', name = '_csrf', value = token)
+            .form-group
+              label.col-sm-2.control-label(for='inputName') Reason
+              div.col-sm-10
+                input#inputName.form-control(type='text',  name = 'reason', ng-model="cancelPackingList.reason", placeholder='Enter reason for cancellation', required)
+                span.help-block(ng-cloak="ng-cloak", ng-show="form.reason.$dirty && form.mtcn.$error.required") Please enter reason for cancellation
+
+
+    .modal-footer
+      a.btn.btn-warning(ng-click='saveChanges()', ng-disabled="form.$invalid") Cancel Packing List
+      a.btn.btn-primary(ng-click='close()') Disregard changes
