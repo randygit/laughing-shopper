@@ -13,37 +13,11 @@ var mongoose = require('mongoose'),
  * Auth callback. what is this here
  */
 
-/*
-exports.orders - list all orders
-exports.servedOrders - list all fully shipped orders
-exports.pendingOrders - list all unshipped/partially shipped orders
-exports.customerOrders -
-exports.customerHistoricalOrders -
-exports.order  - order by id
-expor
-exports.add
-
-*/
 
 exports.authCallback = function(req, res, next) {
     res.redirect('/');
 };
 
-/*
-exports.orders = function(req,res) {
-    console.log('order.find()');
-    Order.find({},{}, {sort: {manufacturersName: 1}}, function(err,orders) {
-        if(!err) {
-            res.json(orders);
-        }
-        else {
-            console.log('Error in orders');
-            res.redirect('/');
-        }
-
-    });
-};
-*/
 
 exports.order = function(req,res) {
     //console.log('order.find()' + req.params.id);
@@ -164,39 +138,6 @@ exports.verifyWuOrder = function (req, res) {
         });
     }
 };
-/*
-// should check why this does not work
-exports.disapproveWuOrder = function (req, res) {
-    console.log('disapprove orderId ' + req.params.id);
-    //console.log('disapprove mtcnInfo ' + JSON.stringify(req.body));
-
-    var id = req.params.id;
-    if (id) {
-       Order.findByIdAndUpdate(
-          id,
-          {$set:
-              {
-                  status: 0,
-                  paymentRef: {info: '',date:'',email:''},
-                  verifiedBy: {info:'',amount:0,email:'',date:''}
-              }
-          },
-          {$push:
-              {"log": {email:req.body.email, comment:req.body.info, date: Date.now()}}},
-          {safe:true, upsert:true},
-          function (err) {
-              if (!err) {
-                  res.json(true);
-              } else {
-                  res.json(false);
-                  console.log(err);
-              }
-
-        });
-    }
-};
-*/
-
 
 // works log.push
 exports.disapproveWuOrder = function (req, res) {
@@ -406,7 +347,7 @@ exports.add = function(req,res) {
 };
 
 
-exports.packingList = function(req,res) {
+exports.orderDeliveryList = function(req,res) {
 
     //Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
     Order.find({ 'status': 3},

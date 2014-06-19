@@ -209,7 +209,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/verifyWuOrders', order.verifyWuOrders);
     app.put('/api/verifyWuOrder/:id', order.verifyWuOrder);
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
-    app.get('/api/packingList', order.packingList);
+    app.get('/api/orderDeliveryList', order.orderDeliveryList);
     app.get('/api/postedShipment', order.postedShipment);
 
     // packingLists

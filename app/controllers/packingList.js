@@ -20,15 +20,6 @@ var mongoose = require('mongoose'),
     PackingList = mongoose.model('PackingList3');
 
 
-
-/*
-exports.list          - list all packinglists
-exports.add           - add readied record and update order
-exports.cancel        - cancel shipment, given shipmentId
-exports.delete        - delete a record in items, given shipmentId
-exports.ship          - ship, status from Readied to Shipped, givenShipmentId
-*/
-
 exports.authCallback = function(req, res, next) {
     res.redirect('/');
 };
@@ -324,22 +315,7 @@ exports.cancel = function(req, res) {
 exports.ship = function(req, res) {
     console.log('SHIP' + JSON.stringify(req.body));
 
-    /*
-    1. create shipment Record
-    2. update Order
-       set qtyShipped
-       set qtyReadied
-       set qtyRemaning
 
-       items[] - update when record is in items
-       readied[] - delete when readiedID
-       shipped[] - add records
-
-       save order
-          save packingList
-             save shipment
-
-    */
         var shipment = new Shipment({
             "deliveryRef": String,
             "shipmentDate": {type:Date},
@@ -696,13 +672,10 @@ var checkIds = function(itemReadiedId, readyId) {
 
     itemRId = itemReadiedId.toString();
 
-    //console.log('packingList.Id ' + readyId + ' item[].readied ' + itemRId);
     if (readyId.localeCompare(itemRId) === 0 ) {
         ret = 0;
     }
 
-
-    //console.log('\tret  ' + ret );
     return ret;
 };
 
@@ -711,29 +684,19 @@ var getQtyReadied = function(readyItems, productId) {
     var retQty = 0;
     prodId = productId.toString();
 
-    //console.log('\t\tfor getQtyReadied prodId ' + prodId);
+
     var j = 0;
 
     while (j < readyItems.length ) {
         rdyItem= readyItems[j];
         iD     = rdyItem.productId;
         itemId = iD.toString();
-
-        //console.log('\t\tj  = ' + j + ' itemId ' + itemId);
-
-
         if(prodId.localeCompare(itemId) === 0) {
-            //console.log('\t\tPAREHO');
             retQty = rdyItem.qty;
             break;
         }
         j++;
     }
-
-
-
-   // console.log('\t\tretQty ' + retQty);
-
     return retQty;
 
 };

@@ -5,7 +5,7 @@ angular.module('mean.roles').controller('OrderShipmentListController', ['$scope'
     $scope.global = Global;
 
     // status =3 and qtyRemaining gte 1
-    $http.get('/api/packingList').
+    $http.get('/api/orderDeliveryList').
       success(function(data, status, headers, config) {
             $scope.orders = data;
     });
