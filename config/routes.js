@@ -222,7 +222,7 @@ module.exports = function(app, passport, auth) {
 
     // shipments
     var shipment = require('../app/controllers/shipment');
-    //app.get('/api/shipment/:email/:status', shipment.shipments);      // get all items
+    app.get('/api/shipmentLists/:orderId',shipment.list);         // list all shipment for given orderId
 
 
     //Home route

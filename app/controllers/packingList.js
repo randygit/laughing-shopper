@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order26');
-    Shipment = mongoose.model('Shipment9');
+    Shipment = mongoose.model('Shipment10');
     PackingList = mongoose.model('PackingList3');
 
 
@@ -428,6 +428,7 @@ exports.ship = function(req, res) {
                 shipment.customerName =  order.customerName;
                 shipment.customerEmail = order.customerEmail;
                 shipment.shipto        = order.shipto;
+                shipment.shippingMode  = order.shippingMode;
 
                 console.log('PackingList.qtyReadied ' + req.body.qtyReadied);
                 console.log('order.qtyReadied       ' + order.qtyReadied);

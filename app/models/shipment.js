@@ -21,6 +21,7 @@ var ShipmentSchema = new Schema({
         "orderRef":String,
         "customerName": String,
         "customerEmail":String,
+        "shippingMode": String,
         "shipto" : {"fullname": String, "address1": String, "address2": String,"address3":String,
                     "city": String, "state": String, "country": String, "zipcode": String},
         "qtyShipped": Number,
@@ -37,4 +38,4 @@ var ShipmentSchema = new Schema({
         "trackingInfo": {"company": String, "trackingNumber": String, "status": String, "estimatedDeliveryDate": Date}
 });
 
-mongoose.model('Shipment9', ShipmentSchema);
+mongoose.model('Shipment10', ShipmentSchema);

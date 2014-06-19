@@ -57,9 +57,9 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         changeLocation('/packingList');
     };
 
-    $scope.shippedItems = function(order) {
+    $scope.viewShippedItems = function(order) {
         Basket.addItem(order);
-        changeLocation('/shippedItems');
+        changeLocation('/shipmentList');
     };
 
      $scope.createShippingRecord = function(order) {
