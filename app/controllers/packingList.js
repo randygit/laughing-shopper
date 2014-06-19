@@ -340,30 +340,30 @@ exports.ship = function(req, res) {
              save shipment
 
     */
-    var shipment = new Shipment({
-        "deliveryRef": String,
-        "shipmentDate": {type:Date},
-        "orderId": {type:Schema.Types.ObjectId},
-        "readiedId": {type:Schema.Types.ObjectId},
-        "orderDate": {type:Date},
-        "orderRef":String,
-        "customerName": String,
-        "customerEmail":String,
-        "shipto" : {"fullname": String, "address1": String, "address2": String,"address3":String,
-                    "city": String, "state": String, "country": String, "zipcode": String},
-        "qtyShipped": {type:Number},
-        "items": [{
-            productId: {type:Schema.Types.ObjectId},
-            manufacturersName: String,
-            genericName: String,
-            packaging: String,
-            qtyShipped: {type:Number},
-            unitPrice: {type:Number}
-            }],
-        "status": {type:Number},         // 0 ok 9 cancelled
-        "cancelledBy":  {"info": String, "email": String, "date":{type:Date}},
-        "shipmentRef":  {"email": String, "date": {type:Date}, "details": String, "when": String, "by":String},
-        "trackingInfo": {"company": String, "trackingNumber": String, "status": String, "estDeliveryDate": {type:Date}}
+        var shipment = new Shipment({
+            "deliveryRef": String,
+            "shipmentDate": {type:Date},
+            "orderId": {type:Schema.Types.ObjectId},
+            "readiedId": {type:Schema.Types.ObjectId},
+            "orderDate": {type:Date},
+            "orderRef":String,
+            "customerName": String,
+            "customerEmail":String,
+            "shipto" : {"fullname": String, "address1": String, "address2": String,"address3":String,
+                        "city": String, "state": String, "country": String, "zipcode": String},
+            "qtyShipped": {type:Number},
+            "items": [{
+                productId: {type:Schema.Types.ObjectId},
+                manufacturersName: String,
+                genericName: String,
+                packaging: String,
+                qtyShipped: {type:Number},
+                unitPrice: {type:Number}
+                }],
+            "status": {type:Number},         // 0 ok 9 cancelled
+            "cancelledBy":  {"info": String, "email": String, "date":{type:Date}},
+            "shipmentRef":  {"email": String, "date": {type:Date}, "details": String, "when": String, "by":String},
+            "trackingInfo": {"company": String, "trackingNumber": String, "status": String, "estDeliveryDate": {type:Date}}
         });
 
         var info = {
@@ -384,13 +384,30 @@ exports.ship = function(req, res) {
         shipment.shipmentDate = Date.now();
         shipment.orderId      = req.body.orderId;
         shipment.readiedId    = req.body.readiedId;
-        shipmet.qtyShipped    = req.body.qtyShipped;
+        shipment.qtyShipped    = req.body.qtyReadied;
         shipment.status       = 0;
         shipment.shipmentRef  = info;
-        shipment.items        = req.body.items;
+
+
+
+        var shippedItems = [];
+        for (i=0; i < req.body.items.length; i++) {
+            item = req.body.items[i];
+            if(item.qtyReadied > 0) {
+                shippedItems.push({
+                    'productId':        item.productId,
+                    'manufacturersName':item.manufacturersName,
+                    'genericName':      item.genericName,
+                    'packaging':        item.packaging,
+                    'qtyShipped':       item.qtyReadied
+                });
+
+            }
+        }
+
+        shipment.items = shippedItems;
 
         var readiedItems = [];
-
         for (i=0; i < req.body.items.length; i++) {
             if (req.body.items[i].qtyReadied > 0) {
                 readiedItems.push({
@@ -411,6 +428,11 @@ exports.ship = function(req, res) {
                 shipment.customerName =  order.customerName;
                 shipment.customerEmail = order.customerEmail;
                 shipment.shipto        = order.shipto;
+
+                console.log('PackingList.qtyReadied ' + req.body.qtyReadied);
+                console.log('order.qtyReadied       ' + order.qtyReadied);
+                console.log('order.qtyShipped       ' + order.qtyShipped);
+                console.log('order.qtyRemaining     ' + order.qtyRemaining);
 
                 order.qtyReadied   = order.qtyReadied - req.body.qtyReadied;
                 order.qtyShipped   = order.qtyShipped  + req.body.qtyReadied;
@@ -468,18 +490,17 @@ exports.ship = function(req, res) {
                 }
 
                 order.readied = updatedReadiedItems;
+                console.log('ShipmentID ' + shipment._id);
 
                 for (i=0; i < req.body.items.length; i++) {
                     if (req.body.items[i].qtyReadied > 0) {
                         order.shipped.push({
-                            'shipmentdId':   shipment._id,
+                            'shipmentId':   shipment._id,
                             'productId':     req.body.items[i].productId,
                             'manufacturersName':req.body.items[i].manufacturersName,
                             'genericName':   req.body.items[i].genericName,
                             'packaging':     req.body.items[i].packaging,
-                            'qty':           req.body.items[i].qty,
-                            'qtyReadied':    req.body.items[i].qtyReadied,
-                            'qtyShipped':    req.body.items[i].qtyShipped,
+                            'qtyShipped':    req.body.items[i].qtyReadied,
                             'shippingClerk': req.body.email,
                             'timestamp':     Date.now()
                         });
@@ -487,7 +508,7 @@ exports.ship = function(req, res) {
                     }
                 }
 
-                comment = 'shipment made: <'+ req.body.info + '>. qty shipped ' + qtyShipped + ',  qty remaining ' + qtyRemaining;
+                comment = 'shipment made: <'+ req.body.details + '>. qty shipped ' + req.body.qtyReadied;
 
                 order.log.push({email: req.body.email, date: Date.now(), comment: comment });
 
@@ -499,7 +520,6 @@ exports.ship = function(req, res) {
                             if(!err) {
 
                                 packingList.status = 1;     // 0- ok. 1- shipped 9 -cancelled
-                                packingList.cancelledBy = cancelInfo;
 
                                 packingList.save(function(err) {
                                     if(!err) {

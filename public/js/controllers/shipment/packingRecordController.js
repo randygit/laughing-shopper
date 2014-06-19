@@ -140,7 +140,7 @@ angular.module('mean.roles').controller('PackingRecordController', ['$scope', '$
                 var info = {
                     orderId: String,
                     readiedId: String,
-                    qtyShipped: Number,
+                    qtyReadied: Number,
                     details: String,
                     when: String,
                     by: String,
@@ -150,7 +150,7 @@ angular.module('mean.roles').controller('PackingRecordController', ['$scope', '$
 
                 info.orderId   = packingList.orderId;
                 info.readiedId = packingList._id;
-                info.qtyShipped= packingList.qtyReadied;
+                info.qtyReadied= packingList.qtyReadied;
                 info.email     = Global.user.email;
                 info.items     = packingList.items;
                 info.details   = shipInfo.details;
