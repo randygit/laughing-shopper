@@ -32,10 +32,10 @@ var ShipmentSchema = new Schema({
             packaging: String,
             qtyShipped: Number
             }],
-        "status": String,         // 0 ok 9 cancelled
+        "status": Number,         // 0 ok 9 cancelled
         "cancelledBy":  {"info": String, "email": String, "date": Date},
         "shipmentRef":  {"email": String, "date": Date, "details": String, "when":String, "by":String},
         "trackingInfo": {"company": String, "trackingNumber": String, "status": String, "estimatedDeliveryDate": Date}
 });
 
-mongoose.model('Shipment10', ShipmentSchema);
+mongoose.model('Shipment11', ShipmentSchema);

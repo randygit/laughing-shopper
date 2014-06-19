@@ -218,6 +218,7 @@ module.exports = function(app, passport, auth) {
     app.get('/api/packingLists/:orderId',packingList.list);         // list all packingList
     app.post('/api/cancelPackingList'  ,packingList.cancel);        // cancel packing and update Order
     app.post('/api/shipPackingList'    ,packingList.ship);          // add shipment, update packingList,Order
+    app.post('/api/cancelShipment'     ,packingList.cancelShipment);         // cancel packing and update Order
 
 
     // shipments

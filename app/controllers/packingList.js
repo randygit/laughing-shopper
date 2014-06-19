@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order26');
-    Shipment = mongoose.model('Shipment10');
+    Shipment = mongoose.model('Shipment11');
     PackingList = mongoose.model('PackingList3');
 
 
@@ -90,8 +90,8 @@ exports.add = function(req, res) {
     for (i=0; i < req.body.items.length; i++) {
         if (req.body.items[i].qtyReadied > 0) {
             readiedItems.push({
-                'productId':     req.body.items[i].productId,
-                'qtyReadied':    req.body.items[i].qtyReadied
+                'productId': req.body.items[i].productId,
+                'qty':       req.body.items[i].qtyReadied
             });
 
         }
@@ -250,10 +250,10 @@ exports.cancel = function(req, res) {
 
             // delete records in items.readied where readiedId
 
-            var readiedItems = [];
+            var updatedReadiedItems = [];
             for (i=0; i < order.readied.length; i++) {
                 if (checkIds(order.readied[i].readiedId, cancelledId) > 0) {
-                    readiedItems.push({
+                    updatedReadiedItems.push({
                         'readiedId':        order.readied[i].readiedId,
                         'productId':        order.readied[i].productId,
                         'manufacturersName':order.readied[i].manufacturersName,
@@ -268,7 +268,7 @@ exports.cancel = function(req, res) {
                 }
             }
 
-            order.readied = readiedItems;
+            order.readied = updatedReadiedItems;
 
             comment = 'packing list cancelled reason: <'+ req.body.reason + '>. qty cancelled ' + qtyCancelled + ', available qty packed ' + order.qtyReadied;
 
@@ -412,7 +412,7 @@ exports.ship = function(req, res) {
             if (req.body.items[i].qtyReadied > 0) {
                 readiedItems.push({
                     'productId':     req.body.items[i].productId,
-                    'qtyReadied':    req.body.items[i].qtyReadied
+                    'qty':    req.body.items[i].qtyReadied
                 });
 
             }
@@ -559,6 +559,136 @@ exports.ship = function(req, res) {
 
 };
 
+
+exports.cancelShipment = function(req, res) {
+
+    //console.log('Cancel Info ' + JSON.stringify(req.body));
+
+    //cancelledItems = req.body.items;
+    qtyCancelled   = req.body.qtyCancelled;
+    cancelledId    = req.body.shippedId;
+
+
+    var cancelledItems = [];
+    for (i=0; i < req.body.items.length; i++) {
+        if (req.body.items[i].qtyShipped > 0) {
+            cancelledItems.push({
+                'productId': req.body.items[i].productId,
+                'qty':       req.body.items[i].qtyShipped
+            });
+
+        }
+    }
+
+
+    Order.findById(req.body.orderId, function(err,order) {
+        if(order) {
+
+            order.qtyRemaining = order.qtyRemaining + req.body.qtyCancelled;
+            order.qtyShipped   = order.qtyShipped   - req.body.qtyCancelled;
+
+            var updatedItems = [];
+            for (i=0; i < order.items.length; i++) {
+
+                item = order.items[i];
+
+                prodId = item.productId;
+
+                deductQtyShipped =  getQtyReadied(cancelledItems, prodId);
+                qtyShipped       =  item.qtyShipped - deductQtyShipped;
+                qtyRemaining     =  item.qtyRemaining + deductQtyShipped;
+
+                updatedItems.push({
+                    'productId':        item.productId,
+                    'manufacturersName':item.manufacturersName,
+                    'genericName':      item.genericName,
+                    'packaging':        item.packaging,
+                    'qty':              item.qty,
+                    'qtyReadied':       item.qtyReadied,
+                    'qtyShipped':       qtyShipped,
+                    'qtyRemaining':     qtyRemaining,
+                    'unitPrice':        item.unitPrice,
+                    'subTotal':         item.subTotal
+                });
+
+            }
+
+            order.items      = updatedItems;      // overlay exisiting items with new qtyReadied
+
+            // delete records in items.readied where readiedId
+
+            var shippedItems = [];
+            for (i=0; i < order.shipped.length; i++) {
+                if (checkIds(order.shipped[i].shipmentId, cancelledId) > 0) {
+                    shippedItems.push({
+                        'shipmentId':       order.shipped[i].shipmentId,
+                        'productId':        order.shipped[i].productId,
+                        'manufacturersName':order.shipped[i].manufacturersName,
+                        'genericName':      order.shipped[i].genericName,
+                        'packaging':        order.shipped[i].packaging,
+                        'qty':              order.shipped[i].qty,
+                        'qtyReadied':       order.shipped[i].qtyReadied,
+                        'qtyShipped':       order.shipped[i].qtyShipped,
+                        'shippingClerk':    req.body.email,
+                        'timestamp':        Date.now()
+                    });
+                }
+            }
+
+            order.shipped = shippedItems;
+
+            comment = 'Shipment cancelled reason: <'+ req.body.reason + '>. qty cancelled ' + qtyCancelled + ', available qty packed ' + order.qtyRemaining;
+
+            order.log.push({email: req.body.email, date: Date.now(), comment: comment });
+
+            //console.log('About to save ' + JSON.stringify(order));
+
+
+            order.save(function(err) {
+                if(!err) {
+                    console.log('Updated order ' + req.body.orderId);
+                    Shipment.findById(req.body.shippedId, function(err, shipment) {
+                        if(!err) {
+                            var cancelInfo = {
+                                info: String,
+                                email: String,
+                                date: Date
+                            };
+
+
+                            cancelInfo.info  = req.body.reason;
+                            cancelInfo.email = req.body.email;
+                            cancelInfo.date  = Date.now();
+
+                            shipment.status = 9;     // 0- ok. 1- shipped 9 -cancelled
+                            shipment.cancelledBy = cancelInfo;
+
+                            shipment.save(function(err) {
+                                if(!err) {
+                                    console.log('shipment cancelled');
+                                    return res.json(order);
+                                }
+                                else {
+                                    console.log('Error in cancelling shipment');
+                                    return res.json(order);
+                                }
+                            });
+                        }
+
+                    });
+                }
+                else {
+                    console.log("Error in updating order " + err);
+                    return res.json(order);
+                }
+            });
+
+
+        }
+
+    });
+};
+
 var checkIds = function(itemReadiedId, readyId) {
 
 
@@ -594,7 +724,7 @@ var getQtyReadied = function(readyItems, productId) {
 
         if(prodId.localeCompare(itemId) === 0) {
             //console.log('\t\tPAREHO');
-            retQty = rdyItem.qtyReadied;
+            retQty = rdyItem.qty;
             break;
         }
         j++;

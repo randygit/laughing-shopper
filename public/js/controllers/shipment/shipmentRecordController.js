@@ -62,7 +62,7 @@ angular.module('mean.roles').controller('ShipmentRecordController', ['$scope', '
                 };
 
                 info.orderId      = shipment.orderId;
-                info.readiedId    = shipment._id;
+                info.shippedId    = shipment._id;
                 info.qtyCancelled = shipment.qtyShipped;
                 info.reason       = cancelInfo.reason;
                 info.email        = Global.user.email;
@@ -73,13 +73,13 @@ angular.module('mean.roles').controller('ShipmentRecordController', ['$scope', '
 
                     console.log("Success. cancelling record at /api/cancelShipment");
                     Basket.addItem($scope.order);
-                    changeLocation('/packingList');
+                    changeLocation('/shipmentList');
 
                 })
                 .error(function(data) {
                     console.log("Success. cancelling record at /api/cancelShipment");
                     Basket.addItem($scope.order);
-                    changeLocation('/packingList');
+                    changeLocation('/shipmentList');
                 });
 
 

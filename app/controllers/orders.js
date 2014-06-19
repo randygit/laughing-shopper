@@ -408,7 +408,8 @@ exports.add = function(req,res) {
 
 exports.packingList = function(req,res) {
 
-    Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
+    //Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
+    Order.find({ 'status': 3},
         {orderDate:1,customerName: 1, customerEmail:1, shipto:1, itemCount:1, qtyReadied:1, qtyShipped:1, qtyRemaining:1, items:1 },
         {sort: {orderDate: 1}},
         function(err,orders) {

@@ -18,7 +18,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
 
     Order = mongoose.model('Order26');
-    Shipment = mongoose.model('Shipment10');
+    Shipment = mongoose.model('Shipment11');
 
 
 /*
@@ -37,9 +37,11 @@ exports.authCallback = function(req, res, next) {
 
 
 exports.list = function(req, res) {
-    Shipment.find ({'orderId': req.params.orderId, 'status': 0}, function(err,shipmentLists) {
+    console.log('shipment.list ' + req.params.orderId);
+
+    Shipment.find ({'orderId': req.params.orderId, 'status': 0}, function(err,shipments) {
         if(!err) {
-            res.json(shipmentLists);
+            res.json(shipments);
         }
         else {
             console.log('Error in shipmentList');
