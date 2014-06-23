@@ -352,7 +352,7 @@ exports.orderDeliveryList = function(req,res) {
     //Order.find({ 'status': 3, 'qtyRemaining': {$gte: 1}},
     Order.find({ 'status': 3},
         {orderDate:1,customerName: 1, customerEmail:1, shipto:1, itemCount:1, qtyReadied:1, qtyShipped:1, qtyRemaining:1, items:1 },
-        {sort: {orderDate: 1}},
+        {sort: {orderDate: -1}},
         function(err,orders) {
             if(!err) {
                 //console.log('Orders ' + JSON.stringify(orders));
@@ -369,7 +369,7 @@ exports.postedShipment = function(req,res) {
 
     Order.find({ 'status': 3, 'qtyRemaining': 0},
         {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
-        {sort: {orderDate: 1}},
+        {sort: {orderDate: -1}},
         function(err,orders) {
             if(!err) {
                 //console.log('Orders ' + JSON.stringify(orders));
@@ -381,6 +381,67 @@ exports.postedShipment = function(req,res) {
             }
     });
 };
+
+exports.customerHistoricalOrders = function(req,res) {
+
+    Order.find({ 'customerEmail': req.params.email, 'status': 3, 'qtyRemaining': 0},
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
+        {sort: {orderDate: 1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders ' + err );
+                res.redirect('/');
+            }
+    });
+};
+
+
+
+exports.customerPendingShipment = function(req,res) {
+
+    console.log('customerPendingShipment ' + req.params.email);
+
+    //Order.find({ 'customerEmail': req.params.email, 'status': 3, 'qtyRemaining': {gte:1}},
+    Order.find({ 'customerEmail': req.params.email, 'status': 3},
+        {orderDate:1,customerName: 1, customerEmail:1, shipto:1, itemCount:1, qtyReadied:1, qtyShipped:1, qtyRemaining:1, items:1 },
+        {sort: {orderDate: -1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders ' + err);
+                res.redirect('/');
+            }
+    });
+};
+
+
+/*
+
+exports.customerCancelledOrders = function(req,res) {
+
+    Order.find({ 'email': req.params.email, 'status': 9},
+        {orderDate:1,customerName: 1, customerEmail:1, itemCount:1, qtyReadied:1, qtyShipped:1,items:1 },
+        {sort: {orderDate: -1}},
+        function(err,orders) {
+            if(!err) {
+                //console.log('Orders ' + JSON.stringify(orders));
+                res.json(orders);
+            }
+            else {
+                console.log('Error in orders');
+                res.redirect('/');
+            }
+    });
+};
+
+*/
 
 var sendConfirmOrderEmail = function(req, order) {
 

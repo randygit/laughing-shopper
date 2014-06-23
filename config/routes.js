@@ -38,6 +38,7 @@ module.exports = function(app, passport, auth) {
     app.post('/user/profile/:email', users.updateProfile);
 
     app.post('/user/password/:email', users.updatePassword);
+    app.get('/user/list', users.list);             // get all users
 
 
     // validation for directives
@@ -211,6 +212,9 @@ module.exports = function(app, passport, auth) {
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
     app.get('/api/orderDeliveryList', order.orderDeliveryList);
     app.get('/api/postedShipment', order.postedShipment);
+    app.get('/api/customerPendingShipment/:email',  order.customerPendingShipment);
+    app.get('/api/customerHistoricalOrders/:email', order.customerHistoricalOrders);
+    //app.get('/api/customerCancelledOrders/:email',  order.customerCancelledlOrders);
 
     // packingLists
     var packingList = require('../app/controllers/packingList');

@@ -29,6 +29,11 @@ angular.module('mean.roles').controller('PackingRecordController', ['$scope', '$
         changeLocation('/packingList');
     };
 
+    $scope.exitCustomerPackingList = function() {
+        Basket.addItem($scope.order);
+        changeLocation('/customerPackingList');
+    };
+
     $scope.cancelPackingList = function(packingList) {
         var cancelDetails = {
             reason: String

@@ -50,6 +50,13 @@ angular.module('mean.roles').controller('ShipmentListController', ['$scope', '$l
 
 
 
+    $scope.viewCustomerShipment = function(shipment) {
+        Basket.addItem($scope.order);
+        Basket.addItem(shipment);
+        changeLocation('/customerShipmentRecord');
+    };
+
+
     $scope.cancelShippingRecord = function(packingList) {
     };
 
@@ -60,6 +67,12 @@ angular.module('mean.roles').controller('ShipmentListController', ['$scope', '$l
     $scope.exitPackingList = function(order) {
         OrderService.addOrderId(order._id);
         changeLocation('/itemShipmentStatusList');
+    };
+
+
+    $scope.exitCustomerShipmentList = function(order) {
+        OrderService.addOrderId(order._id);
+        changeLocation('/customerShipmentStatusList');
     };
 
 

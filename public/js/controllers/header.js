@@ -43,8 +43,12 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$locati
                     "link": "verify"
                 },
                 {
-                    "title": "Ship Orders",
+                    "title": "Shipping Clerk",
                     "link": "shipment"
+                },
+                {
+                    "title": "Customer Support",
+                    "link": "support"
                 }
 
 

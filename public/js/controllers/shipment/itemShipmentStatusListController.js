@@ -5,9 +5,9 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
     $scope.window = $window;
     $scope.global = Global;
 
-    orderId = OrderService.getOrderId();
+    $scope.orderId = OrderService.getOrderId();
 
-    $http.get('/api/order/' + orderId).
+    $http.get('/api/order/' + $scope.orderId).
       success(function(order, status, headers, config) {
         $scope.order = order;
 
@@ -67,6 +67,28 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         changeLocation('/shippingRecord');
     };
 
+
+     $scope.customerPendingShipment = function(order) {
+        var customer = {
+          email:String
+        };
+
+        customer.email = order.customerEmail;
+
+        Basket.addItem(customer);
+        changeLocation('/supportPendingShipment');
+    };
+
+    // handle view transaction
+    $scope.viewCustomerReadiedItems = function(order) {
+        Basket.addItem(order);
+        changeLocation('/customerPackingList');
+    };
+
+    $scope.viewCustomerShippedItems = function(order) {
+        Basket.addItem(order);
+        changeLocation('/customerShipmentList');
+    };
       // from http://www.yearofmoo.com/2012/10/more-angularjs-magic-to-supercharge-your-webapp.html#apply-digest-and-phase
     var changeLocation = function(url, force) {
         //this will mark the URL change

@@ -480,6 +480,19 @@ exports.resetpassword = function(req, res) {
     });
 };
 
+exports.list = function(req,res) {
+    console.log('user.list()');
+    User.find({verified:true, role:9},{name:1, email:1, deactivated:1, disabled:1}, {sort: {name: 1}}, function(err,Users) {
+        if(!err) {
+            res.json(Users);
+        }
+        else {
+            console.log('Error in users');
+            res.redirect('/');
+        }
+
+    });
+};
 
 exports.welcome = function(req, res) {
     res.render('welcome', {

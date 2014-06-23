@@ -36,11 +36,13 @@ angular.module('mean.roles').controller('UserRoleController', ['$scope', '$locat
         Role.role = role;
         Role.deactivated = deactivated;
 
+        /*
         console.log("ng-submit updateRole");
         console.log('ID          : ' + id);
         console.log('Name        : ' + Role.name);
         console.log('Role        : ' + Role.role);
         console.log('Deactivated : ' + Role.deactivated);
+        */
         $http.post('/api/role/' + id, Role)
                     .success(function(data) {
                         console.log("Success. back from /user/profile");

@@ -88,6 +88,33 @@ window.app.config(['$routeProvider',
         when('/shipmentRecord', {
             templateUrl: 'views/shipment/shipmentRecord.html'
         }).
+        when('/support', {
+            templateUrl: 'views/support/customer.html'
+        }).
+        when('/supportPendingShipment', {
+            templateUrl: 'views/support/pendingShipment.html'
+        }).
+        when('/customerOrderDetails', {
+            templateUrl: 'views/support/customerOrderDetails.html'
+        }).
+        when('/customerShipmentStatusList', {
+            templateUrl: 'views/support/customerShipmentStatusList.html'
+        }).
+        when('/supportHistoricalOrders', {
+            templateUrl: 'views/support/historicalOrders.html'
+        }).
+        when('/customerPackingList', {
+            templateUrl: 'views/support/customerPackingList.html'
+        }).
+        when('/customerPackingRecord', {
+            templateUrl: 'views/support/customerPackingRecord.html'
+        }).
+        when('/customerShipmentList', {
+            templateUrl: 'views/support/customerShipmentList.html'
+        }).
+        when('/customerShipmentRecord', {
+            templateUrl: 'views/support/customerShipmentRecord.html'
+        }).
         when('/', {
             templateUrl: 'views/index.html'
         }).

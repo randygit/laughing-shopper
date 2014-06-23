@@ -7,7 +7,6 @@ angular.module('mean.roles').controller('ShipmentRecordController', ['$scope', '
     $scope.shipment = Basket.popItem();
     $scope.order    = Basket.popItem();
 
-
     var pDate = new Date($scope.order.orderDate);
     $scope.orderDate = pDate.toDateString();
 
@@ -28,6 +27,13 @@ angular.module('mean.roles').controller('ShipmentRecordController', ['$scope', '
         Basket.addItem($scope.order);
         changeLocation('/shipmentList');
     };
+
+
+    $scope.exitCustomerShipment = function() {
+        Basket.addItem($scope.order);
+        changeLocation('/customerShipmentList');
+    };
+
 
     $scope.cancelShipment = function(shipment) {
         var cancelDetails = {

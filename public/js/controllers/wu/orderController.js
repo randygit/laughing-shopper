@@ -1,5 +1,5 @@
 
-angular.module('mean.roles').controller('OrderController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal',  'OrderService', 'Countries', 'MtcnModal', 'VerifyMtcnModal','DisapproveMtcnModal', function ($scope, $location, $route, Global, $window, $http, $modal, OrderService, Countries, MtcnModal, VerifyMtcnModal, DisapproveMtcnModal ) {
+angular.module('mean.roles').controller('OrderController', ['$scope', '$location','$route', 'Global', '$window','$http','$modal',  'OrderService', 'Basket', 'Countries', 'MtcnModal', 'VerifyMtcnModal','DisapproveMtcnModal', function ($scope, $location, $route, Global, $window, $http, $modal, OrderService, Basket, Countries, MtcnModal, VerifyMtcnModal, DisapproveMtcnModal ) {
 
     $scope.window = $window;
     $scope.global = Global;
@@ -102,6 +102,31 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
         this.showModal = DisapproveMtcnModal.activate();
     };
 
+     $scope.returnCustomerPendingOrders = function(order) {
+        var customer = {
+          email:String
+        };
+
+        customer.email = order.customerEmail;
+
+        Basket.addItem(customer);
+        changeLocation('/supportPendingShipment');
+    };
+
+
+    // from http://www.yearofmoo.com/2012/10/more-angularjs-magic-to-supercharge-your-webapp.html#apply-digest-and-phase
+    var changeLocation = function(url, force) {
+        //this will mark the URL change
+        $location.path(url); //use $location.path(url).replace() if you want to replace the location instead
+
+        $scope = $scope || angular.element(document).scope();
+        if(force || !$scope.$$phase) {
+            //this will kickstart angular if to notice the change
+            $scope.$apply();
+        }
+    };
+
+
     /*
     $scope.thousandsQty = function(qty) {
         var formatQty = 0;
@@ -124,6 +149,7 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
             }
         return true;
     };
+
 
     //http://stackoverflow.com/questions/9318674/javascript-number-currency-formatting
     Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {

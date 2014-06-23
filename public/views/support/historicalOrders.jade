@@ -1,0 +1,46 @@
+section(data-ng-controller='HistoricalOrdersController')
+  .container.products
+    .row
+        h3
+          span.introcolor Historical Orders
+        ul.list-inline
+          li(ng-if='orders.length == 0') You have no orders.
+          li(ng-if='orders.length == 1') You have {{ orders.length }} order.
+          li(ng-if='orders.length > 1') You have {{ orders.length }} orders.
+          li
+            .input-prepend
+              span.add-on
+                i.glyphicon.glyphicon-search
+              input#inputIcon.span2(type='text', placeholder='Search...', ng-model='query')
+
+        table.table.table-striped.tcartthead
+          thead
+            tr
+              th.align_right #
+              th Order Date
+              th Name
+              th Destination
+              th.align_right Qty ordered
+              th.align_right Qty readied
+              th.align_right Qty shipped
+              th.align_right Qty unshipped
+              th Options
+          tbody
+            tr(ng-repeat='order in orders | orderBy:columnSort.sortColumn:columnSort.reverse | filter: query')
+              td.align_right {{$index+1}}
+              td {{order.orderDate | date:'MMM-dd-yyyy'}}
+              td {{order.customerName}}
+              td {{order.shipto.country}}
+              td.align_right {{order.itemCount | customCurrency:"":".":",":0}}
+              td.align_right {{order.qtyReadied | customCurrency:"":".":",":0}}
+              td.align_right {{order.qtyShipped| customCurrency:"":".":",":0}}
+              td.align_right {{order.qtyRemaining | customCurrency:"":".":",":0}}
+              td
+                a.href(ng-click="viewItemShipmentStatusList(order._id)", ng-disabled="form.$invalid",)
+                  | View Shipments
+                a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
+                  | View Order
+        br
+        hr
+        br
+        //a.btn.btn-warning(href='#!/shop') Proceed to shopping         
