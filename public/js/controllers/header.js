@@ -86,12 +86,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$locati
                     "link": "wu"
                 },
                 {
-                    "title": "Pending Orders",
-                    "link": "tabs"
-                },
-                {
-                    "title": "Order History",
-                    "link": "tabs"
+                    "title": "Order Status",
+                    "link": "queryCustomerOrder"
                 }
 
 
