@@ -503,6 +503,8 @@ exports.ship = function(req, res) {
                                         console.log('packing List cancelled');
                                         shipment.save(function(err) {
                                             if (!err) {
+                                                // send email here
+                                                sendShipmentEmail(req, shipment, order.itemCount, order.qtyRemaining);
                                                 console.log('shipping record saved');
                                                 return res.json(order);
                                             }
@@ -699,4 +701,85 @@ var getQtyReadied = function(readyItems, productId) {
     }
     return retQty;
 
+};
+
+var sendShipmentEmail = function(req, shipment, qtyOrdered, qtyRemaining) {
+
+    var prct ='';
+    if(qtyOrdered === shipment.qtyShipped) {
+        prct = 'full';
+    }
+    else {
+      if (qtyRemaining === 0) {
+          prct = 'final';
+      }
+      else {
+          prct = 'partial';
+      }
+
+    }
+
+
+    var items = [];
+
+    qtyShipped = shipment.qtyShipped.formatMoney(0,',','.');
+
+    itemCount = 0;
+    for (i=0; i < shipment.items.length; i++) {
+        qty       = shipment.items[i].qtyShipped.formatMoney(0,',','.');
+        itemCount = itemCount + shipment.qtyShipped;
+
+        items.push({'manufacturersName':shipment.items[i].manufacturersName,
+                    'genericName':shipment.items[i].genericName,
+                    'packaging':shipment.items[i].packaging,
+                    'qty':qty
+        });
+    }
+
+    var pDate = new Date(shipment.orderDate);
+    orderDate = pDate.toDateString();
+
+    var sDate = new Date(shipment.shipmentDate);
+    shippingDate = sDate.toDateString();
+
+    var subject =  'Your order from tropicalmeds.com booked on ' + orderDate + ' is on its way ';
+
+
+    var message = {
+        name: shipment.customerName,
+        email: shipment.customerEmail,
+        subject: subject,
+        prct: prct,
+        shippingDate: shippingDate,
+        orderDate: orderDate,
+        shipTo: shipment.shipto,
+        items: items,
+        itemCount: qtyShipped,
+        method: shipment.shippingMode,
+        supportURL: req.protocol + "://" + req.get('host') + "/support"
+    };
+
+    mailer.sendTemplate('shipment', message, function(error, response, html, text) {
+        if (error) {
+           console.log('Unable to send shipment email ' + error.message);
+        }
+        else {
+          console.log("Shipment email sent for delivery");
+        }
+    });
+
+    return;
+
+};
+
+//http://stackoverflow.com/questions/9318674/javascript-number-currency-formatting
+Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+    var n = this,
+    decPlaces2 = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+    decSeparator2 = decSeparator === undefined ? "." : decSeparator,
+    thouSeparator2 = thouSeparator === undefined ? "," : thouSeparator,
+    sign = n < 0 ? "-" : "",
+    i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces2)) + "",
+    j = (j = i.length) > 3 ? j % 3 : 0;
+    return sign + (j ? i.substr(0, j) + thouSeparator2 : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator2) + (decPlaces2 ? decSeparator2 + Math.abs(n - i).toFixed(decPlaces2).slice(2) : "");
 };

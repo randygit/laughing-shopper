@@ -1,0 +1,113 @@
+<!-- confirmorder/html.ejs -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>shipment made </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <div>
+            Dear <%= name%>,
+            <br />
+            <br />
+            We are happy to inform you that we have made a <%= prct%> shipment of your order which you booked on <%= orderDate%>.
+            <br />
+            <br />
+            The shipping details are as follows:
+            <br />
+            <br />
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Shipping Date  :</td>
+                        <td> <%= shippingDate %></td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td>Ship To    :</td>
+                        <td> <%= shipTo.fullname %></td>
+                    </tr>
+                    <tr>
+                        <td>Address    :</td>
+                        <td> <%= shipTo.address1 %></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> <%= shipTo.address2 %></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> <%= shipTo.address3 %></td>
+                    </tr>
+                    <tr>
+                        <td>City       :</td>
+                        <td><%= shipTo.city %></td>
+                    </tr>
+                    <tr>
+                        <td>State      :</td>
+                        <td> <%= shipTo.state %></td>
+                    </tr>
+                    <tr>
+                        <td>Country    :</td>
+                        <td><%= shipTo.country %></td>
+                    </tr>
+                    <tr>
+                        <td>Zipcode    :</td>
+                        <td><%= shipTo.zipcode %></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <br />
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                      <th align='left'>#</th>
+                      <th align='left'>Product Name</th>
+                      <th align='left'>Generic Name</th>
+                      <th align='left'>Packaging</th>
+                      <th align='right'>Quantity</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<items.length; i++) {%>
+                      <tr>
+                        <td align='left'><%= i+1 %></td>
+                        <td align='left'><%= items[i].manufacturersName %> </td>
+                        <td align='left'><%= items[i].genericName %> </td>
+                        <td align='left'><%= items[i].packaging %> </td>
+                        <td align='right'><%= items[i].qty %> </td>
+                      <tr/>
+                    <% }%>
+                </tbody>
+                <tfoot>
+                    <br />
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>Subtotal:</td>
+                      <td></td>
+                      <td align='right'> <%= itemCount%></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br />
+            This shipment was sent through <%= method%>.
+            <br />
+            <br />
+            Thank you,
+            <br />
+            <br />
+            <a href="<%= supportURL %>">The TropicalMeds Support Team</a>
+        </div>
+    </body>
+    <footer>
+    </footer>
+</html>

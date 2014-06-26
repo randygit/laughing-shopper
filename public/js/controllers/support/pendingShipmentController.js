@@ -4,10 +4,19 @@ angular.module('mean.roles').controller('PendingShipmentController', ['$scope', 
     $scope.window = $window;
     $scope.global = Global;
 
+
     $scope.customer = Basket.popItem();
+    console.log('$scope.customer' + $scope.customer);
+
+    if(typeof $scope.customer == 'undefined') {
+          email = Global.user.email;
+    }
+    else {
+        email = $scope.customer.email;
+    }
 
     // status =3 and qtyRemaining gte 1
-    $http.get('/api/customerPendingShipment/' + $scope.customer.email).
+    $http.get('/api/customerPendingShipment/' + email).
       success(function(data, status, headers, config) {
             $scope.orders = data;
     });
@@ -20,10 +29,22 @@ angular.module('mean.roles').controller('PendingShipmentController', ['$scope', 
         changeLocation('/customerShipmentStatusList');
     };
 
+
+    $scope.queryCustomerShipmentStatusList = function(orderId) {
+        // might have to pass orderID so the itemShipmentStatusList can automatically refresh
+        OrderService.addOrderId(orderId);
+        changeLocation('/queryCustomerShipmentStatusList');
+    };
+
     // handle view transaction
     $scope.viewOrder = function(orderId) {
         OrderService.addOrderId(orderId);
         changeLocation('/customerOrderDetails');
+    };
+
+    $scope.queryCustomerOrderDetails = function(orderId) {
+        OrderService.addOrderId(orderId);
+        changeLocation('/queryCustomerOrderDetails');
     };
 
     $scope.qtyRemaining = function(itemCount,qtyShipped) {

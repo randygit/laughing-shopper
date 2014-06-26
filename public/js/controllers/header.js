@@ -39,7 +39,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$locati
                     "link": "roles"
                 },
                 {
-                    "title": "Verify MTCN",
+                    "title": "Accounting Clerk",
                     "link": "verify"
                 },
                 {
@@ -87,7 +87,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$locati
                 },
                 {
                     "title": "Order Status",
-                    "link": "queryCustomerOrder"
+                    "link": "queryCustomerOrders"
                 }
 
 

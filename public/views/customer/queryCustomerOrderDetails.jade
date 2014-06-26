@@ -2,7 +2,7 @@ section(data-ng-controller='OrderController')
   .container.products
     .row
         h3
-          span.introcolor Order Details
+          span.introcolor Customer Order Details
 
         .col-sm-6
           .well.well-lg
@@ -170,10 +170,6 @@ section(data-ng-controller='OrderController')
               td
               td.align_right {{order.grandTotal | currency}}
         br
-        br
-
-        .row(align='center')
-          a.btn.btn-primary(ng-click="enterMtcn(order._id)") Enter MTCN
         hr
         br
-        a.btn.btn-warning(href='#!/wu')  Back to WU  
+        a.btn.btn-warning(ng-click="queryCustomerOrders()") Back to customer orders     

@@ -34,6 +34,11 @@ angular.module('mean.roles').controller('ShipmentRecordController', ['$scope', '
         changeLocation('/customerShipmentList');
     };
 
+    $scope.queryCustomerShipmentList = function() {
+        Basket.addItem($scope.order);
+        changeLocation('/queryCustomerShipmentList');
+    };
+
 
     $scope.cancelShipment = function(shipment) {
         var cancelDetails = {

@@ -1,9 +1,8 @@
-section(data-ng-controller='OrderController')
+section(data-ng-controller='PackingListController')
   .container.products
     .row
         h3
-          span.introcolor Order Details
-
+          span.introcolor Customer Order Packing List
         .col-sm-6
           .well.well-lg
               h4
@@ -90,90 +89,33 @@ section(data-ng-controller='OrderController')
                     input.form-control(type="text", name="order.customerName", id="shipto.fullname",  required, ng-model="payment", autofocus, placeholder="Payment mode", disabled)
 
 
-              br
-
-              div(collapse='showWU(order.paymentMode)')
-                div.row
-                  div.form-group
-                    label.control-label.col-sm-4(for='mtcn') MTCN      :
-                    div.col-sm-8
-                      input.form-control(type="text",maxlength="20", name="mtcn-info", id="mtcn",  required, ng-model="order.paymentRef.info", autofocus,  disabled)
-                  div.form-group
-                    label.control-label.col-sm-4(for='mtcn') Date Added:
-                    div.col-sm-8
-                      input.form-control(type="text",maxlength="20", name="mtcn-date", id="mtcn-date",  required, ng-model="paymentDate", autofocus,  disabled)
-
-
-
-              div(collapse='showCC(order.paymentMode)')
-                div.row
-                  label.control-label.col-sm-4(for='cardtype') Card Type
-                  div.col-sm-8
-                      input.form-control(type="text",maxlength="20", name="cardnum", id="cardnum",  required, ng-model="cardName", autofocus, placeholder="Enter credit/debit card issuer", disabled)
-                div.row
-                  div.form-group
-                    label.control-label.col-sm-4(for='cardnum') Card Number
-                    div.col-sm-8
-                      input.form-control(type="text",maxlength="20", name="cardnum", id="cardnum",  required,  creditcard-Validate, ng-model="order.ccdetails.cardnum", autofocus, placeholder="Enter credit/debit card number", disabled)
-        // ITEMS START HERE
-        br
         br
         table.table.table-striped.tcartthead
           thead
             tr
-              th #
-              th Product Name
-              th Generic Name
-              th Packaging
-              th.align_right Unit Price
-              th.align_right Quantity
-              th.align_right Amount
-              th
+              th.align_right #
+              th Order Date
+              th Shipping Clerk
+              th.align_right Qty readied
+              th Option
           tbody
-            tr(ng-repeat='item in order.items | orderBy:columnSort.sortColumn:columnSort.reverse')
+            tr(ng-repeat='pList in packingList | orderBy:columnSort.sortColumn:columnSort.reverse')
               td.align_right {{$index+1}}
-              td {{item.manufacturersName}}
-              td {{item.genericName}}
-              td {{item.packaging}}
-              td.align_right {{item.unitPrice | currency}}
-              //td.align_right {{thousandsQty(item.qty)}}
-              td.align_right {{item.qty | customCurrency:"":".":",":0}}
-              //td.align_right {{item.qty * item.unitPrice | currency}}
-              td.align_right {{item.subTotal | currency }}
+              td {{pList.modifiedBy.date | date:'MMM-dd-yyyy'}}
+              td {{pList.modifiedBy.email}}
+              td.align_right {{pList.qtyReadied   | customCurrency:"":".":",":0}}
+              td
+                a.href(ng-click="viewCustomerPackingRecord(pList)", ng-disabled="form.$invalid",)
+                  | View details
           tfoot
             tr
               td
               td
-              td
               td Subtotal:
+              td.align_right {{totQtyReadied()   | customCurrency:"":".":",":0}}
               td
-              //td.align_right {{totalQty()}}
-              //td.align_right {{order.itemCount}}
-              //td.align_right {{totalQty}}
-              //td.align_right {{thousandsQty(order.itemCount)}}
-              td.align_right {{order.itemCount | customCurrency:"":".":",":0}}
-              td.align_right {{order.totalAmount | currency}}
             tr
-              td
-              td
-              td
-              td Shipping:
-              td
-              td
-              td.align_right {{order.shippingCharges | currency}}
-            tr
-              td
-              td
-              td
-              td Total:
-              td
-              td
-              td.align_right {{order.grandTotal | currency}}
         br
-        br
-
-        .row(align='center')
-          a.btn.btn-primary(ng-click="enterMtcn(order._id)") Enter MTCN
         hr
         br
-        a.btn.btn-warning(href='#!/wu')  Back to WU  
+        a.btn.btn-success(ng-click="exitCustomerPackingList(order)") Back to Customer Order Shipment Summary             

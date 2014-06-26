@@ -102,7 +102,7 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
         this.showModal = DisapproveMtcnModal.activate();
     };
 
-     $scope.returnCustomerPendingOrders = function(order) {
+    $scope.returnCustomerPendingOrders = function(order) {
         var customer = {
           email:String
         };
@@ -111,6 +111,10 @@ angular.module('mean.roles').controller('OrderController', ['$scope', '$location
 
         Basket.addItem(customer);
         changeLocation('/supportPendingShipment');
+    };
+
+    $scope.queryCustomerOrders = function() {
+        changeLocation('/queryCustomerOrders');
     };
 
 

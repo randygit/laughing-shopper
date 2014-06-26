@@ -89,6 +89,16 @@ angular.module('mean.roles').controller('ItemShipmentStatusListController', ['$s
         Basket.addItem(order);
         changeLocation('/customerShipmentList');
     };
+
+    $scope.queryCustomerShippedItems = function(order) {
+        Basket.addItem(order);
+        changeLocation('/queryCustomerShipmentList');
+    };
+
+    $scope.queryCustomerOrders = function() {
+        changeLocation('/queryCustomerOrders');
+    };
+
       // from http://www.yearofmoo.com/2012/10/more-angularjs-magic-to-supercharge-your-webapp.html#apply-digest-and-phase
     var changeLocation = function(url, force) {
         //this will mark the URL change

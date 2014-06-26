@@ -112,26 +112,26 @@ window.app.config(['$routeProvider',
         when('/customerShipmentRecord', {
             templateUrl: 'views/support/customerShipmentRecord.html'
         }).
-        when('/queryCustomerOrder', {
-            templateUrl: 'views/query/customerCustomerOrder.html'
+        when('/queryCustomerOrders', {
+            templateUrl: 'views/customer/queryCustomerOrders.html'
         }).
         when('/queryCustomerOrderDetails', {
-            templateUrl: 'views/query/queryCustomerOrderDetails.html'
+            templateUrl: 'views/customer/queryCustomerOrderDetails.html'
         }).
         when('/queryCustomerShipmentStatusList', {
-            templateUrl: 'views/query/queryCustomerShipmentStatusList.html'
+            templateUrl: 'views/customer/queryCustomerShipmentStatusList.html'
         }).
         when('/queryCustomerPackingList', {
-            templateUrl: 'views/query/queryCustomerPackingList.html'
+            templateUrl: 'views/customer/queryCustomerPackingList.html'
         }).
         when('/queryCustomerPackingRecord', {
-            templateUrl: 'views/query/queryCustomerrPackingRecord.html'
+            templateUrl: 'views/customer/queryCustomerrPackingRecord.html'
         }).
         when('/queryCustomerShipmentList', {
-            templateUrl: 'views/query/queryCustomerShipmentList.html'
+            templateUrl: 'views/customer/queryCustomerShipmentList.html'
         }).
         when('/queryCustomerShipmentRecord', {
-            templateUrl: 'views/query/queryCustomerShipmentRecord.html'
+            templateUrl: 'views/customer/queryCustomerShipmentRecord.html'
         }).
         when('/', {
             templateUrl: 'views/index.html'

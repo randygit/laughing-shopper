@@ -50,17 +50,21 @@ FOR SHIPMENT
 2. shipment model
 
 SHIPMENT CLERK
-- ready shipment
-- ship to carrier
+- ready shipment OK
+- ship to carrier OK
 
+email after shipping OK
 CUSTOMER QUERIES
-- pending (with qtyRemaining) can see only the shipment record status='Final'
-- historical (fully shipped)
+- pending (with qtyRemaining) can see only the shipment record status='Final' OK
+- historical (fully shipped) OK
 
 CUSTOMER SUPPORT
-- view pending transactions for a given customerEmail, name
-- view historical transactions for a given customerEmail, name
-- save support notes in User.log
+- view pending transactions for a given customerEmail, name OK
+- view historical transactions for a given customerEmail, name OK
+- save support notes in User.log OK
 
 ACCOUNTANT
 - update MTCN OK
+
+ADMIN
+- cancel an existing order
