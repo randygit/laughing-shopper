@@ -58,6 +58,9 @@ window.app.config(['$routeProvider',
         when('/order', {
             templateUrl: 'views/wu/order.html'
         }).
+        when('/cancelOrder', {
+            templateUrl: 'views/wu/cancel.html'
+        }).
         when('/verify', {
             templateUrl: 'views/wu/verify.html'
         }).

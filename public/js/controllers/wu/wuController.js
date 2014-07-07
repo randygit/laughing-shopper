@@ -30,6 +30,20 @@ angular.module('mean.roles').controller('WuController', ['$scope', '$location','
 
     };
 
+
+    // handle view transaction
+    $scope.cancelOrder = function(orderId) {
+
+        console.log('order Id to cancel ' + orderId);
+        // pass orderId to service
+        OrderService.addOrderId(orderId);
+
+        // changeLocation to ('/order') which has a controller that gets the orderId from a service
+
+        changeLocation('/cancelOrder');
+
+    };
+
     /*
     // handle enter MTCN modal
 

@@ -92,6 +92,47 @@ exports.verifyWuOrders = function(req,res) {
     });
 };
 
+exports.cancelOrder = function (req, res) {
+    console.log('Cancel orderId ' + req.params.id);
+    var id = req.params.id;
+    if (id) {
+       Order.findById(id, function (err, Order) {
+            if(!err) {
+                if(Order) {
+
+
+                    Order.status = 9;     // cancel Order
+
+                    // how to add to log
+                    var remarks = 'Order cancelled by client'
+
+                    Order.log.push({email:req.body.email, comment:remarks, date: Date.now()});
+
+                    Order.save(function (err) {
+                        if (!err) {
+                            //EMAIL here MTCN has been verified, order is now being processed
+                            sendCancelOrderEmail(req, Order,'cancelorder' );
+                            res.json(true);
+                            console.log("updated");
+                        } else {
+                            res.json(false);
+                            console.log(err);
+                        }
+                    });
+
+                }   // if Order
+                else {
+                    res.json({status:false});
+                }
+            }
+            else {
+                console.log('Error in Users');
+                res.json({status:false});
+            }
+        });
+    }
+};
+
 exports.verifyWuOrder = function (req, res) {
     console.log('orderId ' + req.params.id);
     //console.log('mtcnInfo ' + JSON.stringify(req.body));
@@ -542,6 +583,64 @@ var sendMtcnEmail = function(req, order, subject, template) {
 
     var message = {
         name: req.body.name,
+        email: order.customerEmail,
+        paymentRefInfo: order.paymentRef.info,
+        subject: subject,
+        orderDate: orderDate,
+        shipTo: order.shipto,
+        items: items,
+        totalAmount: totalAmount,
+        itemCount: itemCount,
+        shippingCharges: shippingCharges,
+        grandTotal: grandTotal,
+        shipment: order.shippingMode,
+        supportURL: req.protocol + "://" + req.get('host') + "/support"
+    };
+
+    mailer.sendTemplate(template, message, function(error, response, html, text) {
+        if (error) {
+           console.log('Unable to send ' + template + ' email ' + error.message);
+        }
+        else {
+          console.log("MTCN " + template + " sent for delivery");
+        }
+    });
+
+    return;
+
+};
+
+
+var sendCancelOrderEmail = function(req, order, template) {
+
+    var itemCount       = order.itemCount.formatMoney(0,',','.');
+    var totalAmount     = '$'+ order.totalAmount.formatMoney(2,',','.');
+    var shippingCharges = '$'+ order.shippingCharges.formatMoney(2,',','.');
+    var grandTotal      = '$'+ order.grandTotal.formatMoney(2,',','.');
+
+    var items = [];
+
+    for (i=0; i < order.items.length; i++) {
+        unitPrice = '$'+ order.items[i].unitPrice.formatMoney(2,',','.');
+        qty       = order.items[i].qty.formatMoney(0,',','.');
+        subTotal  = '$'+ order.items[i].subTotal.formatMoney(2,',','.');
+
+        items.push({'manufacturersName':order.items[i].manufacturersName,
+                    'genericName':order.items[i].genericName,
+                    'packaging':order.items[i].packaging,
+                    'qty':qty,
+                    'unitPrice':unitPrice,
+                    'subTotal':subTotal
+        });
+    }
+
+    var pDate = new Date(order.orderDate);
+    orderDate = pDate.toDateString();
+
+    var subject = 'Your order booked on ' + orderDate + ' is cancelled!'
+
+    var message = {
+        name: order.customerName,
         email: order.customerEmail,
         paymentRefInfo: order.paymentRef.info,
         subject: subject,

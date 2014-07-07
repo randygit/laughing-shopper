@@ -153,6 +153,13 @@ section(data-ng-controller='ReviewController')
               td.align_right {{grandTotal(totalAmount(items), proforma.shippingCharges) | currency}}
         br
 
+        div(collapse='showWU(proforma.paymentMode)')
+          div.row
+            .col-sm-12
+              h4
+                span Note: Your order will be put on hold until payment is received. Please supply us with the MTCN of the payment on your next login or find it under the Western Union tab on the main menu. Locate the pending order and add the MTCN information.
+        br
+
         .row(align='center')
           a.btn.btn-primary(ng-click="completePurchase()") Complete the Purchase
         hr

@@ -209,6 +209,7 @@ module.exports = function(app, passport, auth) {
     app.put('/api/wuOrder/:id', order.wuOrder);
     app.get('/api/verifyWuOrders', order.verifyWuOrders);
     app.put('/api/verifyWuOrder/:id', order.verifyWuOrder);
+    app.put('/api/cancelOrder/:id', order.cancelOrder);
     app.put('/api/disapproveWuOrder/:id', order.disapproveWuOrder);
     app.get('/api/orderDeliveryList', order.orderDeliveryList);
     app.get('/api/postedShipment', order.postedShipment);

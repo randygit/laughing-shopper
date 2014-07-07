@@ -2,15 +2,16 @@ NEW FEATURES
 
 1. FOR THE CUSTOMER
 
-logging in after purchasing using Western Union payment facility, the customer
-is prompted to enter the MTCN number
+logging in after doing a purchase using Western Union payment facility, the customer
+is prompted to enter the MTCN number for that order. this will occur until such time
+the MTCN is finally entered.
 
-a new feature is also added which will allow the customer can also view his past orders
+a new feature is also added which will allow the customer to view all his previous orders.
 
 2. ACCOUNTING CLERK
 
 once the MTCN number is entered, the accounting clerk is asked to verify it. if
-no verification is done, the order will not appear in the list for shipping orders
+no verification is done, the order will not appear in the list for shipping.
 
 3. SHIPPING
 
@@ -18,7 +19,7 @@ the list of orders will be displayed for the shipping clerk. he can search throu
 list using the name or the email address as key.
 
 the module allows the shipping clerk to prepare a packing list and
-later ship the packing list. this modules also allows partial shipment of the order.
+later ship the meds in packing list. this modules also allows partial shipment of the order.
 
 an email is sent everytime a packing list is shipped
 
@@ -27,6 +28,6 @@ in case the package gets lost while in transit.
 
 4. CUSTOMER SUPPORT
 
-first he chooses the customer from the list (using the search facility), the all
+after choosing the customer from the list (using the search facility), the all
 the past orders of the customers are displayed. the customer support can view
 if partial shipments are made.

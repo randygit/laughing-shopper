@@ -16,6 +16,10 @@
                 input#inputName.form-control(type='text', minlength= '10', pattern="[0-9]*", name = 'mtcn', ng-model="mtcn.number", placeholder='MTCN', only-Digits, required)
                 span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.required") Please enter you MTCN
                 span.help-block(ng-cloak="ng-cloak", ng-show="form.mtcn.$dirty && form.mtcn.$error.invalidChars") MTCN may not contain any non-url-safe
+      .row
+        .col-md-12
+          h4
+            span Note: The MTCN you have entered is subject to collection and only upon verification of payment will this order be shipped. You could follow up the status of the delivery by clicking on the Order Status tab in the main menu for updates. You will also receive an email once the payment has been verified and another email when the delivery is made.
 
     .modal-footer
       a.btn.btn-warning(ng-click='saveChanges()', ng-disabled="form.$invalid") Save MTCN

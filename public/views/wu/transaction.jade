@@ -24,6 +24,8 @@ section(data-ng-controller='WuController')
               td
                 a.href(ng-click="viewOrder(order._id)", ng-disabled="form.$invalid",)
                   | View Details
+                a.href(ng-click="cancelOrder(order._id)", ng-disabled="form.$invalid",)
+                  | Cancel Order
         br
         hr
         br

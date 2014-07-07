@@ -1,0 +1,38 @@
+TO DO: Wed July 2
+
+BUGS
+--------------
+1. shopping cart - initial click does not display correct itemcount,  promise ... after merge with master
+2. qty in shopping cart - cannot modify..
+
+6. exit gracefully if you cant connect to mongolab OK try {}catch{} in server.js
+7. admin verify wu does not load??
+8. what if email hangs? ECONNRESET
+12. modal controller return to usual place, dont use btfModal
+13. product, cart redesign see ecommerce.js
+14. negative country list, maintain neg country list, validate in shipTo...
+15. contact tropicalmeds, does not return to / after sending email. see contactFormController
+16. unexpected comma when no one is logged in /app/view/index.jade
+// if the user is authenticated, the user object can be interpolated into the view
+// when passed to the client, the user object is attached to the window object and is now
+// available to your javascript as "window.user". if not authenticated, the user is null
+// had to JSON.stringify.the date type produces an unexpected identifier error
+
+17. use order.customerName for viewing order, not global.user.name
+18. shopping cart lost - when checking out
+
+17.  http://localhost:3000/font/fontawesome-webfont.woff?v=3.2.1 404 Not found
+
+18. validate enter qtyReadied vs qtyRemaining OK
+19. checking shoppingCart qty if number typed directly
+
+NEW
+
+1. add message to proceed with purchase..
+informs the customer their order is on hold until payment is received.  Upon payment, they may supply the MTCN at the prompt at next login or to find it under the Western Union tab on the main menu, find the pending order there and add the mtcn info.
+
+2. upon entering the MTCN
+After entering their MTCN,  another pop-up will inform them that payment is subject to collection and only upon verification of payment, the order is shipped.  Customers may also be informed they may follow the status of their order by logging in at anytime and checking Order Status for updates.
+
+3. choice for customer
+enter MTCN or cancel order

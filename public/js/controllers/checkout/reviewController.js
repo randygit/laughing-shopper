@@ -118,6 +118,12 @@ angular.module('mean.system')
             return !retValue;
         };
 
+
+        $scope.showWU = function(paymentMode) {
+            var retValue = angular.equals(paymentMode, 'WU');
+            return !retValue;
+        };
+
         $scope.toTransaction = function() {
             ShipToService.addItem($scope.shipto);
             ProformaService.addItem($scope.proforma);
